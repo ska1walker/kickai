@@ -71,9 +71,11 @@ export default function SquadPage() {
         </div>
         <button
           className="btn-ghost"
-          onClick={() => {
-            resetSquad();
-            loadSquad().then(setSquad);
+          onClick={async () => {
+            await resetSquad();
+            const s = await loadSquad();
+            setSquad(s);
+            setSavedAt(new Date().toLocaleTimeString("de-DE"));
           }}
         >
           Auf Standard zurücksetzen

@@ -48,6 +48,10 @@ export async function saveSquad(squad: SquadPlayer[]): Promise<void> {
   window.localStorage.setItem(LS_KEY, JSON.stringify(squad));
 }
 
-export function resetSquad(): void {
+export async function resetSquad(): Promise<void> {
+  if (supabaseEnabled && supabase) {
+    await saveSquad(SEED_SQUAD); // Default zurück in die DB schreiben
+    return;
+  }
   if (typeof window !== "undefined") window.localStorage.removeItem(LS_KEY);
 }
