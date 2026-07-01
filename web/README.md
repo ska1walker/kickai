@@ -26,14 +26,21 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   per Suche hinzufügen/entfernen, Verein/Position/MV/exp. Punkte auto-gefüllt.
   Live-Validierung von Budget (42,5 Mio) und Struktur (3-7-7-5). Auto-Speichern.
 
-## KI-Statusvorschlag (optional)
+## KI-Statusvorschlag mit eigener News-Recherche (optional)
 
-Auf `/matchday` schlägt ein KI-Assistent aus eingefügtem Aufstellungs-News-Text
-pro Spieler start/doubt/bench/out vor (`src/app/api/suggest-status`, server-seitig
-via `@anthropic-ai/sdk`, strukturierter Tool-Output). Nur Vorschlag — Kai
-bestätigt (Decision-Support, kein Bot). Aktiv nur mit gesetztem `ANTHROPIC_API_KEY`;
-ohne Key liefert die Route 501 und der Button bleibt wirkungslos. Modell per
-`ANTHROPIC_MODEL` überschreibbar (Default `claude-opus-4-8`).
+Auf `/matchday` durchsucht ein KI-Assistent per Claude **Web-Search-Tool** selbst
+die aktuellen voraussichtlichen Aufstellungen und Verletzungsnews (kicker,
+ligainsider, transfermarkt …) zu den Spielen des Kaders und schlägt pro Spieler
+start/doubt/bench/out vor (`src/app/api/suggest-status`, server-seitig via
+`@anthropic-ai/sdk`, `web_search`-Tool + strukturierter `report_status`-Tool-Output).
+Kein Einfügen nötig; optional kann eigener News-Text als Zusatzkontext ergänzt
+werden. Nur Vorschlag — Kai bestätigt (Decision-Support, kein Bot).
+
+Aktiv nur mit gesetztem `ANTHROPIC_API_KEY`; ohne Key liefert die Route 501 und der
+Button bleibt wirkungslos. Modell per `ANTHROPIC_MODEL` überschreibbar (Default
+`claude-opus-4-8`; die Tool-Version wählt automatisch Dynamic Filtering auf
+Opus-4.x/Sonnet-4.6, sonst die Basis-Variante). `maxDuration=120` für die
+Web-Recherche. Web-Search verursacht geringe Zusatzkosten pro Suche.
 
 ## Architektur
 

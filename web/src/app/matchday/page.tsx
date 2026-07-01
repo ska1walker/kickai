@@ -117,7 +117,8 @@ export default function MatchdayPage() {
   }
 
   async function analyzeNews() {
-    if (!newsText.trim() || !squad.length) return;
+    const withGame = joined.filter((p) => p.fixture);
+    if (!withGame.length) return;
     setAiLoading(true);
     setAiError(null);
     setAiSuggestions(null);
@@ -126,8 +127,14 @@ export default function MatchdayPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          newsText,
-          players: squad.map((p) => ({ name: p.name, club: p.club, position: p.position })),
+          newsText: newsText.trim() || undefined,
+          players: withGame.map((p) => ({
+            name: p.name,
+            club: CLUB_LABEL[p.club] ?? p.club,
+            position: p.position,
+            opponent: opponentLabel(p),
+            kickoff: p.fixture!.kickoff,
+          })),
         }),
       });
       const json = await res.json();
@@ -208,7 +215,7 @@ export default function MatchdayPage() {
         >
           <span>
             <span className="label-caps">KI-Assistent</span>
-            <span className="ml-2 text-sm font-medium">Status aus News vorschlagen</span>
+            <span className="ml-2 text-sm font-medium">News automatisch durchsuchen</span>
           </span>
           <span className="text-ink-muted">{aiOpen ? "−" : "+"}</span>
         </button>
@@ -216,23 +223,25 @@ export default function MatchdayPage() {
         {aiOpen && (
           <div className="mt-3 space-y-3">
             <p className="text-xs text-ink-muted">
-              Aufstellungs-News (z.B. voraussichtliche Elf, Verletzungen) einfügen —
-              die KI schlägt pro Spieler einen Status vor. Du bestätigst.
+              Die KI durchsucht selbst die aktuellen voraussichtlichen Aufstellungen
+              und Verletzungsnews (kicker, ligainsider, transfermarkt …) zu den
+              Spielen deines Kaders und schlägt pro Spieler einen Status vor. Du
+              bestätigst. Optional: eigenen News-Text als Zusatzkontext ergänzen.
             </p>
             <textarea
               value={newsText}
               onChange={(e) => setNewsText(e.target.value)}
-              rows={5}
-              placeholder="News-Text hier einfügen…"
+              rows={3}
+              placeholder="Optional: eigener News-Text als Zusatzkontext…"
               className="w-full rounded-md border border-ink-line px-3 py-2 text-sm outline-none focus:border-signal"
             />
             <div className="flex items-center gap-3">
               <button
                 onClick={analyzeNews}
-                disabled={aiLoading || !newsText.trim()}
+                disabled={aiLoading}
                 className="btn-signal disabled:opacity-50"
               >
-                {aiLoading ? "Analysiere…" : "Analysieren"}
+                {aiLoading ? "Recherchiere…" : "News durchsuchen"}
               </button>
               {aiSuggestions && aiSuggestions.length > 0 && (
                 <button onClick={applyAll} className="btn-ghost">

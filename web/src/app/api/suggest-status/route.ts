@@ -1,36 +1,30 @@
-// KI-Statusvorschlag: liest den eingefügten News-Text und schlägt pro
-// Kaderspieler start/doubt/bench/out vor. Läuft server-seitig (API-Key bleibt
-// geheim). Nur Vorschlag — Kai bestätigt in der UI (Decision-Support, kein Bot).
+// KI-Statusvorschlag mit eigener News-Recherche: Claude durchsucht per
+// Web-Search-Tool die aktuellen voraussichtlichen Aufstellungen / Verletzungsnews
+// zu den Vereinen des Kaders und leitet pro Spieler start/doubt/bench/out ab.
+// Server-seitig (API-Key geheim). Nur Vorschlag — Kai bestätigt.
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { Status } from "@/lib/engine/types";
 
 export const runtime = "nodejs";
+export const maxDuration = 120; // Web-Recherche kann mehrere Sekunden dauern
 
-// Default laut Anthropic-Guidance das fähigste Modell; per Env übersteuerbar
-// (z.B. claude-haiku-4-5 oder claude-sonnet-4-6 für geringere Kosten).
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
-const SYSTEM = `Du bist Assistent für das kicker-Managerspiel. Aufgabe: aus einem
-eingefügten deutschen Aufstellungs-/News-Text pro Kaderspieler den wahrscheinlichen
-Einsatz-Status für den kommenden Spieltag ableiten.
+// Web-Search-Tool-Version passend zum Modell (Dynamic Filtering auf Opus 4.x /
+// Sonnet 4.6, sonst die Basis-Variante).
+function webSearchTool() {
+  const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
+  return {
+    type: modern ? "web_search_20260209" : "web_search_20250305",
+    name: "web_search",
+    max_uses: 12,
+  };
+}
 
-Statuswerte:
-- "start": spielt sehr wahrscheinlich von Beginn (Stammelf, klar gesetzt)
-- "doubt": fraglich, Rotationskandidat, angeschlagen aber evtl. dabei
-- "bench": sitzt wahrscheinlich zunächst auf der Bank
-- "out": verletzt, gesperrt, nicht im Kader oder spielt sicher nicht
-
-Regeln:
-- Bewerte NUR anhand des Textes und der bekannten Fußball-Logik. Erfinde nichts.
-- Nenne einen Spieler nur, wenn der Text ein belastbares Signal gibt. Ohne Signal
-  weglassen (nicht raten).
-- Nutze EXAKT die Namen aus der Kaderliste.
-- "reason" kurz (max. ein Satz), auf Deutsch, mit Textbezug.`;
-
-const TOOL = {
+const REPORT_TOOL = {
   name: "report_status",
-  description: "Meldet die abgeleiteten Einsatz-Status der Kaderspieler.",
+  description: "Meldet die recherchierten Einsatz-Status der Kaderspieler.",
   input_schema: {
     type: "object" as const,
     properties: {
@@ -41,7 +35,7 @@ const TOOL = {
           properties: {
             name: { type: "string", description: "Exakter Name aus der Kaderliste" },
             status: { type: "string", enum: ["start", "doubt", "bench", "out"] },
-            reason: { type: "string", description: "Kurze Begründung mit Textbezug" },
+            reason: { type: "string", description: "Kurze Begründung inkl. Quelle" },
           },
           required: ["name", "status", "reason"],
           additionalProperties: false,
@@ -53,10 +47,34 @@ const TOOL = {
   },
 };
 
+const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel. Ziel: für
+jeden Kaderspieler den wahrscheinlichen Einsatz-Status im kommenden Spieltag
+bestimmen — auf Basis EIGENER Web-Recherche.
+
+Vorgehen:
+1. Recherchiere je Verein die aktuelle voraussichtliche Aufstellung und
+   Verletzungs-/Sperren-News zum genannten Spiel (Gegner + Datum). Nutze das
+   web_search-Tool. Bevorzugte Quellen: kicker.de, ligainsider.de, transfermarkt.de,
+   offizielle Vereinskanäle. Suche gezielt, z.B. "voraussichtliche Aufstellung
+   <Verein> <Gegner>".
+2. Leite pro Spieler den Status ab:
+   - "start": klar gesetzt / Stammelf
+   - "doubt": fraglich, Rotationskandidat, angeschlagen
+   - "bench": wahrscheinlich Bank
+   - "out": verletzt, gesperrt, nicht im Kader
+3. Rufe am Ende report_status auf.
+
+Regeln:
+- Nur belegte Signale. Findest du zu einem Spieler nichts Belastbares, lasse ihn weg.
+- Nutze EXAKT die Namen aus der Kaderliste.
+- "reason": ein kurzer Satz auf Deutsch, mit Quellenhinweis (z.B. "laut kicker").`;
+
 interface PlayerIn {
   name: string;
   club?: string;
   position?: string;
+  opponent?: string;
+  kickoff?: string | null;
 }
 
 export async function POST(req: NextRequest) {
@@ -68,35 +86,58 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { newsText, players } = (await req.json().catch(() => ({}))) as {
-    newsText?: string;
+  const { players, newsText } = (await req.json().catch(() => ({}))) as {
     players?: PlayerIn[];
+    newsText?: string;
   };
-  if (!newsText?.trim() || !players?.length) {
-    return NextResponse.json(
-      { error: "newsText und players sind nötig." },
-      { status: 400 },
-    );
+  if (!players?.length) {
+    return NextResponse.json({ error: "players sind nötig." }, { status: 400 });
   }
 
   const roster = players
-    .map((p) => `- ${p.name} (${p.position ?? "?"}, ${p.club ?? "?"})`)
+    .map((p) => {
+      const game = p.opponent
+        ? ` — Spiel: ${p.opponent}${p.kickoff ? ` am ${p.kickoff.slice(0, 10)}` : ""}`
+        : "";
+      return `- ${p.name} (${p.position ?? "?"}, ${p.club ?? "?"})${game}`;
+    })
     .join("\n");
-  const userText = `KADER:\n${roster}\n\nNEWS-TEXT:\n${newsText.trim()}`;
+  const extra = newsText?.trim()
+    ? `\n\nZUSÄTZLICHER KONTEXT (vom Nutzer eingefügt):\n${newsText.trim()}`
+    : "";
+  const userText = `KADER (mit jeweiligem Spiel):\n${roster}${extra}\n\nRecherchiere und rufe dann report_status auf.`;
 
-  const client = new Anthropic({ apiKey });
+  const client = new Anthropic({ apiKey, timeout: 110_000 });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tools: any[] = [webSearchTool(), REPORT_TOOL];
+  const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
+
   try {
-    const msg = await client.messages.create({
+    let response = await client.messages.create({
       model: MODEL,
-      max_tokens: 4096,
+      max_tokens: 8000,
       system: SYSTEM,
-      tools: [TOOL],
-      tool_choice: { type: "tool", name: "report_status" },
-      messages: [{ role: "user", content: userText }],
+      tools,
+      messages,
     });
-    const block = msg.content.find((b) => b.type === "tool_use");
+    // Server-Tool-Schleife (web_search) kann pausieren → fortsetzen.
+    let guard = 0;
+    while (response.stop_reason === "pause_turn" && guard++ < 6) {
+      messages.push({ role: "assistant", content: response.content });
+      response = await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools,
+        messages,
+      });
+    }
+
+    const block = response.content.find(
+      (b) => b.type === "tool_use" && b.name === "report_status",
+    );
     if (!block || block.type !== "tool_use") {
-      return NextResponse.json({ error: "Keine Auswertung erhalten." }, { status: 502 });
+      return NextResponse.json({ suggestions: [], model: MODEL });
     }
     const raw = (block.input as { suggestions?: unknown }).suggestions;
     const valid: Status[] = ["start", "doubt", "bench", "out"];
@@ -110,7 +151,7 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     const err = e as { status?: number; message?: string };
     return NextResponse.json(
-      { error: `KI-Abruf fehlgeschlagen: ${err.message ?? "unbekannt"}` },
+      { error: `KI-Recherche fehlgeschlagen: ${err.message ?? "unbekannt"}` },
       { status: err.status && err.status < 500 ? 400 : 502 },
     );
   }
