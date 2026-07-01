@@ -98,8 +98,13 @@ src/app/api/matchday  Server-Route: OpenLigaDB-Abruf (kein CORS im Client)
 supabase/schema.sql   DB-Schema (squad_players, matchday_status)
 ```
 
-Pool neu erzeugen (nach neuer CSV): `../engine`-Snippet in der Projekt-Doku,
-schreibt `src/lib/data/players-2025.json` mit id/name/club/pos/mv/points/expPoints.
+Pool neu erzeugen: `python engine/build_pool.py --season <jahr>` schreibt
+`src/lib/data/players-<jahr>.json`. Für eine noch ungespielte Saison (Punkte=0)
+die **Vorsaison-Punkte-Bridge**: `--season 2026 --reference 2025 --preseason` —
+hängt Vorsaisonpunkte per Spieler-ID an; Neue ohne Historie bekommen
+`hasHistory:false` (Einschätzung dann via Scout/News). Spielernoten werden
+bewusst nicht verwendet (Korr(Note,Punkte)≈0). Danach den Import in `pool.ts` und
+`DEFAULT_SEASON` in `squad.ts` auf die neue Saison zeigen lassen.
 
 Der Optimierer im Client ist deckungsgleich mit `engine/matchday_optimizer.py`
 (gleiche Formationen, Status-Gewichte, Ergebnis: identische Elf & Punkte).

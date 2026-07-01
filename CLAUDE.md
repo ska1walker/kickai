@@ -152,7 +152,13 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
 4. **Für den Kaderbau 26/27:** sobald `se-k00012026` (26/27) verfügbar wird
    (nach Saisonstart Aug 2026, aktuell 404), ziehen und Scanner/cross_season
    erweitern. Bis dahin ist 25/26 (`se-k00012025`) die aktuellste Basis —
-   liegt schon in `data/`.
+   liegt schon in `data/`. **Vorsaison-Punkte-Bridge steht bereit**
+   (`engine/build_pool.py`): am Saisonanfang sind Punkte/Noten der neuen Saison
+   =0 → `--preseason --reference 2025` hängt 25/26-Punkte per ID an den neuen
+   Kader (Noten bleiben bewusst ungenutzt, Korr≈0); Spieler ohne Historie
+   (Aufsteiger/Neuzugänge) → hasHistory=false, Einschätzung via Scout/News.
+   Danach nur Pool-Import (`web/.../pool.ts`) + `DEFAULT_SEASON` umstellen und
+   neue Auf-/Absteiger in `clubs.py`/`clubs.ts` ergänzen.
 
 5. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
    Test gemacht. Ergebnis: statisches ML hebt den globalen Forecast leicht

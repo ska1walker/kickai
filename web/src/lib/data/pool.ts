@@ -7,6 +7,7 @@ export interface PoolPlayer extends SquadPlayer {
   clubName: string;
   points: number;
   mv: number;
+  hasHistory?: boolean; // false = kein Vorsaison-Wert (Aufsteiger/Neuzugang/Jugend)
 }
 
 export const POOL = raw as PoolPlayer[];

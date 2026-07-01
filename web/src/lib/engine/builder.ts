@@ -72,15 +72,18 @@ function newsNote(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
   parts.push(...(nm.get(p.id!)?.notes ?? []));
   return parts.length ? ` · News: ${parts.join("; ")}` : "";
 }
+function histNote(p: PoolPlayer): string {
+  return p.hasHistory === false ? " · kein Vorsaison-Wert (Einschätzung via Scout/News)" : "";
+}
 
 function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
-  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}`;
+  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
 }
 function fillerReason(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
   return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf${newsNote(p, news, nm)}`;
 }
 function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
-  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}`;
+  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
 }
 
 export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNALS): Proposal {
