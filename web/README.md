@@ -76,10 +76,11 @@ den Vercel-Projekt-Einstellungen deshalb setzen:
 
 ## Passwortschutz
 
-`src/middleware.ts` schützt die ganze App (Seiten + API) per HTTP Basic Auth.
-Aktiv nur, wenn `APP_PASSWORD` gesetzt ist — sonst offen (praktisch lokal).
-User via `APP_USER` (Default `kai`). Beim Öffnen zeigt der Browser einen
-Login-Dialog; ohne gültige Daten kommt 401.
+Eigene Login-Seite (`/login`, kaivo-Design) statt Browser-Dialog. `middleware.ts`
+prüft ein httpOnly-Cookie (SHA-256-Token, kein Klartext-Passwort) und leitet
+sonst auf `/login` um; die API antwortet mit 401. `api/login` verifiziert das
+Passwort und setzt das Cookie (30 Tage). Aktiv nur, wenn `APP_PASSWORD` gesetzt
+ist — sonst offen (praktisch lokal). User via `APP_USER` (Default `kai`).
 3. Framework wird als **Next.js** auto-erkannt, Build `next build`. Fertig.
 
 Cloudflare-DNS wie in den anderen kaivo-Projekten.
