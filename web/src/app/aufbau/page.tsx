@@ -28,6 +28,11 @@ const TIER_SHORT: Record<string, string> = {
   mid: "Mittelfeld",
   lower: "unten",
 };
+const SEC_CHIP: Record<string, string> = {
+  hoch: "bg-signal-50 text-signal-700",
+  mittel: "bg-white text-ink-muted border border-ink-line",
+  rotation: "bg-amber-100 text-amber-900",
+};
 
 // Distinkte Vereins-Anzeigenamen aus dem Pool (für die Tier-Recherche).
 const DISTINCT_CLUBS = Array.from(new Set(POOL.map((p) => p.clubName))).sort();
@@ -144,11 +149,16 @@ export default function AufbauPage() {
               </span>{" "}
               <span className="text-ink-muted">/ {BUDGET} Mio</span>
             </p>
-            <p className="text-sm text-ink-muted">
-              Summe erwartete Basis: {proposal.totalPoints} Pkt (Vorsaison)
-              {news.count > 0 && (
-                <> · {news.count} News-Signale einbezogen</>
-              )}
+            <p className="mt-1 text-sm">
+              <span className="text-ink-muted">Erwartete Startelf: </span>
+              <span className="font-mono font-semibold text-signal">
+                {proposal.bestXiExp.toFixed(1)}
+              </span>{" "}
+              <span className="text-ink-muted">Pkt/Spieltag (beste aufstellbare Elf)</span>
+            </p>
+            <p className="text-xs text-ink-muted">
+              Summe Kader-Basis: {proposal.totalPoints} Pkt (Vorsaison)
+              {news.count > 0 && <> · {news.count} News-Signale einbezogen</>}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -203,6 +213,11 @@ export default function AufbauPage() {
                         {t && (
                           <span className={`chip ml-2 text-[10px] ${TIER_CHIP[t]}`}>
                             {TIER_SHORT[t]}
+                          </span>
+                        )}
+                        {pk.role === "premium" && pk.security && pk.security.label !== "unklar" && (
+                          <span className={`chip ml-2 text-[10px] ${SEC_CHIP[pk.security.label]}`}>
+                            Stammplatz {pk.security.label}
                           </span>
                         )}
                       </p>

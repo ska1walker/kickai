@@ -32,8 +32,12 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   fussballdaten.de`, per `SCOUT_ALLOWED_DOMAINS` überschreibbar).
 - `/aufbau` — **Kader-Vorschlag**: baut automatisch aus den Saisondaten einen
   budget-/strukturkonformen Kader (`src/lib/engine/builder.ts`, deterministisch,
-  Effizienz-Anker-Score). Pro Slot Top-Empfehlung + 2 Alternativen mit
-  Begründungs-Tooltip, per „wählen" tauschbar, „übernehmen" lädt in den Editor.
+  Effizienz-Anker-Score). Optimiert die **beste aufstellbare Elf** (Budget auf
+  ~14 Starter konzentriert, 8 billige Bank; Kennzahl „Erwartete Startelf") und
+  gewichtet die **Einsatzsicherheit** (`src/lib/engine/security.ts`: Dominanz auf
+  dem Positions-Slot des Klubs; Chip „Stammplatz hoch/mittel/rotation").
+  Pro Slot Top-Empfehlung + 2 Alternativen mit Begründungs-Tooltip, per „wählen"
+  tauschbar, „übernehmen" lädt in den Editor.
   Optional fließt eine **Team-Tier-Analyse** ein (`src/app/api/team-tiers`,
   web_search): erwartete Spitzen-/Überraschungs-/Mittel-/Abstiegsteams — günstige
   Spieler erwarteter Überraschungsteams werden höher gewichtet.

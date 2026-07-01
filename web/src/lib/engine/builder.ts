@@ -11,6 +11,7 @@ import { POOL, type PoolPlayer } from "@/lib/data/pool";
 import { BUDGET, SQUAD_SHAPE } from "./constraints";
 import type { Position } from "./types";
 import { playerNews, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
+import { computeSecurity, securityFactor, type SecInfo } from "./security";
 
 export type Tier = "top" | "surprise" | "mid" | "lower";
 export interface TierInfo {
@@ -28,16 +29,29 @@ export interface Pick {
   role: "premium" | "filler";
   reason: string;
   alternatives: Alt[];
+  security?: SecInfo;
 }
 export interface Proposal {
   byPos: Record<Position, Pick[]>;
   totalMv: number;
   totalPoints: number;
+  bestXiExp: number; // erwartete Punkte der besten aufstellbaren Elf pro Spieltag
   newsUsed: number;
 }
 
 const ORDER: Position[] = ["TW", "ABW", "MF", "ST"];
-const PREMIUM: Record<Position, number> = { TW: 1, ABW: 4, MF: 4, ST: 3 };
+// #1 „einsetzbare Elf": Budget auf 14 echte Starter konzentrieren (1-5-5-3),
+// nur 8 Plätze mit billigsten Bankspielern füllen (die nie starten).
+const PREMIUM: Record<Position, number> = { TW: 1, ABW: 5, MF: 5, ST: 3 };
+// Beste-Elf-Formationen (Feldspieler) für die Startelf-Stärke-Metrik.
+const XI_FORMATIONS: Array<Record<Position, number>> = [
+  { TW: 1, ABW: 3, MF: 4, ST: 3 },
+  { TW: 1, ABW: 3, MF: 5, ST: 2 },
+  { TW: 1, ABW: 4, MF: 4, ST: 2 },
+  { TW: 1, ABW: 4, MF: 3, ST: 3 },
+  { TW: 1, ABW: 5, MF: 3, ST: 2 },
+  { TW: 1, ABW: 4, MF: 5, ST: 1 },
+];
 const POS_WEIGHT: Record<Position, number> = { TW: 0.9, ABW: 1.05, MF: 1.05, ST: 1.0 };
 const TIER_BONUS: Record<Tier, number> = { top: 0.05, surprise: 0.15, mid: 0, lower: -0.1 };
 const TIER_LABEL: Record<Tier, string> = {
@@ -52,11 +66,24 @@ const ppm = (p: PoolPlayer) => p.points / Math.max(p.mv, 0.5);
 // Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
 type NewsMap = Map<string, { delta: number; notes: string[] }>;
 
-function adj(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): number {
+function adj(
+  p: PoolPlayer,
+  tiers: Tiers,
+  news: NewsSignals,
+  nm: NewsMap,
+  sec: Map<string, SecInfo>,
+): number {
   const bonus = tiers[p.club]?.tier ? TIER_BONUS[tiers[p.club].tier] : 0;
   const clubDelta = news.byClub[p.club]?.delta ?? 0;
   const playerDelta = nm.get(p.id!)?.delta ?? 0;
-  return p.points * POS_WEIGHT[p.position] * (1 + bonus) * (1 + clubDelta + playerDelta);
+  const secF = securityFactor(sec.get(p.id!)); // #2 Einsatzsicherheit
+  return (
+    p.points *
+    POS_WEIGHT[p.position] *
+    (1 + bonus) *
+    (1 + clubDelta + playerDelta) *
+    secF
+  );
 }
 
 function tierNote(p: PoolPlayer, tiers: Tiers): string {
@@ -88,9 +115,10 @@ function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap):
 
 export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNALS): Proposal {
   const valid = POOL.filter((p) => p.mv > 0 && p.mv < 100 && p.club !== "?");
-  // News-Deltas/Notizen je Spieler einmal vorberechnen.
+  // News-Deltas/Notizen + Einsatzsicherheit je Spieler einmal vorberechnen.
   const nm: NewsMap = new Map();
   if (news.count) for (const p of valid) nm.set(p.id!, playerNews(p.name, news));
+  const sec = computeSecurity();
 
   const byPosPool: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   for (const p of valid) byPosPool[p.position].push(p);
@@ -98,7 +126,7 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
   const selected = new Set<string>();
   const premiumByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   const fillerByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
-  const A = (p: PoolPlayer) => adj(p, tiers, news, nm);
+  const A = (p: PoolPlayer) => adj(p, tiers, news, nm, sec);
 
   for (const pos of ORDER) {
     const ranked = [...byPosPool[pos]].sort((a, b) => A(b) - A(a));
@@ -155,6 +183,7 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
       byPos[pos].push({
         player: p,
         role: "premium",
+        security: sec.get(p.id!),
         reason: premiumReason(p, tiers, news, nm),
         alternatives: premAlts
           .filter((a) => a.mv <= p.mv * 1.2)
@@ -166,10 +195,26 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
       byPos[pos].push({
         player: p,
         role: "filler",
+        security: sec.get(p.id!),
         reason: fillerReason(p, news, nm),
         alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers, news, nm) })),
       });
     }
+  }
+
+  // #1 Beste-Elf-Stärke: erwartete Punkte der besten aufstellbaren Elf/Spieltag.
+  const expByPos: Record<Position, number[]> = { TW: [], ABW: [], MF: [], ST: [] };
+  for (const pos of ORDER)
+    expByPos[pos] = byPos[pos].map((pk) => pk.player.expPoints).sort((a, b) => b - a);
+  let bestXiExp = 0;
+  for (const f of XI_FORMATIONS) {
+    let sum = 0;
+    let ok = true;
+    for (const pos of ORDER) {
+      if (expByPos[pos].length < f[pos]) { ok = false; break; }
+      sum += expByPos[pos].slice(0, f[pos]).reduce((s, v) => s + v, 0);
+    }
+    if (ok) bestXiExp = Math.max(bestXiExp, sum);
   }
 
   const flat = ORDER.flatMap((pos) => byPos[pos]);
@@ -177,6 +222,7 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
     byPos,
     totalMv: Math.round(flat.reduce((s, p) => s + p.player.mv, 0) * 10) / 10,
     totalPoints: flat.reduce((s, p) => s + p.player.points, 0),
+    bestXiExp: Math.round(bestXiExp * 10) / 10,
     newsUsed: news.count,
   };
 }

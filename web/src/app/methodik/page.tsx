@@ -62,6 +62,14 @@ export default function MethodikPage() {
           Euro. Der Kader-Editor zeigt dir zu jedem Spieler Marktwert und
           erwartete Punkte, prüft Budget (42,5 Mio) und Struktur (3-7-7-5) live.
         </p>
+        <p>
+          Zwei Verfeinerungen: Der Vorschlag maximiert die{" "}
+          <strong>beste aufstellbare Elf</strong> (nur 11 spielen — Budget auf ~14
+          nagelfeste Starter, Rest billige Bank) und gewichtet die{" "}
+          <strong>Einsatzsicherheit</strong> (war der Spieler die klare Nummer 1
+          auf seiner Position im Verein?), weil Punkte von Einsatzminuten getrieben
+          werden.
+        </p>
         <p>Belegt aus 4 Saisons (22/23–25/26) echter kicker-Daten:</p>
         <ul className="list-disc space-y-1 pl-5">
           <li>Marktwert ↔ Punkte korrelieren stabil (~0,70) — Stars blind meiden wäre falsch.</li>
