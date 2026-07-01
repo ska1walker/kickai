@@ -6,6 +6,7 @@ function Nav() {
   const items = [
     { href: "/", label: "Übersicht" },
     { href: "/matchday", label: "Spieltag" },
+    { href: "/aufbau", label: "Aufbau" },
     { href: "/squad", label: "Kader" },
     { href: "/anleitung", label: "Anleitung" },
     { href: "/methodik", label: "Methodik" },

@@ -30,6 +30,13 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   und zeigt ein Durchbruch-/Stammplatz-Signal als Marker (`src/app/api/scout`,
   web_search, Whitelist `dfb.de, transfermarkt.de, kicker.de, ligainsider.de,
   fussballdaten.de`, per `SCOUT_ALLOWED_DOMAINS` überschreibbar).
+- `/aufbau` — **Kader-Vorschlag**: baut automatisch aus den Saisondaten einen
+  budget-/strukturkonformen Kader (`src/lib/engine/builder.ts`, deterministisch,
+  Effizienz-Anker-Score). Pro Slot Top-Empfehlung + 2 Alternativen mit
+  Begründungs-Tooltip, per „wählen" tauschbar, „übernehmen" lädt in den Editor.
+  Optional fließt eine **Team-Tier-Analyse** ein (`src/app/api/team-tiers`,
+  web_search): erwartete Spitzen-/Überraschungs-/Mittel-/Abstiegsteams — günstige
+  Spieler erwarteter Überraschungsteams werden höher gewichtet.
 - `/anleitung` — Schritt-für-Schritt-Ablauf (Kader → Spieltag).
 
 ## KI-Statusvorschlag mit eigener News-Recherche (optional)
