@@ -46,7 +46,9 @@ Der Optimierer im Client ist deckungsgleich mit `engine/matchday_optimizer.py`
 ## Supabase aktivieren (optional, Region EU Frankfurt)
 
 1. Projekt in Region **Frankfurt** anlegen.
-2. `supabase/schema.sql` im SQL-Editor ausführen (oder via MCP `apply_migration`).
+2. `supabase/schema.sql` im SQL-Editor ausführen. Optional danach
+   `supabase/seed.sql` für den Default-Kader (sonst fällt die App auf den
+   eingebauten Seed zurück).
 3. `.env.local` anlegen (Vorlage: `.env.local.example`):
    ```
    NEXT_PUBLIC_SUPABASE_URL=...
