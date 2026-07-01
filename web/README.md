@@ -56,13 +56,27 @@ Der Optimierer im Client ist deckungsgleich mit `engine/matchday_optimizer.py`
    ```
 4. Neu starten → Status wird jetzt in Supabase persistiert statt im Browser.
 
-## Deploy (Vercel)
+## Deploy (Vercel, Auto-Deploy via GitHub)
 
-`vercel` im `web/`-Verzeichnis, Env-Variablen im Vercel-Dashboard setzen.
+Das Repo ist mit Vercel verbunden — jeder Push auf `main` deployt automatisch.
+**Kritisch:** Die Next-App liegt im Unterordner `web/`, nicht im Repo-Root. In
+den Vercel-Projekt-Einstellungen deshalb setzen:
+
+1. **Root Directory = `web`** (Settings → General → Root Directory).
+   Ohne das schlägt der Build fehl (Root hat kein `package.json`).
+2. **Environment Variables** (Settings → Environment Variables), für alle
+   Environments (Production/Preview):
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://llagnybrzybbkeidqtzc.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-Key aus Supabase → Settings → API>
+   ```
+   (`.env.local` ist gitignored und landet NICHT bei Vercel — daher hier setzen.)
+3. Framework wird als **Next.js** auto-erkannt, Build `next build`. Fertig.
+
 Cloudflare-DNS wie in den anderen kaivo-Projekten.
 
 ## Nächste Ausbaustufen
 
-- Kader in Supabase editierbar machen (aktuell Seed-Konstante).
-- CSV-Import (neue Saison) → `squad_players` + exp. Punkte neu berechnen.
+- CSV-Import (neue Saison 26/27) → `squad_players` + exp. Punkte neu berechnen.
 - Auth (Supabase) für Mehrbenutzer statt anon-Policy.
+- Saison-/Spieltag-Auswahl in der UI (aktuell Saison fix 2025).
