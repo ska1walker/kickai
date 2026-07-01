@@ -69,8 +69,17 @@ den Vercel-Projekt-Einstellungen deshalb setzen:
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://llagnybrzybbkeidqtzc.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-Key aus Supabase → Settings → API>
+   APP_USER=kai                # optional, Default "kai"
+   APP_PASSWORD=<dein Passwort> # aktiviert den Passwortschutz (Basic Auth)
    ```
    (`.env.local` ist gitignored und landet NICHT bei Vercel — daher hier setzen.)
+
+## Passwortschutz
+
+`src/middleware.ts` schützt die ganze App (Seiten + API) per HTTP Basic Auth.
+Aktiv nur, wenn `APP_PASSWORD` gesetzt ist — sonst offen (praktisch lokal).
+User via `APP_USER` (Default `kai`). Beim Öffnen zeigt der Browser einen
+Login-Dialog; ohne gültige Daten kommt 401.
 3. Framework wird als **Next.js** auto-erkannt, Build `next build`. Fertig.
 
 Cloudflare-DNS wie in den anderen kaivo-Projekten.
