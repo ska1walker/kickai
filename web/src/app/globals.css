@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: theme("colors.canvas");
+  color: theme("colors.ink.DEFAULT");
+  -webkit-font-smoothing: antialiased;
+}
+
+/* editorial-minimal: klare Linien, kein Glassmorphism */
+@layer components {
+  .card {
+    @apply bg-paper border border-ink-line rounded-card;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm
+           font-medium transition-colors border;
+  }
+  .btn-ghost {
+    @apply btn border-ink-line bg-paper hover:bg-canvas;
+  }
+  .btn-signal {
+    @apply btn border-signal bg-signal text-white hover:bg-signal-600;
+  }
+  .label-caps {
+    @apply text-[11px] font-mono uppercase tracking-wider text-ink-muted;
+  }
+}

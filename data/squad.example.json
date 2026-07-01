@@ -1,0 +1,32 @@
+{
+  "_hinweis": "Beispiel-Kader aus echten 2025/26-Ankern (reference_season 2025 = Saison 25/26). 22 Spieler: 3 TW, 7 ABW, 7 MF, 5 ST, Budget 39,1 Mio. exp_points wird automatisch aus data/players-se-k00012025.csv (Saisonpunkte/34) abgeleitet, matcht über 'id'. status ist der Default; pro Spieltag im Optimierer überschreiben.",
+  "reference_season": 2025,
+  "budget_used_mio": 39.1,
+  "players": [
+    {"name": "Backhaus",         "id": "pl-k00118051", "club": "Werder Bremen",       "position": "TW"},
+    {"name": "Batz",             "id": "pl-k00054360", "club": "1. FSV Mainz 05",     "position": "TW"},
+    {"name": "Ulreich",          "id": "pl-k00039161", "club": "Bayern München",      "position": "TW"},
+
+    {"name": "Coufal",           "id": "pl-k00081053", "club": "TSG Hoffenheim",      "position": "ABW"},
+    {"name": "Vuskovic",         "id": "pl-k00155823", "club": "Hamburger SV",        "position": "ABW"},
+    {"name": "N. Schlotterbeck", "id": "pl-k00096140", "club": "Borussia Dortmund",   "position": "ABW"},
+    {"name": "Raum",             "id": "pl-k00087750", "club": "RB Leipzig",          "position": "ABW"},
+    {"name": "Coulibaly",        "id": "pl-k00161346", "club": "Werder Bremen",       "position": "ABW"},
+    {"name": "Behrens",          "id": "pl-k00149673", "club": "1. FC Heidenheim",    "position": "ABW"},
+    {"name": "Ogbus",            "id": "pl-k00149407", "club": "SC Freiburg",         "position": "ABW"},
+
+    {"name": "Kramaric",         "id": "pl-k00059041", "club": "TSG Hoffenheim",      "position": "MF"},
+    {"name": "Baumgartner",      "id": "pl-k00102800", "club": "RB Leipzig",          "position": "MF"},
+    {"name": "Aleix Garcia",     "id": "pl-k00088240", "club": "Bayer 04 Leverkusen", "position": "MF"},
+    {"name": "S. El Mala",       "id": "pl-k00159629", "club": "1. FC Köln",          "position": "MF"},
+    {"name": "Niehues",          "id": "pl-k00104010", "club": "1. FC Heidenheim",    "position": "MF"},
+    {"name": "Culbreath",        "id": "pl-k00151366", "club": "Bayer 04 Leverkusen", "position": "MF"},
+    {"name": "Covic",            "id": "pl-k00168200", "club": "Werder Bremen",       "position": "MF"},
+
+    {"name": "Kane",             "id": "pl-k00070605", "club": "Bayern München",      "position": "ST"},
+    {"name": "Y. Diomande",      "id": "pl-k00176299", "club": "RB Leipzig",          "position": "ST"},
+    {"name": "Touré",            "id": "pl-k00174794", "club": "TSG Hoffenheim",      "position": "ST"},
+    {"name": "Schimmer",         "id": "pl-k00094599", "club": "1. FC Heidenheim",    "position": "ST"},
+    {"name": "Musah",            "id": "pl-k00158876", "club": "Werder Bremen",       "position": "ST"}
+  ]
+}

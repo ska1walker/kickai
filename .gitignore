@@ -1,0 +1,20 @@
+# Python
+.venv/
+**/__pycache__/
+*.pyc
+
+# Node / Next.js (web/)
+web/node_modules/
+web/.next/
+web/out/
+web/next-env.d.ts
+web/*.tsbuildinfo
+
+# Env & Secrets
+.env
+.env.local
+web/.env*.local
+
+# Harness / OS
+.claude/
+.DS_Store

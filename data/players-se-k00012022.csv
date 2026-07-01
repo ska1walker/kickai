@@ -1,0 +1,505 @@
+ID;Vorname;Nachname;Angezeigter Name (kurz);Angezeigter Name;Verein;Position;Marktwert;Punkte;Notendurchschnitt
+pl-k00030669;Manuel;Neuer;Neuer;Manuel Neuer;Bayern München;GOALKEEPER;4500000;76;3.08
+pl-k00030961;Philipp;Pentke;Pentke;Philipp Pentke;TSG Hoffenheim;GOALKEEPER;800000;0;0.0
+pl-k00030964;Michael;Langer;Mi. Langer;Michael Langer;FC Schalke 04;GOALKEEPER;500000;0;0.0
+pl-k00033610;Kevin-Prince;Boateng;K.-P. Boateng;Kevin-Prince Boateng;Hertha BSC;MIDFIELDER;1500000;24;4.25
+pl-k00037056;Tobias;Sippel;Sippel;Tobias Sippel;Bor. Mönchengladbach;GOALKEEPER;700000;24;3.5
+pl-k00038910;Ralf;Fährmann;Fährmann;Ralf Fährmann;FC Schalke 04;GOALKEEPER;1000000;96;2.83
+pl-k00039161;Sven;Ulreich;Ulreich;Sven Ulreich;Bayern München;GOALKEEPER;800000;22;3.0
+pl-k00039183;Lars;Stindl;Stindl;Lars Stindl;Bor. Mönchengladbach;MIDFIELDER;3500000;131;3.57
+pl-k00039212;Danny;Latza;Latza;Danny Latza;FC Schalke 04;MIDFIELDER;1600000;29;4.28
+pl-k00039245;Oliver;Baumann;Baumann;Oliver Baumann;TSG Hoffenheim;GOALKEEPER;3200000;219;3.01
+pl-k00039317;Thomas;Müller;T. Müller;Thomas Müller;Bayern München;MIDFIELDER;7500000;174;3.08
+pl-k00040152;Mats;Hummels;Hummels;Mats Hummels;Borussia Dortmund;DEFENDER;3400000;162;3.04
+pl-k00040780;Manuel;Riemann;Riemann;Manuel Riemann;VfL Bochum;GOALKEEPER;3600000;174;3.34
+pl-k00040891;Jens;Grahl;Grahl;Jens Grahl;Eintracht Frankfurt;GOALKEEPER;500000;0;0.0
+pl-k00041690;Manuel;Gulde;Gulde;Manuel Gulde;SC Freiburg;DEFENDER;1800000;39;3.83
+pl-k00041708;Patrick;Herrmann;Herrmann;Patrick Herrmann;Bor. Mönchengladbach;FORWARD;1800000;47;3.0
+pl-k00042063;Julian;Baumgartlinger;Baumgartlinger;Julian Baumgartlinger;FC Augsburg;MIDFIELDER;1200000;34;3.67
+pl-k00042122;Kevin;Trapp;Trapp;Kevin Trapp;Eintracht Frankfurt;GOALKEEPER;3800000;222;2.95
+pl-k00042271;Yann;Sommer;Sommer;Yann Sommer;Bayern München;GOALKEEPER;4000000;179;3.12
+pl-k00042522;Stevan;Jovetic;Jovetic;Stevan Jovetic;Hertha BSC;FORWARD;2200000;64;3.5
+pl-k00042607;Eric Maxim;Choupo-Moting;Choupo-Moting;Eric Maxim Choupo-Moting;Bayern München;FORWARD;2200000;131;3.07
+pl-k00043169;Nils;Petersen;Petersen;Nils Petersen;SC Freiburg;FORWARD;1600000;55;4.0
+pl-k00043253;Tony;Jantschke;Jantschke;Tony Jantschke;Bor. Mönchengladbach;DEFENDER;1000000;20;2.5
+pl-k00043257;Sebastian;Polter;Polter;Sebastian Polter;FC Schalke 04;FORWARD;1800000;16;5.17
+pl-k00043520;Janis;Blaswich;Blaswich;Janis Blaswich;RB Leipzig;GOALKEEPER;700000;181;2.92
+pl-k00043592;Mario;Götze;M. Götze;Mario Götze;Eintracht Frankfurt;MIDFIELDER;3600000;182;3.22
+pl-k00043831;Daley;Blind;Blind;Daley Blind;Bayern München;DEFENDER;2300000;4;5.0
+pl-k00044180;Simon;Terodde;Terodde;Simon Terodde;FC Schalke 04;FORWARD;2400000;90;3.86
+pl-k00044372;Peter;Pekarik;Pekarik;Peter Pekarik;Hertha BSC;DEFENDER;1300000;4;4.75
+pl-k00045202;Sebastian;Rudy;Rudy;Sebastian Rudy;TSG Hoffenheim;MIDFIELDER;1500000;49;3.7
+pl-k00046371;Rune;Jarstein;Jarstein;Rune Jarstein;Hertha BSC;GOALKEEPER;700000;0;0.0
+pl-k00046429;Marco;Reus;Reus;Marco Reus;Borussia Dortmund;MIDFIELDER;6500000;110;3.47
+pl-k00047579;Nicolas;Höfler;Höfler;Nicolas Höfler;SC Freiburg;MIDFIELDER;3000000;138;3.41
+pl-k00047828;Makoto;Hasebe;Hasebe;Makoto Hasebe;Eintracht Frankfurt;DEFENDER;1700000;72;3.4
+pl-k00048418;Sebastian;Rode;Rode;Sebastian Rode;Eintracht Frankfurt;MIDFIELDER;2000000;133;3.21
+pl-k00048635;Nico;Schulz;N. Schulz;Nico Schulz;Borussia Dortmund;DEFENDER;1500000;0;0.0
+pl-k00048996;Ermin;Bicakcic;Bicakcic;Ermin Bicakcic;TSG Hoffenheim;DEFENDER;1300000;16;3.6
+pl-k00049258;Timo;Horn;T. Horn;Timo Horn;1. FC Köln;GOALKEEPER;1000000;0;0.0
+pl-k00049869;Michael;Esser;Esser;Michael Esser;VfL Bochum;GOALKEEPER;800000;0;0.0
+pl-k00050237;Timothy;Chandler;Chandler;Timothy Chandler;Eintracht Frankfurt;DEFENDER;1300000;8;4.5
+pl-k00050405;Daniel;Caligiuri;D. Caligiuri;Daniel Caligiuri;FC Augsburg;MIDFIELDER;1600000;30;3.83
+pl-k00050432;Christian;Groß;C. Groß;Christian Groß;Werder Bremen;MIDFIELDER;1600000;81;3.73
+pl-k00050433;André;Hahn;Hahn;André Hahn;FC Augsburg;MIDFIELDER;1600000;29;3.63
+pl-k00054252;Marvin;Plattenhardt;Plattenhardt;Marvin Plattenhardt;Hertha BSC;DEFENDER;1500000;57;4.07
+pl-k00054640;Danny;da Costa;da Costa;Danny da Costa;1. FSV Mainz 05;DEFENDER;1400000;68;3.63
+pl-k00054657;Kevin;Vogt;Vogt;Kevin Vogt;TSG Hoffenheim;DEFENDER;2600000;104;3.32
+pl-k00054894;Simon;Zoller;Zoller;Simon Zoller;VfL Bochum;FORWARD;1500000;69;3.93
+pl-k00054958;Josuha;Guilavogui;Guilavogui;Josuha Guilavogui;VfL Wolfsburg;MIDFIELDER;1700000;62;3.68
+pl-k00057241;Rani;Khedira;R. Khedira;Rani Khedira;1. FC Union Berlin;MIDFIELDER;1700000;161;3.36
+pl-k00057247;Marvin;Ducksch;Ducksch;Marvin Ducksch;Werder Bremen;FORWARD;2400000;172;3.6
+pl-k00057602;Karim;Bellarabi;Bellarabi;Karim Bellarabi;Bayer 04 Leverkusen;FORWARD;2000000;14;4.5
+pl-k00057605;Tobias;Strobl;Strobl;Tobias Strobl;FC Augsburg;MIDFIELDER;1000000;0;0.0
+pl-k00057894;Kevin;Kampl;Kampl;Kevin Kampl;RB Leipzig;MIDFIELDER;2400000;92;3.71
+pl-k00057925;Lukas;Hradecky;Hradecky;Lukas Hradecky;Bayer 04 Leverkusen;GOALKEEPER;3200000;198;3.09
+pl-k00058003;Mitchell;Weiser;Weiser;Mitchell Weiser;Werder Bremen;DEFENDER;1200000;153;3.4
+pl-k00058007;Emre;Can;Can;Emre Can;Borussia Dortmund;MIDFIELDER;2800000;123;3.34
+pl-k00058107;Jonathan;Schmid;J. Schmid;Jonathan Schmid;SC Freiburg;DEFENDER;1700000;0;5.0
+pl-k00058375;Dominick;Drexler;Drexler;Dominick Drexler;FC Schalke 04;MIDFIELDER;1500000;63;3.95
+pl-k00058548;Peter;Gulacsi;Gulacsi;Peter Gulacsi;RB Leipzig;GOALKEEPER;4200000;38;3.08
+pl-k00058740;Alexander;Meyer;A. Meyer;Alexander Meyer;Borussia Dortmund;GOALKEEPER;800000;40;3.14
+pl-k00058791;Timothee;Kolodziejczak;Kolodziejczak;Timothee Kolodziejczak;FC Schalke 04;DEFENDER;1400000;2;0.0
+pl-k00058821;Thomas;Delaney;Delaney;Thomas Delaney;TSG Hoffenheim;MIDFIELDER;2800000;4;4.5
+pl-k00058938;Christopher;Trimmel;Trimmel;Christopher Trimmel;1. FC Union Berlin;DEFENDER;2200000;128;3.12
+pl-k00059041;Andrej;Kramaric;Kramaric;Andrej Kramaric;TSG Hoffenheim;FORWARD;4800000;173;3.47
+pl-k00059163;Christoph;Kramer;Kramer;Christoph Kramer;Bor. Mönchengladbach;MIDFIELDER;1700000;83;3.78
+pl-k00059507;Koen;Casteels;Casteels;Koen Casteels;VfL Wolfsburg;GOALKEEPER;3200000;245;2.93
+pl-k00059580;Kevin;Behrens;K. Behrens;Kevin Behrens;1. FC Union Berlin;FORWARD;1600000;146;3.36
+pl-k00060522;Stefan;Bell;Bell;Stefan Bell;1. FSV Mainz 05;DEFENDER;2300000;133;3.31
+pl-k00060535;Leonardo;Bittencourt;Bittencourt;Leonardo Bittencourt;Werder Bremen;MIDFIELDER;1700000;97;3.65
+pl-k00063586;Alexander;Schwolow;Schwolow;Alexander Schwolow;FC Schalke 04;GOALKEEPER;2300000;95;3.52
+pl-k00063777;Lukas;Kübler;Kübler;Lukas Kübler;SC Freiburg;DEFENDER;1800000;97;3.45
+pl-k00063799;Michael;Gregoritsch;Gregoritsch;Michael Gregoritsch;SC Freiburg;FORWARD;2200000;183;3.29
+pl-k00063803;Mark;Uth;Uth;Mark Uth;1. FC Köln;MIDFIELDER;3000000;6;0.0
+pl-k00064040;Maximilian;Arnold;Arnold;Maximilian Arnold;VfL Wolfsburg;MIDFIELDER;2600000;163;3.45
+pl-k00064523;Jonas;Hector;J. Hector;Jonas Hector;1. FC Köln;DEFENDER;2800000;160;3.27
+pl-k00065090;Anthony;Jung;A. Jung;Anthony Jung;Werder Bremen;DEFENDER;1500000;114;3.78
+pl-k00065340;Rafal;Gikiewicz;Gikiewicz;Rafal Gikiewicz;FC Augsburg;GOALKEEPER;2800000;131;3.28
+pl-k00065353;Marcin;Kaminski;M. Kaminski;Marcin Kaminski;FC Schalke 04;DEFENDER;1600000;33;3.79
+pl-k00065514;Marcel;Halstenberg;Halstenberg;Marcel Halstenberg;RB Leipzig;DEFENDER;2600000;112;3.42
+pl-k00065523;Niko;Gießelmann;Gießelmann;Niko Gießelmann;1. FC Union Berlin;DEFENDER;2200000;68;3.75
+pl-k00065536;Tolga;Cigerci;Cigerci;Tolga Cigerci;Hertha BSC;MIDFIELDER;1400000;12;4.27
+pl-k00065540;Robin;Knoche;Knoche;Robin Knoche;1. FC Union Berlin;DEFENDER;2000000;178;3.23
+pl-k00065896;Robin;Zentner;Zentner;Robin Zentner;1. FSV Mainz 05;GOALKEEPER;3000000;164;3.06
+pl-k00065936;Anthony;Modeste;Modeste;Anthony Modeste;Borussia Dortmund;FORWARD;4000000;31;4.38
+pl-k00066084;Pavel;Kaderabek;Kaderabek;Pavel Kaderabek;TSG Hoffenheim;DEFENDER;1800000;76;3.7
+pl-k00066249;Stefan;Lainer;Lainer;Stefan Lainer;Bor. Mönchengladbach;DEFENDER;2300000;26;4.22
+pl-k00066523;Florian;Kainz;Kainz;Florian Kainz;1. FC Köln;MIDFIELDER;2400000;211;3.2
+pl-k00066525;Dominique;Heintz;Heintz;Dominique Heintz;VfL Bochum;DEFENDER;1500000;22;3.86
+pl-k00066530;Niclas;Füllkrug;Füllkrug;Niclas Füllkrug;Werder Bremen;FORWARD;2200000;219;3.21
+pl-k00066531;Philipp;Hofmann;P. Hofmann;Philipp Hofmann;VfL Bochum;FORWARD;2000000;118;3.84
+pl-k00066745;Niklas;Süle;Süle;Niklas Süle;Borussia Dortmund;DEFENDER;3600000;154;3.17
+pl-k00066753;Serge;Gnabry;Gnabry;Serge Gnabry;Bayern München;MIDFIELDER;6000000;211;3.19
+pl-k00066754;Leon;Goretzka;Goretzka;Leon Goretzka;Bayern München;MIDFIELDER;5800000;114;3.52
+pl-k00066756;Marc Oliver;Kempf;Kempf;Marc Oliver Kempf;Hertha BSC;DEFENDER;1800000;99;3.74
+pl-k00067074;Timo;Werner;Werner;Timo Werner;RB Leipzig;FORWARD;5000000;127;3.58
+pl-k00067390;Maya;Yoshida;Yoshida;Maya Yoshida;FC Schalke 04;DEFENDER;1900000;56;4.0
+pl-k00067514;Kevin;Stöger;Stöger;Kevin Stöger;VfL Bochum;MIDFIELDER;1600000;161;3.45
+pl-k00067717;John Anthony;Brooks;Brooks;John Anthony Brooks;TSG Hoffenheim;DEFENDER;2000000;70;3.33
+pl-k00067724;Kevin;Akpoguma;Akpoguma;Kevin Akpoguma;TSG Hoffenheim;DEFENDER;1600000;108;3.4
+pl-k00068029;Jonas;Hofmann;Hofmann;Jonas Hofmann;Bor. Mönchengladbach;MIDFIELDER;4000000;217;3.35
+pl-k00068317;Davie;Selke;Selke;Davie Selke;1. FC Köln;FORWARD;1600000;87;3.91
+pl-k00068571;Timo;Baumgartl;Baumgartl;Timo Baumgartl;1. FC Union Berlin;DEFENDER;2200000;19;3.86
+pl-k00068578;Julian;Brandt;Brandt;Julian Brandt;Borussia Dortmund;MIDFIELDER;3800000;208;3.2
+pl-k00069159;Florian;Niederlechner;Niederlechner;Florian Niederlechner;Hertha BSC;FORWARD;1700000;80;3.91
+pl-k00069255;Willi;Orban;Orban;Willi Orban;RB Leipzig;DEFENDER;3500000;201;3.15
+pl-k00069724;Benjamin;Uphoff;Uphoff;Benjamin Uphoff;SC Freiburg;GOALKEEPER;700000;0;0.0
+pl-k00070374;Marvin;Schwäbe;Schwäbe;Marvin Schwäbe;1. FC Köln;GOALKEEPER;3400000;237;2.91
+pl-k00070381;Cristian;Gamboa;Gamboa;Cristian Gamboa;VfL Bochum;DEFENDER;2200000;38;3.97
+pl-k00070495;Thomas;Meunier;Meunier;Thomas Meunier;Borussia Dortmund;DEFENDER;2500000;24;3.86
+pl-k00070546;Munas;Dabbur;Dabbur;Munas Dabbur;TSG Hoffenheim;FORWARD;1800000;64;3.67
+pl-k00070592;Jonathan;Tah;Tah;Jonathan Tah;Bayer 04 Leverkusen;DEFENDER;3200000;140;3.41
+pl-k00070598;Luca;Waldschmidt;Waldschmidt;Luca Waldschmidt;VfL Wolfsburg;FORWARD;1800000;18;4.86
+pl-k00070624;Kevin;Möhwald;Möhwald;Kevin Möhwald;1. FC Union Berlin;MIDFIELDER;1400000;0;0.0
+pl-k00070806;Maximilian;Philipp;Philipp;Maximilian Philipp;Werder Bremen;MIDFIELDER;2000000;46;3.58
+pl-k00070990;Matthias;Ginter;Ginter;Matthias Ginter;SC Freiburg;DEFENDER;2800000;235;2.97
+pl-k00070997;Robert;Andrich;Andrich;Robert Andrich;Bayer 04 Leverkusen;MIDFIELDER;2800000;159;3.2
+pl-k00071021;Benjamin;Henrichs;Henrichs;Benjamin Henrichs;RB Leipzig;DEFENDER;2300000;131;3.38
+pl-k00071073;Konstantinos;Stafylidis;Stafylidis;Konstantinos Stafylidis;VfL Bochum;DEFENDER;1600000;48;3.75
+pl-k00071150;Joshua;Kimmich;Kimmich;Joshua Kimmich;Bayern München;MIDFIELDER;6500000;211;3.06
+pl-k00071151;Niklas;Stark;Stark;Niklas Stark;Werder Bremen;DEFENDER;2000000;108;3.42
+pl-k00071188;Jere;Uronen;Uronen;Jere Uronen;FC Schalke 04;DEFENDER;1400000;16;4.17
+pl-k00071294;Dominik;Kohr;Kohr;Dominik Kohr;1. FSV Mainz 05;MIDFIELDER;1600000;134;3.43
+pl-k00071610;Janik;Haberer;Haberer;Janik Haberer;1. FC Union Berlin;MIDFIELDER;1700000;143;3.55
+pl-k00071930;Yannick;Gerhardt;Gerhardt;Yannick Gerhardt;VfL Wolfsburg;MIDFIELDER;1800000;129;3.54
+pl-k00072199;Christopher;Lenz;C. Lenz;Christopher Lenz;Eintracht Frankfurt;DEFENDER;1500000;54;3.87
+pl-k00072475;Kenan;Karaman;Karaman;Kenan Karaman;FC Schalke 04;FORWARD;1400000;37;4.13
+pl-k00072478;Mark;Flekken;Flekken;Mark Flekken;SC Freiburg;GOALKEEPER;3400000;273;2.79
+pl-k00072566;Sven;Michel;Michel;Sven Michel;1. FC Union Berlin;FORWARD;1800000;48;3.9
+pl-k00072607;Niklas;Lomb;Lomb;Niklas Lomb;Bayer 04 Leverkusen;GOALKEEPER;500000;0;0.0
+pl-k00072610;Philipp;Max;Max;Philipp Max;Eintracht Frankfurt;DEFENDER;2600000;38;3.56
+pl-k00072618;Kerem;Demirbay;Demirbay;Kerem Demirbay;Bayer 04 Leverkusen;MIDFIELDER;2400000;96;3.66
+pl-k00072675;Matthias;Köbbing;Köbbing;Matthias Köbbing;1. FC Köln;GOALKEEPER;500000;0;0.0
+pl-k00072706;Christian;Günter;Günter;Christian Günter;SC Freiburg;DEFENDER;3400000;140;3.47
+pl-k00072759;Vincenzo;Grifo;Grifo;Vincenzo Grifo;SC Freiburg;MIDFIELDER;4500000;245;3.19
+pl-k00073015;Anthony;Losilla;Losilla;Anthony Losilla;VfL Bochum;MIDFIELDER;2400000;124;3.56
+pl-k00073363;Sebastian;Andersson;Andersson;Sebastian Andersson;1. FC Köln;FORWARD;1500000;0;0.0
+pl-k00074015;Alexander;Hack;A. Hack;Alexander Hack;1. FSV Mainz 05;DEFENDER;2200000;42;3.8
+pl-k00074274;Sadio;Mané;S. Mané;Sadio Mané;Bayern München;FORWARD;8000000;124;3.38
+pl-k00074428;Kingsley;Schindler;Schindler;Kingsley Schindler;1. FC Köln;MIDFIELDER;1200000;62;3.77
+pl-k00074868;Jakob;Busk;Busk;Jakob Busk;1. FC Union Berlin;GOALKEEPER;500000;0;0.0
+pl-k00075006;Jeffrey;Gouweleeuw;Gouweleeuw;Jeffrey Gouweleeuw;FC Augsburg;DEFENDER;1600000;115;3.65
+pl-k00075023;Joao Pedro;Cavaco Cancelo;Joao Cancelo;Joao Cancelo;Bayern München;DEFENDER;4500000;68;3.42
+pl-k00075028;Michael;Frey;Mi. Frey;Michael Frey;FC Schalke 04;FORWARD;1500000;17;4.25
+pl-k00075072;Alassane;Plea;Plea;Alassane Plea;Bor. Mönchengladbach;FORWARD;3800000;83;3.91
+pl-k00075379;Silvan;Widmer;Widmer;Silvan Widmer;1. FSV Mainz 05;DEFENDER;2500000;91;3.65
+pl-k00075608;Finn;Dahmen;Dahmen;Finn Dahmen;1. FSV Mainz 05;GOALKEEPER;800000;55;2.88
+pl-k00075624;Niklas;Dorsch;Dorsch;Niklas Dorsch;FC Augsburg;MIDFIELDER;1800000;22;4.0
+pl-k00075625;Dennis;Geiger;Geiger;Dennis Geiger;TSG Hoffenheim;MIDFIELDER;1800000;111;3.54
+pl-k00075628;Salih;Özcan;Özcan;Salih Özcan;Borussia Dortmund;MIDFIELDER;3200000;63;3.8
+pl-k00075651;Frederik;Rönnow;Rönnow;Frederik Rönnow;1. FC Union Berlin;GOALKEEPER;2300000;219;2.91
+pl-k00076053;Michael;Zetterer;Zetterer;Michael Zetterer;Werder Bremen;GOALKEEPER;800000;12;2.75
+pl-k00076265;Danilo;Soares;Danilo Soares;Danilo Soares;VfL Bochum;DEFENDER;2300000;44;4.02
+pl-k00076446;Yussuf;Poulsen;Poulsen;Yussuf Poulsen;RB Leipzig;FORWARD;3000000;37;4.67
+pl-k00076575;Lukas;Klostermann;Klostermann;Lukas Klostermann;RB Leipzig;DEFENDER;2600000;64;3.15
+pl-k00076799;Julian;Weigl;Weigl;Julian Weigl;Bor. Mönchengladbach;MIDFIELDER;2600000;77;3.68
+pl-k00077009;Ihlas;Bebou;Bebou;Ihlas Bebou;TSG Hoffenheim;FORWARD;2200000;81;3.71
+pl-k00077245;Suat;Serdar;S. Serdar;Suat Serdar;Hertha BSC;MIDFIELDER;1800000;83;3.98
+pl-k00077322;Niklas;Klinger;Klinger;Niklas Klinger;VfL Wolfsburg;GOALKEEPER;500000;0;0.0
+pl-k00077333;Marvin;Friedrich;Friedrich;Marvin Friedrich;Bor. Mönchengladbach;DEFENDER;2500000;41;4.14
+pl-k00077352;Paul;Seguin;Seguin;Paul Seguin;1. FC Union Berlin;MIDFIELDER;1400000;57;3.42
+pl-k00077358;Örjan;Nyland;Nyland;Örjan Nyland;RB Leipzig;GOALKEEPER;600000;11;3.5
+pl-k00078878;Genki;Haraguchi;Haraguchi;Genki Haraguchi;VfB Stuttgart;MIDFIELDER;1500000;68;3.63
+pl-k00079036;Mahmoud;Dahoud;Dahoud;Mahmoud Dahoud;Borussia Dortmund;MIDFIELDER;2400000;35;2.83
+pl-k00079134;Philipp;Förster;P. Förster;Philipp Förster;VfL Bochum;MIDFIELDER;1500000;94;3.65
+pl-k00079176;Atakan;Karazor;Karazor;Atakan Karazor;VfB Stuttgart;MIDFIELDER;800000;91;3.63
+pl-k00079360;Pascal;Stenzel;P. Stenzel;Pascal Stenzel;VfB Stuttgart;DEFENDER;1300000;23;4.17
+pl-k00079503;Maximilian;Eggestein;M. Eggestein;Maximilian Eggestein;SC Freiburg;MIDFIELDER;2200000;114;3.57
+pl-k00079543;Leroy;Sané;L. Sané;Leroy Sané;Bayern München;MIDFIELDER;5500000;185;3.08
+pl-k00079577;Marius;Wolf;M. Wolf;Marius Wolf;Borussia Dortmund;MIDFIELDER;1800000;102;3.34
+pl-k00079716;Milos;Pantovic;Pantovic;Milos Pantovic;1. FC Union Berlin;MIDFIELDER;1400000;28;4.0
+pl-k00079813;Maximilian;Mittelstädt;Mittelstädt;Maximilian Mittelstädt;Hertha BSC;DEFENDER;1200000;20;4.14
+pl-k00079917;Daniel-Kofi;Kyereh;Kyereh;Daniel-Kofi Kyereh;SC Freiburg;MIDFIELDER;2000000;30;4.07
+pl-k00079935;Lucas;Höler;Höler;Lucas Höler;SC Freiburg;FORWARD;2800000;96;3.61
+pl-k00080083;Nadiem;Amiri;Amiri;Nadiem Amiri;Bayer 04 Leverkusen;MIDFIELDER;1800000;73;3.75
+pl-k00080088;Grischa;Prömel;Prömel;Grischa Prömel;TSG Hoffenheim;MIDFIELDER;2800000;92;3.28
+pl-k00080172;Timo;Hübers;Hübers;Timo Hübers;1. FC Köln;DEFENDER;2400000;162;3.24
+pl-k00080174;Waldemar;Anton;Anton;Waldemar Anton;VfB Stuttgart;DEFENDER;2000000;151;3.49
+pl-k00080183;Noah Joel;Sarenren Bazee;Sarenren Bazee;Noah Joel Sarenren Bazee;FC Augsburg;MIDFIELDER;800000;4;0.0
+pl-k00080342;Felix;Passlack;Passlack;Felix Passlack;Borussia Dortmund;DEFENDER;600000;6;0.0
+pl-k00080351;Chris;Führich;Führich;Chris Führich;VfB Stuttgart;MIDFIELDER;1700000;125;3.57
+pl-k00080364;Amos;Pieper;Pieper;Amos Pieper;Werder Bremen;DEFENDER;1800000;116;3.5
+pl-k00080376;Niklas;Schmidt;N. Schmidt;Niklas Schmidt;Werder Bremen;MIDFIELDER;1000000;60;3.92
+pl-k00080554;Elvis;Rexhbecaj;Rexhbecaj;Elvis Rexhbecaj;FC Augsburg;MIDFIELDER;1600000;74;3.89
+pl-k00080766;Florian;Müller;F. Müller;Florian Müller;VfB Stuttgart;GOALKEEPER;2400000;103;3.21
+pl-k00081437;Kingsley;Coman;Coman;Kingsley Coman;Bayern München;MIDFIELDER;6500000;169;3.02
+pl-k00081580;Paul;Jaeckel;Jaeckel;Paul Jaeckel;1. FC Union Berlin;DEFENDER;1500000;53;3.68
+pl-k00081638;Marco;Richter;Richter;Marco Richter;Hertha BSC;FORWARD;1700000;92;3.87
+pl-k00081839;Sardar;Azmoun;Azmoun;Sardar Azmoun;Bayer 04 Leverkusen;FORWARD;2200000;61;3.89
+pl-k00081865;Emil;Forsberg;Forsberg;Emil Forsberg;RB Leipzig;MIDFIELDER;3800000;125;3.47
+pl-k00081912;Felix;Uduokhai;Uduokhai;Felix Uduokhai;FC Augsburg;DEFENDER;1600000;47;3.76
+pl-k00081913;Florian;Neuhaus;Neuhaus;Florian Neuhaus;Bor. Mönchengladbach;MIDFIELDER;2600000;48;4.0
+pl-k00082037;Florian;Dietz;F. Dietz;Florian Dietz;1. FC Köln;FORWARD;500000;15;4.25
+pl-k00082087;Arne;Maier;Maier;Arne Maier;FC Augsburg;MIDFIELDER;1600000;94;3.88
+pl-k00082119;Fabian;Bredlow;Bredlow;Fabian Bredlow;VfB Stuttgart;GOALKEEPER;700000;80;3.2
+pl-k00082152;Lucas;Hernandez;Hernandez;Lucas Hernandez;Bayern München;DEFENDER;3000000;34;3.17
+pl-k00082539;Milos;Veljkovic;Veljkovic;Milos Veljkovic;Werder Bremen;DEFENDER;1700000;95;3.69
+pl-k00082902;Jean-Paul;Boetius;Boetius;Jean-Paul Boetius;Hertha BSC;MIDFIELDER;1700000;20;4.2
+pl-k00082945;Eder;Balanta;Balanta;Eder Balanta;FC Schalke 04;MIDFIELDER;1400000;6;4.25
+pl-k00083673;Ivan;Ordets;Ordets;Ivan Ordets;VfL Bochum;DEFENDER;1600000;106;3.61
+pl-k00083812;Gerrit;Holtmann;Holtmann;Gerrit Holtmann;VfL Bochum;MIDFIELDER;2000000;45;4.05
+pl-k00083871;Tobias;Mohr;T. Mohr;Tobias Mohr;FC Schalke 04;MIDFIELDER;1700000;22;4.21
+pl-k00083928;Aymen;Barkok;Barkok;Aymen Barkok;1. FSV Mainz 05;MIDFIELDER;1200000;49;3.75
+pl-k00083988;Marius;Bülter;Bülter;Marius Bülter;FC Schalke 04;FORWARD;1700000;175;3.55
+pl-k00084309;Jonas;Omlin;Omlin;Jonas Omlin;Bor. Mönchengladbach;GOALKEEPER;3000000;111;2.97
+pl-k00084359;Cedric;Brunner;C. Brunner;Cedric Brunner;FC Schalke 04;DEFENDER;1700000;78;3.8
+pl-k00084365;Nico;Elvedi;Elvedi;Nico Elvedi;Bor. Mönchengladbach;DEFENDER;2000000;99;3.84
+pl-k00084490;Abdou;Diallo;A. Diallo;Abdou Diallo;RB Leipzig;DEFENDER;2400000;45;2.92
+pl-k00084940;Philipp;Lienhart;Lienhart;Philipp Lienhart;SC Freiburg;DEFENDER;3200000;154;3.21
+pl-k00084943;Konrad;Laimer;Laimer;Konrad Laimer;RB Leipzig;MIDFIELDER;3000000;124;3.06
+pl-k00085014;André;Silva;Silva;André Silva;RB Leipzig;FORWARD;4600000;130;3.43
+pl-k00085382;Jeff;Chabot;Chabot;Jeff Chabot;1. FC Köln;DEFENDER;1200000;133;2.98
+pl-k00085575;Reece;Oxford;Oxford;Reece Oxford;FC Augsburg;DEFENDER;2000000;4;4.5
+pl-k00085778;Patrik;Schick;Schick;Patrik Schick;Bayer 04 Leverkusen;FORWARD;6500000;20;4.36
+pl-k00085871;Lennart;Grill;Grill;Lennart Grill;1. FC Union Berlin;GOALKEEPER;700000;26;3.4
+pl-k00085936;Jiri;Pavlenka;Pavlenka;Jiri Pavlenka;Werder Bremen;GOALKEEPER;2600000;186;3.14
+pl-k00086132;Daley;Sinkgraven;Sinkgraven;Daley Sinkgraven;Bayer 04 Leverkusen;DEFENDER;1500000;28;3.88
+pl-k00086142;Linton;Maina;Maina;Linton Maina;1. FC Köln;MIDFIELDER;1400000;120;3.68
+pl-k00086166;Raphael;Guerreiro;Guerreiro;Raphael Guerreiro;Borussia Dortmund;DEFENDER;2800000;168;3.31
+pl-k00086176;Tomas;Koubek;Koubek;Tomas Koubek;FC Augsburg;GOALKEEPER;700000;75;2.91
+pl-k00086520;José;Tasende;Angelino;Angelino;TSG Hoffenheim;DEFENDER;3000000;96;3.83
+pl-k00086798;Jonjoe;Kenny;Kenny;Jonjoe Kenny;Hertha BSC;DEFENDER;1500000;61;3.98
+pl-k00087020;Silvere;Ganvoula;Ganvoula;Silvere Ganvoula;VfL Bochum;FORWARD;1000000;26;5.0
+pl-k00087198;Almamy;Toure;Toure;Almamy Toure;Eintracht Frankfurt;DEFENDER;1400000;9;4.3
+pl-k00087260;Sheraldo;Becker;Becker;Sheraldo Becker;1. FC Union Berlin;FORWARD;2400000;223;3.28
+pl-k00087278;Morten;Thorsby;Thorsby;Morten Thorsby;1. FC Union Berlin;MIDFIELDER;1800000;47;4.05
+pl-k00087489;Edimilson;Fernandes;Fernandes;Edimilson Fernandes;1. FSV Mainz 05;MIDFIELDER;1000000;108;3.66
+pl-k00087556;Bouna;Sarr;Sarr;Bouna Sarr;Bayern München;DEFENDER;1200000;2;0.0
+pl-k00087673;Gregor;Kobel;Kobel;Gregor Kobel;Borussia Dortmund;GOALKEEPER;3500000;221;2.74
+pl-k00087694;Benjamin;Pavard;Pavard;Benjamin Pavard;Bayern München;DEFENDER;2600000;195;3.02
+pl-k00087705;Ermedin;Demirovic;Demirovic;Ermedin Demirovic;FC Augsburg;FORWARD;1700000;131;3.68
+pl-k00087750;David;Raum;Raum;David Raum;RB Leipzig;DEFENDER;4000000;68;3.85
+pl-k00087823;Jae-Sung;Lee;J.-S. Lee;Jae-Sung Lee;1. FSV Mainz 05;MIDFIELDER;2000000;181;3.29
+pl-k00087967;Alex;Kral;Kral;Alex Kral;FC Schalke 04;MIDFIELDER;1700000;127;3.4
+pl-k00088049;Daniel;Olmo Carvajal;Dani Olmo;Dani Olmo;RB Leipzig;MIDFIELDER;4000000;120;3.09
+pl-k00088061;Tim;Skarke;Skarke;Tim Skarke;FC Schalke 04;MIDFIELDER;1400000;33;3.83
+pl-k00088151;Dayot;Upamecano;Upamecano;Dayot Upamecano;Bayern München;DEFENDER;3400000;136;3.23
+pl-k00088152;Mamadou;Doucouré;Doucouré;Mamadou Doucouré;Bor. Mönchengladbach;DEFENDER;500000;0;0.0
+pl-k00088182;Yannik;Keitel;Keitel;Yannik Keitel;SC Freiburg;MIDFIELDER;1200000;56;3.69
+pl-k00088192;Jonathan;Burkardt;Burkardt;Jonathan Burkardt;1. FSV Mainz 05;FORWARD;3200000;39;3.57
+pl-k00088376;Karim;Onisiwo;Onisiwo;Karim Onisiwo;1. FSV Mainz 05;FORWARD;2600000;194;3.29
+pl-k00088770;Jacob;Bruun Larsen;Bruun Larsen;Jacob Bruun Larsen;TSG Hoffenheim;FORWARD;1400000;25;4.0
+pl-k00088828;Sebastien;Haller;Haller;Sebastien Haller;Borussia Dortmund;FORWARD;6000000;104;3.53
+pl-k00089308;Djibril;Sow;Sow;Djibril Sow;Eintracht Frankfurt;MIDFIELDER;2600000;134;3.55
+pl-k00089315;Aaron Martin;Caricol;Aaron;Aaron;1. FSV Mainz 05;DEFENDER;1800000;113;3.65
+pl-k00089434;Xaver;Schlager;X. Schlager;Xaver Schlager;RB Leipzig;MIDFIELDER;3000000;128;2.85
+pl-k00089441;Lucas;Tousart;Tousart;Lucas Tousart;Hertha BSC;MIDFIELDER;1600000;174;3.47
+pl-k00089442;Serhou;Guirassy;Guirassy;Serhou Guirassy;VfB Stuttgart;FORWARD;2200000;138;3.32
+pl-k00089444;Marcus;Thuram;Thuram;Marcus Thuram;Bor. Mönchengladbach;FORWARD;3200000;168;3.5
+pl-k00089459;Thomas;Ouwejan;Ouwejan;Thomas Ouwejan;FC Schalke 04;DEFENDER;1800000;29;4.04
+pl-k00089649;Ramy;Bensebaini;Bensebaini;Ramy Bensebaini;Bor. Mönchengladbach;DEFENDER;2300000;130;3.63
+pl-k00089650;Jerome;Roussillon;Roussillon;Jerome Roussillon;1. FC Union Berlin;DEFENDER;1600000;75;3.32
+pl-k00089655;Ellyes;Skhiri;Skhiri;Ellyes Skhiri;1. FC Köln;MIDFIELDER;2600000;246;2.88
+pl-k00089857;Maxim;Leitsch;Leitsch;Maxim Leitsch;1. FSV Mainz 05;DEFENDER;1800000;16;4.07
+pl-k00089865;Rafael Santos;Borré;Borré;Rafael Santos Borré;Eintracht Frankfurt;FORWARD;2400000;51;4.35
+pl-k00089892;Ridle;Baku;R. Baku;Ridle Baku;VfL Wolfsburg;MIDFIELDER;2400000;117;3.74
+pl-k00089926;Ludovic;Ajorque;Ajorque;Ludovic Ajorque;1. FSV Mainz 05;FORWARD;1800000;101;3.33
+pl-k00090021;Saidy;Janko;Janko;Saidy Janko;VfL Bochum;DEFENDER;1400000;40;3.9
+pl-k00090042;Marco;Friedl;Friedl;Marco Friedl;Werder Bremen;DEFENDER;2000000;83;3.78
+pl-k00090095;Jordan;Siebatcheu;Jordan;Jordan;1. FC Union Berlin;FORWARD;2600000;99;3.66
+pl-k00090222;Borna;Sosa;Sosa;Borna Sosa;VfB Stuttgart;DEFENDER;2400000;112;3.52
+pl-k00090455;Marko;Johansson;Johansson;Marko Johansson;VfL Bochum;GOALKEEPER;600000;0;0.0
+pl-k00090623;Marcus;Ingvartsen;Ingvartsen;Marcus Ingvartsen;1. FSV Mainz 05;FORWARD;1600000;110;3.63
+pl-k00090788;Wataru;Endo;W. Endo;Wataru Endo;VfB Stuttgart;MIDFIELDER;2800000;214;3.14
+pl-k00090996;Exequiel;Palacios;Palacios;Exequiel Palacios;Bayer 04 Leverkusen;MIDFIELDER;2400000;127;3.3
+pl-k00091130;Patrick;Pentz;Pentz;Patrick Pentz;Bayer 04 Leverkusen;GOALKEEPER;800000;0;0.0
+pl-k00091131;Gil Bastiao;Dias;Gil Dias;Gil Dias;VfB Stuttgart;MIDFIELDER;1400000;8;4.29
+pl-k00091136;Dodi;Lukebakio;Lukebakio;Dodi Lukebakio;Hertha BSC;FORWARD;1600000;153;3.57
+pl-k00091361;Jean-Manuel;Mbom;Mbom;Jean-Manuel Mbom;Werder Bremen;MIDFIELDER;1300000;4;0.0
+pl-k00091372;Josip;Juranovic;Juranovic;Josip Juranovic;1. FC Union Berlin;DEFENDER;2000000;49;3.65
+pl-k00091414;Dimitrios;Limnios;Limnios;Dimitrios Limnios;1. FC Köln;MIDFIELDER;1000000;4;0.0
+pl-k00091471;Takuma;Asano;Asano;Takuma Asano;VfL Bochum;MIDFIELDER;1400000;77;3.84
+pl-k00091524;Christopher;Nkunku;Nkunku;Christopher Nkunku;RB Leipzig;FORWARD;8500000;205;3.02
+pl-k00091527;Steffen;Tigges;S. Tigges;Steffen Tigges;1. FC Köln;FORWARD;1600000;92;3.85
+pl-k00091543;Lucas;Alario;Alario;Lucas Alario;Eintracht Frankfurt;FORWARD;3600000;35;5.0
+pl-k00092237;Danilho;Doekhi;Doekhi;Danilho Doekhi;1. FC Union Berlin;DEFENDER;1800000;172;3.14
+pl-k00092911;Timothy;Fosu-Mensah;Fosu-Mensah;Timothy Fosu-Mensah;Bayer 04 Leverkusen;DEFENDER;1400000;20;4.0
+pl-k00093495;Aissa;Laidouni;Laidouni;Aissa Laidouni;1. FC Union Berlin;MIDFIELDER;1400000;57;3.54
+pl-k00093610;Pavao;Pervan;Pervan;Pavao Pervan;VfL Wolfsburg;GOALKEEPER;800000;0;0.0
+pl-k00093843;Daniel;Klein;Klein;Daniel Klein;FC Augsburg;GOALKEEPER;500000;0;0.0
+pl-k00093845;Antonis;Aidonis;Aidonis;Antonis Aidonis;VfB Stuttgart;DEFENDER;500000;0;0.0
+pl-k00093857;Tom;Krauß;Krauß;Tom Krauß;FC Schalke 04;MIDFIELDER;1600000;119;3.65
+pl-k00094213;Roland;Sallai;Sallai;Roland Sallai;SC Freiburg;MIDFIELDER;2600000;83;3.31
+pl-k00094443;Christopher;Antwi-Adjei;Antwi-Adjei;Christopher Antwi-Adjei;VfL Bochum;MIDFIELDER;1400000;132;3.52
+pl-k00094785;Luca;Pfeiffer;L. Pfeiffer;Luca Pfeiffer;VfB Stuttgart;FORWARD;2000000;18;4.43
+pl-k00094830;Kristian;Pedersen;Pedersen;Kristian Pedersen;1. FC Köln;DEFENDER;1500000;14;3.83
+pl-k00094959;Romano;Schmid;Schmid;Romano Schmid;Werder Bremen;MIDFIELDER;1700000;82;3.65
+pl-k00095041;Aurelio;Buta;Buta;Aurelio Buta;Eintracht Frankfurt;DEFENDER;1500000;82;3.53
+pl-k00095063;Kristijan;Jakic;Jakic;Kristijan Jakic;Eintracht Frankfurt;MIDFIELDER;1700000;68;3.78
+pl-k00095107;Ivan;Sunjic;Sunjic;Ivan Sunjic;Hertha BSC;MIDFIELDER;1600000;51;3.75
+pl-k00095487;Robert;Skov;Skov;Robert Skov;TSG Hoffenheim;MIDFIELDER;1500000;95;3.5
+pl-k00095534;Kasper;Dolberg;Dolberg;Kasper Dolberg;TSG Hoffenheim;FORWARD;2600000;17;4.5
+pl-k00095639;Luca;Kilian;Kilian;Luca Kilian;1. FC Köln;DEFENDER;1800000;39;3.85
+pl-k00095902;Benjamin;Leneis;Leneis;Benjamin Leneis;FC Augsburg;GOALKEEPER;500000;0;0.0
+pl-k00095988;Nassim;Boujellab;Boujellab;Nassim Boujellab;FC Schalke 04;MIDFIELDER;800000;0;0.0
+pl-k00096032;Felix;Agu;Agu;Felix Agu;Werder Bremen;DEFENDER;1600000;6;0.0
+pl-k00096038;Anton;Stach;Stach;Anton Stach;1. FSV Mainz 05;MIDFIELDER;2500000;119;3.46
+pl-k00096109;Eduardo;Dos Santos Haesler;Dudu;Dudu;Werder Bremen;GOALKEEPER;500000;0;0.0
+pl-k00096140;Nico;Schlotterbeck;N. Schlotterbeck;Nico Schlotterbeck;Borussia Dortmund;DEFENDER;4500000;146;3.4
+pl-k00096282;Matthijs;de Ligt;de Ligt;Matthijs de Ligt;Bayern München;DEFENDER;4200000;209;2.88
+pl-k00096744;Fredrik;Jensen;F. Jensen;Fredrik Jensen;FC Augsburg;MIDFIELDER;1000000;29;4.25
+pl-k00097629;Erhan;Masovic;Masovic;Erhan Masovic;VfL Bochum;DEFENDER;1500000;112;3.62
+pl-k00097778;Vasilios;Lampropoulos;Lampropoulos;Vasilios Lampropoulos;VfL Bochum;DEFENDER;1200000;24;4.21
+pl-k00097892;Jan;Olschowsky;Olschowsky;Jan Olschowsky;Bor. Mönchengladbach;GOALKEEPER;500000;14;3.63
+pl-k00097893;Diant;Ramaj;Ramaj;Diant Ramaj;Eintracht Frankfurt;GOALKEEPER;800000;8;2.5
+pl-k00097912;Noah;Weißhaupt;Weißhaupt;Noah Weißhaupt;SC Freiburg;MIDFIELDER;1000000;37;3.8
+pl-k00097936;Jacek;Goralski;Goralski;Jacek Goralski;VfL Bochum;MIDFIELDER;1500000;-2;5.25
+pl-k00097999;Maximilian;Bauer;M. Bauer;Maximilian Bauer;FC Augsburg;DEFENDER;1300000;59;3.89
+pl-k00098015;Paulo Otavio;Rosa da Silva;Paulo Otavio;Paulo Otavio;VfL Wolfsburg;DEFENDER;1700000;97;3.58
+pl-k00098049;Hannes;Wolf;H. Wolf;Hannes Wolf;Bor. Mönchengladbach;MIDFIELDER;1500000;25;4.5
+pl-k00098165;Mergim;Berisha;M. Berisha;Mergim Berisha;FC Augsburg;FORWARD;2200000;118;3.53
+pl-k00098670;Irvin;Cardona;Cardona;Irvin Cardona;FC Augsburg;FORWARD;1700000;20;3.83
+pl-k00098698;Randal;Kolo Muani;Kolo Muani;Randal Kolo Muani;Eintracht Frankfurt;FORWARD;2600000;275;2.91
+pl-k00099583;Alphonso;Davies;Davies;Alphonso Davies;Bayern München;DEFENDER;3400000;125;3.34
+pl-k00099757;Mattias;Svanberg;Svanberg;Mattias Svanberg;VfL Wolfsburg;MIDFIELDER;2600000;114;3.71
+pl-k00099791;Leandro;Barreiro;Barreiro;Leandro Barreiro;1. FSV Mainz 05;MIDFIELDER;1600000;159;3.3
+pl-k00099794;Amadou;Haidara;A. Haidara;Amadou Haidara;RB Leipzig;MIDFIELDER;2400000;106;3.44
+pl-k00099914;Josha;Vagnoman;Vagnoman;Josha Vagnoman;VfB Stuttgart;DEFENDER;1600000;85;3.53
+pl-k00099946;Nikolas;Nartey;Nartey;Nikolas Nartey;VfB Stuttgart;MIDFIELDER;1300000;18;3.92
+pl-k00100088;Jessic;Ngankam;Ngankam;Jessic Ngankam;Hertha BSC;FORWARD;1300000;46;3.95
+pl-k00100298;Mateu;Morey;Morey;Mateu Morey;Borussia Dortmund;DEFENDER;1700000;0;0.0
+pl-k00100299;Dan-Axel;Zagadou;Zagadou;Dan-Axel Zagadou;VfB Stuttgart;DEFENDER;1600000;38;3.9
+pl-k00100305;Anthony;Caci;Caci;Anthony Caci;1. FSV Mainz 05;DEFENDER;1600000;132;3.38
+pl-k00100560;Mitchel;Bakker;Bakker;Mitchel Bakker;Bayer 04 Leverkusen;DEFENDER;1800000;74;3.95
+pl-k00100598;Youssoufa;Moukoko;Moukoko;Youssoufa Moukoko;Borussia Dortmund;FORWARD;1700000;122;3.25
+pl-k00100604;Mehmet;Aydin;Aydin;Mehmet Aydin;FC Schalke 04;MIDFIELDER;800000;18;4.21
+pl-k00100606;Jan;Thielmann;Thielmann;Jan Thielmann;1. FC Köln;MIDFIELDER;1700000;76;3.41
+pl-k00100768;Lilian;Egloff;Egloff;Lilian Egloff;VfB Stuttgart;MIDFIELDER;500000;12;4.5
+pl-k00100794;Callum;Hudson-Odoi;Hudson-Odoi;Callum Hudson-Odoi;Bayer 04 Leverkusen;FORWARD;3200000;13;4.33
+pl-k00100804;Ozan;Kabak;Kabak;Ozan Kabak;TSG Hoffenheim;DEFENDER;2000000;122;3.54
+pl-k00101253;Mads;Pedersen;Pedersen;Mads Pedersen;FC Augsburg;DEFENDER;1400000;38;4.16
+pl-k00101300;Agustin;Rogel;Rogel;Agustin Rogel;Hertha BSC;DEFENDER;1600000;15;4.29
+pl-k00101460;Keven;Schlotterbeck;K. Schlotterbeck;Keven Schlotterbeck;VfL Bochum;DEFENDER;1500000;42;3.94
+pl-k00101481;Daichi;Kamada;Kamada;Daichi Kamada;Eintracht Frankfurt;MIDFIELDER;2400000;191;3.26
+pl-k00101614;Diogo Filipe;Monteiro Pinto Leite;Diogo Leite;Diogo Leite;1. FC Union Berlin;DEFENDER;1800000;105;3.48
+pl-k00101673;Lukas;Nmecha;L. Nmecha;Lukas Nmecha;VfL Wolfsburg;FORWARD;2500000;44;4.0
+pl-k00101721;Woo-Yeong;Jeong;Jeong;Woo-Yeong Jeong;SC Freiburg;MIDFIELDER;2000000;54;3.93
+pl-k00101728;Dejan;Ljubicic;Ljubicic;Dejan Ljubicic;1. FC Köln;MIDFIELDER;2600000;130;3.38
+pl-k00101783;Ruben;Vargas;Vargas;Ruben Vargas;FC Augsburg;MIDFIELDER;1600000;61;3.89
+pl-k00102067;Nicolas;Cozza;Cozza;Nicolas Cozza;VfL Wolfsburg;DEFENDER;2200000;12;3.0
+pl-k00102099;Wilfried;Kanga;Kanga;Wilfried Kanga;Hertha BSC;FORWARD;2000000;39;4.11
+pl-k00102212;Antonios;Papadopoulos;Papadopoulos;Antonios Papadopoulos;Borussia Dortmund;MIDFIELDER;500000;2;0.0
+pl-k00102215;Andrey;Lunev;Lunev;Andrey Lunev;Bayer 04 Leverkusen;GOALKEEPER;800000;4;3.5
+pl-k00102402;Donyell;Malen;Malen;Donyell Malen;Borussia Dortmund;FORWARD;3500000;149;3.33
+pl-k00102509;Ilia;Gruev;Gruev;Ilia Gruev;Werder Bremen;MIDFIELDER;1300000;82;3.72
+pl-k00102599;Justin;Heekeren;Heekeren;Justin Heekeren;FC Schalke 04;GOALKEEPER;600000;0;0.0
+pl-k00102731;Josip;Stanisic;Stanisic;Josip Stanisic;Bayern München;DEFENDER;1500000;30;3.71
+pl-k00102795;Luca;Philipp;L. Philipp;Luca Philipp;TSG Hoffenheim;GOALKEEPER;500000;0;0.0
+pl-k00102800;Christoph;Baumgartner;Baumgartner;Christoph Baumgartner;TSG Hoffenheim;MIDFIELDER;3200000;184;3.44
+pl-k00102804;Ilay;Elmkies;Elmkies;Ilay Elmkies;TSG Hoffenheim;MIDFIELDER;800000;0;0.0
+pl-k00102817;Ritsu;Doan;Doan;Ritsu Doan;SC Freiburg;MIDFIELDER;2200000;184;3.29
+pl-k00102978;Finn Ole;Becker;Becker;Finn Ole Becker;TSG Hoffenheim;MIDFIELDER;1200000;34;3.67
+pl-k00103374;Patrick;Osterhage;Osterhage;Patrick Osterhage;VfL Bochum;MIDFIELDER;1000000;42;4.04
+pl-k00103695;Robert;Gumny;Gumny;Robert Gumny;FC Augsburg;DEFENDER;1200000;59;3.96
+pl-k00103754;Dominik;Szoboszlai;Szoboszlai;Dominik Szoboszlai;RB Leipzig;MIDFIELDER;2800000;201;3.1
+pl-k00103878;Omar;Marmoush;Marmoush;Omar Marmoush;VfL Wolfsburg;FORWARD;1600000;77;3.95
+pl-k00103901;Fynn;Otto;Otto;Fynn Otto;Eintracht Frankfurt;DEFENDER;500000;0;0.0
+pl-k00104008;Niklas;Tauer;Tauer;Niklas Tauer;FC Schalke 04;DEFENDER;1000000;2;4.0
+pl-k00104317;Angelo;Stiller;Stiller;Angelo Stiller;TSG Hoffenheim;MIDFIELDER;1700000;47;3.81
+pl-k00104484;Andreas;Hanche-Olsen;Hanche-Olsen;Andreas Hanche-Olsen;1. FSV Mainz 05;DEFENDER;1200000;88;3.32
+pl-k00104485;Julian;Ryerson;Ryerson;Julian Ryerson;Borussia Dortmund;DEFENDER;1800000;135;3.47
+pl-k00104684;Jordi;Osei-Tutu;Osei-Tutu;Jordi Osei-Tutu;VfL Bochum;MIDFIELDER;1500000;22;4.44
+pl-k00104978;Adam;Hlozek;Hlozek;Adam Hlozek;Bayer 04 Leverkusen;FORWARD;2400000;70;4.03
+pl-k00105180;Jamie;Leweling;Leweling;Jamie Leweling;1. FC Union Berlin;FORWARD;1800000;36;0.0
+pl-k00105274;Lasse;Rieß;Rieß;Lasse Rieß;1. FSV Mainz 05;GOALKEEPER;500000;0;0.0
+pl-k00105275;Stanley;Nsoki;Nsoki;Stanley Nsoki;TSG Hoffenheim;DEFENDER;1800000;29;4.03
+pl-k00105434;Noussair;Mazraoui;Mazraoui;Noussair Mazraoui;Bayern München;DEFENDER;2800000;68;3.5
+pl-k00105471;Jacob;Italiano;Italiano;Jacob Italiano;Bor. Mönchengladbach;FORWARD;500000;0;0.0
+pl-k00105564;Konstantinos;Mavropanos;Mavropanos;Konstantinos Mavropanos;VfB Stuttgart;DEFENDER;2300000;134;3.38
+pl-k00105566;Moritz;Broschinski;Broschinski;Moritz Broschinski;VfL Bochum;FORWARD;600000;26;4.0
+pl-k00105755;Moussa;Diaby;Diaby;Moussa Diaby;Bayer 04 Leverkusen;FORWARD;5000000;217;3.2
+pl-k00105787;Sepp;van den Berg;van den Berg;Sepp van den Berg;FC Schalke 04;DEFENDER;1700000;30;3.88
+pl-k00105841;Karim;Adeyemi;Adeyemi;Karim Adeyemi;Borussia Dortmund;FORWARD;4200000;127;3.38
+pl-k00105845;Noah;Atubolu;Atubolu;Noah Atubolu;SC Freiburg;GOALKEEPER;500000;0;0.0
+pl-k00105939;Eduardo Filipe;Quaresma Vieira Coimbra Simoes;Eduardo Quaresma;Eduardo Quaresma;TSG Hoffenheim;DEFENDER;1400000;2;5.5
+pl-k00105999;Jonas;Wind;Wind;Jonas Wind;VfL Wolfsburg;FORWARD;2300000;77;3.88
+pl-k00106087;Ko;Itakura;Itakura;Ko Itakura;Bor. Mönchengladbach;MIDFIELDER;2200000;87;3.48
+pl-k00106358;Hiroki;Ito;H. Ito;Hiroki Ito;VfB Stuttgart;DEFENDER;1600000;157;3.24
+pl-k00106781;Iago;Amaral Borduchi;Iago;Iago;FC Augsburg;DEFENDER;1800000;55;3.83
+pl-k00106928;Felix;Nmecha;F. Nmecha;Felix Nmecha;VfL Wolfsburg;MIDFIELDER;800000;112;3.6
+pl-k00107675;Tjark;Ernst;Ernst;Tjark Ernst;Hertha BSC;GOALKEEPER;600000;15;1.5
+pl-k00107677;Philipp;Schulze;Schulze;Philipp Schulze;VfL Wolfsburg;GOALKEEPER;500000;0;0.0
+pl-k00107684;Luca;Netz;Netz;Luca Netz;Bor. Mönchengladbach;DEFENDER;1600000;52;3.86
+pl-k00107692;Jamal;Musiala;Musiala;Jamal Musiala;Bayern München;MIDFIELDER;4200000;246;3.07
+pl-k00107693;Florian;Wirtz;Wirtz;Florian Wirtz;Bayer 04 Leverkusen;MIDFIELDER;5000000;105;2.86
+pl-k00108298;Marton;Dardai;M. Dardai;Marton Dardai;Hertha BSC;DEFENDER;1200000;47;3.79
+pl-k00110166;Conor;Noß;Noß;Conor Noß;Bor. Mönchengladbach;MIDFIELDER;600000;0;0.0
+pl-k00110177;Evan;Ndicka;Ndicka;Evan Ndicka;Eintracht Frankfurt;DEFENDER;2600000;109;3.63
+pl-k00110224;Kunde;Malong;Kunde;Kunde;VfL Bochum;MIDFIELDER;1500000;29;3.88
+pl-k00110243;Ryan;Gravenberch;Gravenberch;Ryan Gravenberch;Bayern München;MIDFIELDER;3500000;52;3.6
+pl-k00110258;Delano;Burgzorg;Burgzorg;Delano Burgzorg;1. FSV Mainz 05;FORWARD;1000000;15;4.5
+pl-k00110417;Marcel;Lotka;Lotka;Marcel Lotka;Borussia Dortmund;GOALKEEPER;700000;0;0.0
+pl-k00110469;Tim;Maciejewski;Maciejewski;Tim Maciejewski;1. FC Union Berlin;MIDFIELDER;500000;0;0.0
+pl-k00110496;Florian;Schock;Schock;Florian Schock;VfB Stuttgart;GOALKEEPER;500000;0;0.0
+pl-k00110979;Faride;Alidou;Alidou;Faride Alidou;Eintracht Frankfurt;FORWARD;1400000;35;2.5
+pl-k00111157;Georg;Strauch;Strauch;Georg Strauch;1. FC Köln;DEFENDER;500000;0;0.0
+pl-k00111186;Paul;Grave;Grave;Paul Grave;VfL Bochum;GOALKEEPER;500000;0;0.0
+pl-k00111367;Mohamed;Simakan;Simakan;Mohamed Simakan;RB Leipzig;DEFENDER;3000000;116;3.21
+pl-k00111835;Marlon;Mustapha;Mustapha;Marlon Mustapha;1. FSV Mainz 05;FORWARD;800000;8;4.5
+pl-k00111920;Jan;Schröder;Schröder;Jan Schröder;Eintracht Frankfurt;DEFENDER;500000;0;0.0
+pl-k00111937;Tim;Lemperle;Lemperle;Tim Lemperle;1. FC Köln;MIDFIELDER;1000000;24;0.0
+pl-k00112668;Sebastiaan;Bornauw;Bornauw;Sebastiaan Bornauw;VfL Wolfsburg;DEFENDER;2200000;98;3.57
+pl-k00112873;Filip;Uremovic;Uremovic;Filip Uremovic;Hertha BSC;DEFENDER;1600000;23;4.21
+pl-k00113055;Henning;Matriciani;Matriciani;Henning Matriciani;FC Schalke 04;DEFENDER;1000000;30;4.16
+pl-k00113085;Mesut;Kesik;Kesik;Mesut Kesik;Hertha BSC;MIDFIELDER;500000;0;0.0
+pl-k00113174;Leo;Greiml;Greiml;Leo Greiml;FC Schalke 04;DEFENDER;1200000;-6;4.8
+pl-k00113185;Joe;Scally;Scally;Joe Scally;Bor. Mönchengladbach;DEFENDER;1400000;62;3.92
+pl-k00114317;Rodrigo;Zalazar;Zalazar;Rodrigo Zalazar;FC Schalke 04;MIDFIELDER;1800000;71;3.72
+pl-k00114601;Edmond;Tapsoba;Tapsoba;Edmond Tapsoba;Bayer 04 Leverkusen;DEFENDER;2700000;170;3.28
+pl-k00114612;Lucas;Silva Melo;Tuta;Tuta;Eintracht Frankfurt;DEFENDER;2200000;115;3.65
+pl-k00114616;Andras;Schäfer;Schäfer;Andras Schäfer;1. FC Union Berlin;MIDFIELDER;1400000;58;3.36
+pl-k00114723;Kouadio;Koné;Koné;Kouadio Koné;Bor. Mönchengladbach;MIDFIELDER;2200000;95;3.75
+pl-k00116369;Eric Junior;Dina Ebimbe;Dina Ebimbe;Eric Junior Dina Ebimbe;Eintracht Frankfurt;MIDFIELDER;1700000;77;3.38
+pl-k00116616;Tiago;Barreiros de Melo Tomas;Tiago Tomas;Tiago Tomas;VfB Stuttgart;FORWARD;2600000;50;4.24
+pl-k00116714;Enzo;Millot;Millot;Enzo Millot;VfB Stuttgart;MIDFIELDER;600000;51;3.89
+pl-k00116717;Kelian;Nsona;Nsona;Kelian Nsona;Hertha BSC;FORWARD;600000;0;0.0
+pl-k00116718;Nathanael;Mbuku;Mbuku;Nathanael Mbuku;FC Augsburg;FORWARD;800000;4;0.0
+pl-k00117298;Jens;Stage;Stage;Jens Stage;Werder Bremen;MIDFIELDER;1800000;97;3.76
+pl-k00117583;Nathan;Ngoumou;Ngoumou;Nathan Ngoumou;Bor. Mönchengladbach;MIDFIELDER;1500000;22;4.63
+pl-k00118051;Mio;Backhaus;Backhaus;Mio Backhaus;Werder Bremen;GOALKEEPER;500000;0;0.0
+pl-k00118068;Brajan;Gruda;Gruda;Brajan Gruda;1. FSV Mainz 05;MIDFIELDER;700000;4;0.0
+pl-k00118073;Umut;Tohumcu;Tohumcu;Umut Tohumcu;TSG Hoffenheim;MIDFIELDER;50000;18;3.67
+pl-k00118089;Kelvin;Yeboah;Yeboah;Kelvin Yeboah;FC Augsburg;FORWARD;1000000;19;4.63
+pl-k00118285;Kilian;Fischer;Fischer;Kilian Fischer;VfL Wolfsburg;DEFENDER;1200000;25;3.75
+pl-k00118291;Ansgar;Knauff;Knauff;Ansgar Knauff;Eintracht Frankfurt;MIDFIELDER;1800000;66;3.72
+pl-k00118312;Justin;Njinmah;Njinmah;Justin Njinmah;Borussia Dortmund;FORWARD;500000;2;0.0
+pl-k00118734;Tanguy;Coulibaly;Coulibaly;Tanguy Coulibaly;VfB Stuttgart;MIDFIELDER;1200000;46;3.33
+pl-k00118755;Giovanni;Reyna;Reyna;Giovanni Reyna;Borussia Dortmund;MIDFIELDER;3500000;80;3.58
+pl-k00119149;Chidera;Ejuke;Ejuke;Chidera Ejuke;Hertha BSC;FORWARD;1700000;53;3.67
+pl-k00119249;Mathias;Olesen;Olesen;Mathias Olesen;1. FC Köln;MIDFIELDER;500000;20;4.33
+pl-k00119339;Denis;Huseinbasic;Huseinbasic;Denis Huseinbasic;1. FC Köln;MIDFIELDER;700000;81;3.45
+pl-k00119357;Kenneth;Schmidt;K. Schmidt;Kenneth Schmidt;SC Freiburg;DEFENDER;500000;16;3.5
+pl-k00119414;Eric;Martel;Martel;Eric Martel;1. FC Köln;MIDFIELDER;1300000;117;3.42
+pl-k00119669;Fisnik;Asllani;Asllani;Fisnik Asllani;TSG Hoffenheim;FORWARD;500000;18;3.0
+pl-k00119706;Eren;Dinkci;Dinkci;Eren Dinkci;Werder Bremen;FORWARD;800000;24;4.75
+pl-k00119825;Amine;Adli;Adli;Amine Adli;Bayer 04 Leverkusen;FORWARD;1700000;90;3.58
+pl-k00119838;Sidi;Sané;Sané;Sidi Sané;FC Schalke 04;FORWARD;600000;2;0.0
+pl-k00119858;Merlin;Röhl;Röhl;Merlin Röhl;SC Freiburg;MIDFIELDER;1000000;5;4.0
+pl-k00120073;Silas;Katompa Mvumpa;Silas;Silas;VfB Stuttgart;MIDFIELDER;2600000;100;3.82
+pl-k00120081;Odilon;Kossounou;Kossounou;Odilon Kossounou;Bayer 04 Leverkusen;DEFENDER;1900000;89;3.42
+pl-k00121212;Hrvoje;Smolcic;Smolcic;Hrvoje Smolcic;Eintracht Frankfurt;DEFENDER;1500000;10;4.3
+pl-k00121222;Ibrahima;Cissé;Cissé;Ibrahima Cissé;FC Schalke 04;DEFENDER;600000;0;0.0
+pl-k00121265;Jesper;Lindström;Lindström;Jesper Lindström;Eintracht Frankfurt;MIDFIELDER;2500000;148;3.43
+pl-k00121375;David;Colina;Colina;David Colina;FC Augsburg;MIDFIELDER;1000000;15;4.5
+pl-k00121875;Juan José;Perea;Perea;Juan José Perea;VfB Stuttgart;FORWARD;1500000;27;4.08
+pl-k00121927;Jeremie;Frimpong;Frimpong;Jeremie Frimpong;Bayer 04 Leverkusen;DEFENDER;2500000;261;3.01
+pl-k00123844;Piero;Hincapie;Hincapie;Piero Hincapie;Bayer 04 Leverkusen;DEFENDER;2200000;112;3.47
+pl-k00124479;Thomas;Kastanaras;Kastanaras;Thomas Kastanaras;VfB Stuttgart;FORWARD;700000;10;3.5
+pl-k00124680;Lukas;Ambros;Ambros;Lukas Ambros;VfL Wolfsburg;MIDFIELDER;500000;2;0.0
+pl-k00124927;Jude;Bellingham;Bellingham;Jude Bellingham;Borussia Dortmund;MIDFIELDER;5500000;195;3.25
+pl-k00124964;Göktan;Gürpüz;Gürpüz;Göktan Gürpüz;Borussia Dortmund;MIDFIELDER;500000;0;0.0
+pl-k00124999;Lee;Buchanan;Buchanan;Lee Buchanan;Werder Bremen;DEFENDER;1200000;45;4.25
+pl-k00125043;Nahuel;Noll;Noll;Nahuel Noll;TSG Hoffenheim;GOALKEEPER;500000;0;0.0
+pl-k00125269;Patrick;Wimmer;Wimmer;Patrick Wimmer;VfL Wolfsburg;MIDFIELDER;2400000;118;3.54
+pl-k00125604;Jakub;Kaminski;Kaminski;Jakub Kaminski;VfL Wolfsburg;MIDFIELDER;2000000;110;3.73
+pl-k00125994;Kevin;Paredes;Paredes;Kevin Paredes;VfL Wolfsburg;MIDFIELDER;800000;37;4.17
+pl-k00126342;Johannes;Schenk;Schenk;Johannes Schenk;Bayern München;GOALKEEPER;500000;0;0.0
+pl-k00126524;Alou;Kuol;Kuol;Alou Kuol;VfB Stuttgart;FORWARD;800000;2;0.0
+pl-k00126553;Ömer;Beyaz;Beyaz;Ömer Beyaz;VfB Stuttgart;MIDFIELDER;500000;0;0.0
+pl-k00129212;Kiliann;Sildillia;Sildillia;Kiliann Sildillia;SC Freiburg;DEFENDER;700000;69;3.83
+pl-k00129627;Dikeni;Salifou;Salifou;Dikeni Salifou;Werder Bremen;MIDFIELDER;500000;2;0.0
+pl-k00129784;Robert;Wagner;R. Wagner;Robert Wagner;SC Freiburg;MIDFIELDER;500000;8;0.0
+pl-k00130356;Maxence;Lacroix;Lacroix;Maxence Lacroix;VfL Wolfsburg;DEFENDER;2600000;93;3.45
+pl-k00130512;Jannik;Horz;Horz;Jannik Horz;Eintracht Frankfurt;GOALKEEPER;500000;0;0.0
+pl-k00130593;Moritz;Jenz;Jenz;Moritz Jenz;FC Schalke 04;DEFENDER;1800000;63;3.14
+pl-k00130879;Joshua;Eze;Eze;Joshua Eze;Bayer 04 Leverkusen;MIDFIELDER;500000;0;0.0
+pl-k00131539;Josko;Gvardiol;Gvardiol;Josko Gvardiol;RB Leipzig;DEFENDER;3400000;131;3.33
+pl-k00131588;Jamie;Gittens;Gittens;Jamie Gittens;Borussia Dortmund;FORWARD;1700000;39;3.92
+pl-k00131858;Caden;Clark;Clark;Caden Clark;RB Leipzig;MIDFIELDER;500000;0;0.0
+pl-k00131888;Bartol;Franjic;Franjic;Bartol Franjic;VfL Wolfsburg;MIDFIELDER;1700000;11;4.0
+pl-k00131913;Derry;Scherhant;Scherhant;Derry Scherhant;Hertha BSC;FORWARD;500000;15;4.25
+pl-k00132187;Tom;Bischof;Bischof;Tom Bischof;TSG Hoffenheim;MIDFIELDER;600000;21;4.17
+pl-k00132190;Dzenan;Pejcinovic;Pejcinovic;Dzenan Pejcinovic;VfL Wolfsburg;MIDFIELDER;600000;2;0.0
+pl-k00132205;Lukas;Ullrich;Ullrich;Lukas Ullrich;Hertha BSC;DEFENDER;500000;0;0.0
+pl-k00132207;Nelson;Weiper;Weiper;Nelson Weiper;1. FSV Mainz 05;FORWARD;500000;22;4.0
+pl-k00132303;Oliver;Christensen;Christensen;Oliver Christensen;Hertha BSC;GOALKEEPER;2000000;199;3.06
+pl-k00133488;Justin;Che;Che;Justin Che;TSG Hoffenheim;DEFENDER;1000000;0;0.0
+pl-k00133553;Arne;Engels;Engels;Arne Engels;FC Augsburg;MIDFIELDER;800000;67;3.67
+pl-k00133799;Soumaila;Coulibaly;Coulibaly;Soumaila Coulibaly;Borussia Dortmund;DEFENDER;700000;-4;5.0
+pl-k00133982;Paxten;Aaronson;Aaronson;Paxten Aaronson;Eintracht Frankfurt;MIDFIELDER;800000;17;3.33
+pl-k00134219;Abdoulaye;Kamara;Kamara;Abdoulaye Kamara;Borussia Dortmund;MIDFIELDER;500000;0;0.0
+pl-k00134830;Noah;Mbamba;Mbamba;Noah Mbamba;Bayer 04 Leverkusen;DEFENDER;1000000;2;0.0
+pl-k00136357;Tom;Rothe;Rothe;Tom Rothe;Borussia Dortmund;DEFENDER;900000;5;0.0
+pl-k00136371;Jonas;Nickisch;Nickisch;Jonas Nickisch;RB Leipzig;GOALKEEPER;500000;0;0.0
+pl-k00136374;Sanoussy;Ba;Ba;Sanoussy Ba;RB Leipzig;MIDFIELDER;500000;2;0.0
+pl-k00136517;Oscar;Fraulo;O. Fraulo;Oscar Fraulo;Bor. Mönchengladbach;MIDFIELDER;500000;4;0.0
+pl-k00137168;Yvandro;Borges Sanches;Borges Sanches;Yvandro Borges Sanches;Bor. Mönchengladbach;FORWARD;500000;6;0.0
+pl-k00137290;Aaron;Zehnter;Zehnter;Aaron Zehnter;FC Augsburg;DEFENDER;500000;2;0.0
+pl-k00137935;Fabio;Chiarodia;Chiarodia;Fabio Chiarodia;Werder Bremen;DEFENDER;500000;6;4.0
+pl-k00137945;Robert;Kwasigroch;Kwasigroch;Robert Kwasigroch;Hertha BSC;GOALKEEPER;500000;0;0.0
+pl-k00137950;Julian;Eitschberger;Eitschberger;Julian Eitschberger;Hertha BSC;DEFENDER;500000;2;0.0
+pl-k00138020;Aljoscha;Kemlein;Kemlein;Aljoscha Kemlein;1. FC Union Berlin;MIDFIELDER;500000;0;0.0
+pl-k00138196;Matteo;Bignetti;Bignetti;Matteo Bignetti;Eintracht Frankfurt;GOALKEEPER;500000;0;0.0
+pl-k00138202;Muhammed;Damar;Damar;Muhammed Damar;TSG Hoffenheim;MIDFIELDER;600000;8;4.25
+pl-k00138530;Paul;Wanner;Wanner;Paul Wanner;Bayern München;MIDFIELDER;700000;4;0.0
+pl-k00138699;Mathys;Tel;Tel;Mathys Tel;Bayern München;FORWARD;1800000;63;3.33
+pl-k00139304;Micky;van de Ven;van de Ven;Micky van de Ven;VfL Wolfsburg;DEFENDER;1200000;171;3.3
+pl-k00139323;Timo;Schlieck;Schlieck;Timo Schlieck;RB Leipzig;GOALKEEPER;500000;0;0.0
+pl-k00140720;Mohammed;Tolba;M. Tolba;Mohammed Tolba;VfL Bochum;DEFENDER;500000;0;0.0
+pl-k00144754;Renato;Palma Veiga;Renato Veiga;Renato Veiga;FC Augsburg;MIDFIELDER;600000;14;4.22
+pl-k00146959;Julien;Duranville;Duranville;Julien Duranville;Borussia Dortmund;FORWARD;600000;2;0.0
+pl-k00150675;Soichiro;Kozuki;Kozuki;Soichiro Kozuki;FC Schalke 04;FORWARD;500000;25;3.4
+pl-k00150838;Nikola;Soldo;Soldo;Nikola Soldo;1. FC Köln;DEFENDER;1200000;14;3.93
+pl-k00152598;Simon;Simoni;Simoni;Simon Simoni;Eintracht Frankfurt;GOALKEEPER;500000;0;0.0
+pl-k00152828;Dion Drena;Beljo;Beljo;Dion Drena Beljo;FC Augsburg;FORWARD;1500000;46;4.03

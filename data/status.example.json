@@ -1,0 +1,18 @@
+{
+  "_hinweis": "Status pro Spieler für EINEN Spieltag, gepflegt aus Fr/Sa-News (ligainsider o.ä.). Werte: start / doubt / bench / out. Nicht gelistete Spieler = Default 'doubt'. Spieler, deren Verein nicht spielt, werden automatisch 'out'.",
+  "Kramaric": "start",
+  "Baumgartner": "start",
+  "Aleix Garcia": "start",
+  "S. El Mala": "start",
+  "Coufal": "start",
+  "Vuskovic": "start",
+  "N. Schlotterbeck": "doubt",
+  "Raum": "start",
+  "Kane": "start",
+  "Y. Diomande": "start",
+  "Touré": "doubt",
+  "Backhaus": "start",
+  "Batz": "bench",
+  "Behrens": "bench",
+  "Niehues": "bench"
+}
