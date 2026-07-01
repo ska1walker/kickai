@@ -24,12 +24,34 @@ create table if not exists matchday_status (
 
 create index if not exists idx_status_md on matchday_status (season, matchday);
 
+-- News-Memory: täglich gesammelte Bundesliga-News für den Kaderbau.
+-- durable = dauerhafter Fakt (Transfer, Trainer, Verletzung m. Dauer) → verfällt nicht;
+-- sonst flüchtiges Signal (Gerücht, Form) → wird nach Aktualität abgewertet.
+create table if not exists news_log (
+  id         bigint generated always as identity primary key,
+  news_date  date not null default current_date,
+  club       text,                          -- kanonischer Vereinscode (nullable)
+  player     text,
+  type       text not null check (type in
+             ('transfer_in','transfer_out','coach','injury','suspension','return','preseason_form','other')),
+  durable    boolean not null default false,
+  summary    text not null,
+  source     text,
+  dedup_key  text not null unique,          -- gruppiert dieselbe Story über Tage
+  created_at timestamptz not null default now()
+);
+create index if not exists idx_news_created on news_log (created_at desc);
+create index if not exists idx_news_club on news_log (club);
+
 -- Einzelnutzer-App (Kai): RLS an, anon darf lesen/schreiben.
 -- Für Mehrbenutzer später auf auth.uid() umstellen.
 alter table squad_players  enable row level security;
 alter table matchday_status enable row level security;
+alter table news_log        enable row level security;
 
 drop policy if exists "anon all squad"  on squad_players;
 drop policy if exists "anon all status" on matchday_status;
+drop policy if exists "anon all news"   on news_log;
 create policy "anon all squad"  on squad_players  for all using (true) with check (true);
 create policy "anon all status" on matchday_status for all using (true) with check (true);
+create policy "anon all news"   on news_log        for all using (true) with check (true);

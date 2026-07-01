@@ -8,8 +8,8 @@ export async function middleware(req: NextRequest) {
   if (!authEnabled()) return NextResponse.next(); // Schutz deaktiviert
 
   const { pathname } = req.nextUrl;
-  // Login-Seite und Login-API sind immer erreichbar.
-  if (pathname === "/login" || pathname === "/api/login") {
+  // Login-Seite/-API und der Cron-Endpoint (per CRON_SECRET geschützt) frei.
+  if (pathname === "/login" || pathname === "/api/login" || pathname === "/api/collect-news") {
     return NextResponse.next();
   }
 

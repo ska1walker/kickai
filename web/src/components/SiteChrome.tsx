@@ -8,6 +8,7 @@ function Nav() {
     { href: "/matchday", label: "Spieltag" },
     { href: "/aufbau", label: "Aufbau" },
     { href: "/squad", label: "Kader" },
+    { href: "/news", label: "News" },
     { href: "/anleitung", label: "Anleitung" },
     { href: "/methodik", label: "Methodik" },
   ];

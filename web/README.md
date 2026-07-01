@@ -37,7 +37,25 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   Optional fließt eine **Team-Tier-Analyse** ein (`src/app/api/team-tiers`,
   web_search): erwartete Spitzen-/Überraschungs-/Mittel-/Abstiegsteams — günstige
   Spieler erwarteter Überraschungsteams werden höher gewichtet.
+- `/news` — **News-Memory**: täglich gesammelte Transfer-/Kader-News aus
+  Supabase (`news_log`), mit Aktualitäts-Gewicht (dauerhafte Fakten = 100%,
+  flüchtige Signale mit Halbwertszeit fallend).
 - `/anleitung` — Schritt-für-Schritt-Ablauf (Kader → Spieltag).
+
+## News-Sammler (täglicher Cron)
+
+`vercel.json` definiert einen täglichen Cron (06:00) auf `/api/collect-news`.
+Die Route lässt Claude per web_search die wichtigsten BL-News der letzten ~48h
+sammeln (Transfers, Trainer, Rückkehrer, Verletzungen/Sperren, Vorbereitung) und
+schreibt strukturierte Einträge (`type`, `durable`, `summary`, `source`) in
+`news_log` (upsert per `dedup_key`, gruppiert dieselbe Story über Tage).
+Geschützt per `CRON_SECRET` (Vercel sendet ihn als Bearer automatisch; ohne
+Secret ist der Endpoint deaktiviert). Aktivieren:
+1. `news_log`-Teil aus `supabase/schema.sql` im SQL-Editor ausführen.
+2. `CRON_SECRET` (beliebiger String) in Vercel-Env setzen; Cron aktiviert sich
+   mit dem nächsten Deploy. Manuell testen:
+   `curl -H "Authorization: Bearer $CRON_SECRET" https://<app>/api/collect-news`.
+Gewichtung/Weiterverwendung: `src/lib/news.ts` (`recencyWeight`).
 
 ## KI-Statusvorschlag mit eigener News-Recherche (optional)
 
