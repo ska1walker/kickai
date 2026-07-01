@@ -16,6 +16,9 @@ export default function Home() {
           <strong className="text-ink">jeden Spieltag nur Spieler aufstellen, die spielen</strong>.
           Der Optimierer zieht den Spielplan live von OpenLigaDB.
         </p>
+        <Link href="/anleitung" className="mt-3 inline-block text-sm text-signal hover:underline">
+          So funktioniert der ganze Ablauf →
+        </Link>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">
