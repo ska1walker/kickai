@@ -11,14 +11,32 @@ export const maxDuration = 120; // Web-Recherche kann mehrere Sekunden dauern
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
+// Harte Quellen-Whitelist: die Suche durchsucht NUR diese Domains. Per Env
+// NEWS_ALLOWED_DOMAINS (kommagetrennt) überschreibbar; sonst diese Standardliste
+// spezialisierter deutscher Aufstellungs-/Verletzungsquellen.
+const DEFAULT_DOMAINS = [
+  "kicker.de",
+  "ligainsider.de",
+  "transfermarkt.de",
+  "sport1.de",
+  "bundesliga.com",
+  "fussballdaten.de",
+];
+const ALLOWED_DOMAINS = (process.env.NEWS_ALLOWED_DOMAINS || "")
+  .split(",")
+  .map((d) => d.trim())
+  .filter(Boolean);
+const DOMAINS = ALLOWED_DOMAINS.length ? ALLOWED_DOMAINS : DEFAULT_DOMAINS;
+
 // Web-Search-Tool-Version passend zum Modell (Dynamic Filtering auf Opus 4.x /
-// Sonnet 4.6, sonst die Basis-Variante).
+// Sonnet 4.6, sonst die Basis-Variante). allowed_domains beschränkt hart.
 function webSearchTool(maxUses: number) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
     max_uses: maxUses,
+    allowed_domains: DOMAINS,
   };
 }
 
@@ -55,8 +73,8 @@ Vorgehen:
 1. Gehe die Vereine der Reihe nach durch. Mache PRO VEREIN GENAU EINE gezielte Suche
    nach der aktuellen voraussichtlichen Aufstellung / Verletzungs- und Sperren-News
    zum genannten Spiel (Gegner + Datum), z.B. "voraussichtliche Aufstellung
-   <Verein> <Gegner>". Nutze das web_search-Tool. Bevorzugte Quellen: kicker.de,
-   ligainsider.de, transfermarkt.de, offizielle Vereinskanäle.
+   <Verein> <Gegner>". Nutze das web_search-Tool. Die Suche ist technisch auf diese
+   Quellen beschränkt: ${DOMAINS.join(", ")}.
 2. Prüfe im Suchergebnis NUR die für diesen Verein aufgelisteten Kaderspieler und
    leite je Spieler den Status ab:
    - "start": klar gesetzt / Stammelf

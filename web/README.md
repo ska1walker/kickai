@@ -36,6 +36,12 @@ start/doubt/bench/out vor (`src/app/api/suggest-status`, server-seitig via
 Kein Einfügen nötig; optional kann eigener News-Text als Zusatzkontext ergänzt
 werden. Nur Vorschlag — Kai bestätigt (Decision-Support, kein Bot).
 
+Die Suche ist **hart auf eine Quellen-Whitelist** beschränkt (`allowed_domains`):
+Standard `kicker.de, ligainsider.de, transfermarkt.de, sport1.de, bundesliga.com,
+fussballdaten.de`, per `NEWS_ALLOWED_DOMAINS` (kommagetrennt) überschreibbar. Die
+Anfrage gruppiert den Kader nach Verein → eine Suche pro Verein, nur die
+Kaderspieler zählen.
+
 Aktiv nur mit gesetztem `ANTHROPIC_API_KEY`; ohne Key liefert die Route 501 und der
 Button bleibt wirkungslos. Modell per `ANTHROPIC_MODEL` überschreibbar (Default
 `claude-opus-4-8`; die Tool-Version wählt automatisch Dynamic Filtering auf
