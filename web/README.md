@@ -26,6 +26,15 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   per Suche hinzufügen/entfernen, Verein/Position/MV/exp. Punkte auto-gefüllt.
   Live-Validierung von Budget (42,5 Mio) und Struktur (3-7-7-5). Auto-Speichern.
 
+## KI-Statusvorschlag (optional)
+
+Auf `/matchday` schlägt ein KI-Assistent aus eingefügtem Aufstellungs-News-Text
+pro Spieler start/doubt/bench/out vor (`src/app/api/suggest-status`, server-seitig
+via `@anthropic-ai/sdk`, strukturierter Tool-Output). Nur Vorschlag — Kai
+bestätigt (Decision-Support, kein Bot). Aktiv nur mit gesetztem `ANTHROPIC_API_KEY`;
+ohne Key liefert die Route 501 und der Button bleibt wirkungslos. Modell per
+`ANTHROPIC_MODEL` überschreibbar (Default `claude-opus-4-8`).
+
 ## Architektur
 
 ```
@@ -71,6 +80,8 @@ den Vercel-Projekt-Einstellungen deshalb setzen:
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-Key aus Supabase → Settings → API>
    APP_USER=kai                # optional, Default "kai"
    APP_PASSWORD=<dein Passwort> # aktiviert den Passwortschutz (Basic Auth)
+   ANTHROPIC_API_KEY=<key>      # optional, aktiviert den KI-Statusvorschlag
+   ANTHROPIC_MODEL=             # optional, Default claude-opus-4-8
    ```
    (`.env.local` ist gitignored und landet NICHT bei Vercel — daher hier setzen.)
 

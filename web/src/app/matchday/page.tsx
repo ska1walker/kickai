@@ -44,6 +44,15 @@ export default function MatchdayPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // KI-Statusvorschlag aus News-Text
+  const [aiOpen, setAiOpen] = useState(false);
+  const [newsText, setNewsText] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiSuggestions, setAiSuggestions] = useState<
+    { name: string; status: Status; reason: string }[] | null
+  >(null);
+
   useEffect(() => {
     loadSquad().then(setSquad);
   }, []);
@@ -107,6 +116,34 @@ export default function MatchdayPage() {
     saveStatus(season, matchday, next);
   }
 
+  async function analyzeNews() {
+    if (!newsText.trim() || !squad.length) return;
+    setAiLoading(true);
+    setAiError(null);
+    setAiSuggestions(null);
+    try {
+      const res = await fetch("/api/suggest-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          newsText,
+          players: squad.map((p) => ({ name: p.name, club: p.club, position: p.position })),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Fehler");
+      setAiSuggestions(json.suggestions);
+    } catch (e) {
+      setAiError((e as Error).message);
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function applyAll() {
+    (aiSuggestions ?? []).forEach((s) => setStatus(s.name, s.status));
+  }
+
   const byPos = useMemo(() => {
     return [...joined].sort(
       (a, b) =>
@@ -162,6 +199,78 @@ export default function MatchdayPage() {
           Spielplan-Abruf: {error}
         </div>
       )}
+
+      {/* KI: Status aus News */}
+      <div className="card p-4">
+        <button
+          onClick={() => setAiOpen((o) => !o)}
+          className="flex w-full items-center justify-between text-left"
+        >
+          <span>
+            <span className="label-caps">KI-Assistent</span>
+            <span className="ml-2 text-sm font-medium">Status aus News vorschlagen</span>
+          </span>
+          <span className="text-ink-muted">{aiOpen ? "−" : "+"}</span>
+        </button>
+
+        {aiOpen && (
+          <div className="mt-3 space-y-3">
+            <p className="text-xs text-ink-muted">
+              Aufstellungs-News (z.B. voraussichtliche Elf, Verletzungen) einfügen —
+              die KI schlägt pro Spieler einen Status vor. Du bestätigst.
+            </p>
+            <textarea
+              value={newsText}
+              onChange={(e) => setNewsText(e.target.value)}
+              rows={5}
+              placeholder="News-Text hier einfügen…"
+              className="w-full rounded-md border border-ink-line px-3 py-2 text-sm outline-none focus:border-signal"
+            />
+            <div className="flex items-center gap-3">
+              <button
+                onClick={analyzeNews}
+                disabled={aiLoading || !newsText.trim()}
+                className="btn-signal disabled:opacity-50"
+              >
+                {aiLoading ? "Analysiere…" : "Analysieren"}
+              </button>
+              {aiSuggestions && aiSuggestions.length > 0 && (
+                <button onClick={applyAll} className="btn-ghost">
+                  Alle {aiSuggestions.length} übernehmen
+                </button>
+              )}
+            </div>
+
+            {aiError && <p className="text-sm text-signal-700">{aiError}</p>}
+            {aiSuggestions && aiSuggestions.length === 0 && (
+              <p className="text-sm text-ink-muted">
+                Kein belastbares Signal im Text gefunden.
+              </p>
+            )}
+            {aiSuggestions && aiSuggestions.length > 0 && (
+              <ul className="divide-y divide-ink-line rounded-md border border-ink-line">
+                {aiSuggestions.map((s) => (
+                  <li key={s.name} className="flex items-center gap-3 px-3 py-2">
+                    <span className="min-w-0 flex-1">
+                      <span className="font-medium">{s.name}</span>
+                      <span className="block truncate text-xs text-ink-muted">{s.reason}</span>
+                    </span>
+                    <span className={`chip border ${STATUS_STYLE[s.status]}`}>
+                      {STATUS_LABEL[s.status]}
+                    </span>
+                    <button
+                      onClick={() => setStatus(s.name, s.status)}
+                      className="text-sm text-signal hover:underline"
+                    >
+                      übernehmen
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
         {/* Status-Editor */}
