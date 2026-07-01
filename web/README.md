@@ -25,6 +25,12 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
 - `/squad` — **Kader-Editor**: Spieler aus dem echten 25/26-Pool (563 Spieler)
   per Suche hinzufügen/entfernen, Verein/Position/MV/exp. Punkte auto-gefüllt.
   Live-Validierung von Budget (42,5 Mio) und Struktur (3-7-7-5). Auto-Speichern.
+  **Talent-Scout**: KI recherchiert pro Spieler Signale jenseits des Marktwerts —
+  Vorbereitungsform, U21-/A-Nominierung, Fritz-Walter-Medaille, erwartete Rolle —
+  und zeigt ein Durchbruch-/Stammplatz-Signal als Marker (`src/app/api/scout`,
+  web_search, Whitelist `dfb.de, transfermarkt.de, kicker.de, ligainsider.de,
+  fussballdaten.de`, per `SCOUT_ALLOWED_DOMAINS` überschreibbar).
+- `/anleitung` — Schritt-für-Schritt-Ablauf (Kader → Spieltag).
 
 ## KI-Statusvorschlag mit eigener News-Recherche (optional)
 

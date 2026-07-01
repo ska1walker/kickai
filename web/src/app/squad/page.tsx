@@ -16,11 +16,25 @@ const POS_LABEL: Record<Position, string> = {
 };
 const ORDER: Position[] = ["TW", "ABW", "MF", "ST"];
 
+type Scout = { signal: "hoch" | "mittel" | "niedrig" | "unklar"; tags: string[]; note: string };
+const SIGNAL_STYLE: Record<Scout["signal"], string> = {
+  hoch: "bg-signal text-white border-signal",
+  mittel: "bg-amber-100 text-amber-900 border-amber-300",
+  niedrig: "bg-ink-line text-ink border-ink-line",
+  unklar: "bg-white text-ink-muted border-ink-line",
+};
+
 export default function SquadPage() {
   const [squad, setSquad] = useState<SquadPlayer[] | null>(null);
   const [addFor, setAddFor] = useState<Position | null>(null);
   const [query, setQuery] = useState("");
   const [savedAt, setSavedAt] = useState<string | null>(null);
+
+  // Talent-Scout (Vorbereitung, U21, Fritz-Walter)
+  const [scoutOpen, setScoutOpen] = useState(false);
+  const [scoutLoading, setScoutLoading] = useState(false);
+  const [scoutError, setScoutError] = useState<string | null>(null);
+  const [scoutByName, setScoutByName] = useState<Record<string, Scout>>({});
 
   useEffect(() => {
     loadSquad().then(setSquad);
@@ -53,6 +67,36 @@ export default function SquadPage() {
     () => (addFor ? searchPool(query, addFor).filter((p) => !ids.has(p.id)) : []),
     [addFor, query, ids],
   );
+
+  async function runScout(list: SquadPlayer[]) {
+    if (!list.length) return;
+    setScoutLoading(true);
+    setScoutError(null);
+    try {
+      const res = await fetch("/api/scout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          players: list.map((p) => ({
+            name: p.name,
+            club: CLUB_LABEL[p.club] ?? p.club,
+            position: p.position,
+          })),
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Fehler");
+      const next: Record<string, Scout> = { ...scoutByName };
+      (json.players as (Scout & { name: string })[]).forEach((r) => {
+        next[r.name] = { signal: r.signal, tags: r.tags, note: r.note };
+      });
+      setScoutByName(next);
+    } catch (e) {
+      setScoutError((e as Error).message);
+    } finally {
+      setScoutLoading(false);
+    }
+  }
 
   if (!squad || !check) {
     return <p className="text-sm text-ink-muted">Lade Kader…</p>;
@@ -130,6 +174,58 @@ export default function SquadPage() {
         )}
       </div>
 
+      {/* Talent-Scout */}
+      <div className="card p-4">
+        <button
+          onClick={() => setScoutOpen((o) => !o)}
+          className="flex w-full items-center justify-between text-left"
+        >
+          <span>
+            <span className="label-caps">Talent-Scout</span>
+            <span className="ml-2 text-sm font-medium">
+              Vorbereitung · U21 · Fritz-Walter-Medaille
+            </span>
+          </span>
+          <span className="text-ink-muted">{scoutOpen ? "−" : "+"}</span>
+        </button>
+
+        {scoutOpen && (
+          <div className="mt-3 space-y-3">
+            <p className="text-xs text-ink-muted">
+              Die KI recherchiert pro Spieler Signale, die der Marktwert nicht abbildet
+              — Form in der Sommer-Vorbereitung, U21-/A-Nominierung, Fritz-Walter-Medaille,
+              erwartete Rolle — und leitet ein Durchbruch-/Stammplatz-Signal ab. Ideal für
+              die günstigen Anker-Kandidaten. Erscheint als Marker an jedem Spieler.
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => runScout(squad.filter((p) => (p.mv ?? 0) <= 3))}
+                disabled={scoutLoading}
+                className="btn-signal disabled:opacity-50"
+              >
+                {scoutLoading ? "Scoutet…" : "Günstige scouten (≤3 Mio)"}
+              </button>
+              <button
+                onClick={() => runScout(squad)}
+                disabled={scoutLoading}
+                className="btn-ghost disabled:opacity-50"
+              >
+                Ganzen Kader scouten
+              </button>
+              {Object.keys(scoutByName).length > 0 && (
+                <span className="text-xs text-ink-muted">
+                  {Object.keys(scoutByName).length} Spieler gescoutet
+                </span>
+              )}
+            </div>
+            {scoutError && <p className="text-sm text-signal-700">{scoutError}</p>}
+            <p className="text-xs text-ink-muted">
+              Die Recherche kann bei vielen Spielern ~1 Minute dauern.
+            </p>
+          </div>
+        )}
+      </div>
+
       {/* Positionsgruppen */}
       {ORDER.map((pos) => {
         const players = squad
@@ -194,13 +290,33 @@ export default function SquadPage() {
             )}
 
             <div className="card divide-y divide-ink-line">
-              {players.map((p) => (
+              {players.map((p) => {
+                const sc = scoutByName[p.name];
+                return (
                 <div key={p.id} className="flex items-center justify-between px-4 py-2.5">
-                  <div>
-                    <p className="font-medium">{p.name}</p>
+                  <div className="min-w-0">
+                    <p className="font-medium">
+                      {p.name}
+                      {sc && (
+                        <span
+                          className={`chip ml-2 border align-middle text-[10px] ${SIGNAL_STYLE[sc.signal]}`}
+                          title={sc.note}
+                        >
+                          {sc.signal}
+                        </span>
+                      )}
+                    </p>
                     <p className="text-xs text-ink-muted">{CLUB_LABEL[p.club] ?? p.club}</p>
+                    {sc && (
+                      <p className="mt-0.5 text-xs text-ink-muted">
+                        {sc.tags.length > 0 && (
+                          <span className="font-medium text-ink">{sc.tags.join(" · ")} — </span>
+                        )}
+                        {sc.note}
+                      </p>
+                    )}
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex shrink-0 items-center gap-4">
                     <span className="font-mono text-xs text-ink-muted">
                       {(p.mv ?? 0).toFixed(1)}M · ~{p.expPoints.toFixed(1)}
                     </span>
@@ -213,7 +329,8 @@ export default function SquadPage() {
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
               {players.length === 0 && (
                 <p className="px-4 py-3 text-sm text-ink-muted">Noch keiner.</p>
               )}
