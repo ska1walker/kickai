@@ -6,6 +6,7 @@ import { checkSquad, SQUAD_SHAPE, BUDGET } from "@/lib/engine/constraints";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { loadSquad, saveSquad, resetSquad } from "@/lib/squadStore";
 import { searchPool, type PoolPlayer } from "@/lib/data/pool";
+import { loadPool, getActiveSeason } from "@/lib/data/loadPool";
 import { supabaseEnabled } from "@/lib/supabase/client";
 
 const POS_LABEL: Record<Position, string> = {
@@ -37,7 +38,7 @@ export default function SquadPage() {
   const [scoutByName, setScoutByName] = useState<Record<string, Scout>>({});
 
   useEffect(() => {
-    loadSquad().then(setSquad);
+    loadPool(getActiveSeason()).finally(() => loadSquad().then(setSquad));
   }, []);
 
   const check = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);

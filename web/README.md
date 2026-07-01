@@ -45,6 +45,13 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   Optional fließt eine **Team-Tier-Analyse** ein (`src/app/api/team-tiers`,
   web_search): erwartete Spitzen-/Überraschungs-/Mittel-/Abstiegsteams — günstige
   Spieler erwarteter Überraschungsteams werden höher gewichtet.
+- `/daten` — **Saisondaten laden**: zieht die kicker-CSV per Button (öffentliches
+  Archiv `se-k0001<jahr>.csv`) oder nimmt eine hochgeladene CSV (eingeloggter
+  Transfermarkt-Export), parst sie, löst Vereine auf, bridged optional
+  Vorsaisonpunkte und schreibt den Pool nach Supabase `player_pool`. Die App liest
+  den Pool zur Laufzeit aus der DB (`src/lib/data/loadPool.ts`) → neue Saison ohne
+  Redeploy aktiv (`/api/import-season`). Neue Auf-/Absteiger ggf. in
+  `clubs.ts`/`clubs.py` ergänzen (der Import meldet unbekannte Vereine).
 - `/news` — **News-Memory**: täglich gesammelte Transfer-/Kader-News aus
   Supabase (`news_log`), mit Aktualitäts-Gewicht (dauerhafte Fakten = 100%,
   flüchtige Signale mit Halbwertszeit fallend).

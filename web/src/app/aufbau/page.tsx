@@ -9,6 +9,7 @@ import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { saveSquad } from "@/lib/squadStore";
 import { loadNewsSignals, EMPTY_SIGNALS, norm, type NewsSignals } from "@/lib/newsSignals";
 import type { StrategyInput, SetPieceRole } from "@/lib/engine/strategy";
+import { loadPool, getActiveSeason } from "@/lib/data/loadPool";
 
 const POS_LABEL: Record<Position, string> = {
   TW: "Torwart",
@@ -35,8 +36,8 @@ const SEC_CHIP: Record<string, string> = {
   rotation: "bg-amber-100 text-amber-900",
 };
 
-// Distinkte Vereins-Anzeigenamen aus dem Pool (für die Tier-Recherche).
-const DISTINCT_CLUBS = Array.from(new Set(POOL.map((p) => p.clubName))).sort();
+// Distinkte Vereins-Anzeigenamen aus dem AKTIVEN Pool (für die Recherche).
+const distinctClubs = () => Array.from(new Set(POOL.map((p) => p.clubName))).sort();
 
 export default function AufbauPage() {
   const [tiers, setTiers] = useState<Tiers>({});
@@ -61,12 +62,14 @@ export default function AufbauPage() {
     setProposal(buildProposal(t, n, strategy));
   };
 
-  // News-Memory laden und in den Vorschlag einfließen lassen.
+  // Aktiven Pool (importierte Saison) + News laden und den Vorschlag neu bauen.
   useEffect(() => {
-    loadNewsSignals().then((n) => {
+    (async () => {
+      await loadPool(getActiveSeason());
+      const n = await loadNewsSignals();
       setNews(n);
-      if (n.count) rebuild(tiers, n, stackDefense, setPieceTakers);
-    });
+      rebuild(tiers, n, stackDefense, setPieceTakers);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,7 +82,7 @@ export default function AufbauPage() {
       const res = await fetch("/api/team-tiers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clubs: DISTINCT_CLUBS }),
+        body: JSON.stringify({ clubs: distinctClubs() }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Fehler");
@@ -107,7 +110,7 @@ export default function AufbauPage() {
       const res = await fetch("/api/set-pieces", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clubs: DISTINCT_CLUBS }),
+        body: JSON.stringify({ clubs: distinctClubs() }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Fehler");

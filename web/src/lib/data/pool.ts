@@ -10,9 +10,17 @@ export interface PoolPlayer extends SquadPlayer {
   hasHistory?: boolean; // false = kein Vorsaison-Wert (Aufsteiger/Neuzugang/Jugend)
 }
 
-export const POOL = raw as PoolPlayer[];
+const BUNDLED = raw as PoolPlayer[];
 
-const BY_ID = new Map(POOL.map((p) => [p.id!, p]));
+// Aktiver Pool (Live-Binding): standardmäßig die gebündelte Saison, per
+// setPool() zur Laufzeit durch importierte Saisondaten ersetzbar (ohne Redeploy).
+export let POOL: PoolPlayer[] = BUNDLED;
+let BY_ID = new Map(POOL.map((p) => [p.id!, p]));
+
+export function setPool(rows: PoolPlayer[]): void {
+  POOL = rows.length ? rows : BUNDLED;
+  BY_ID = new Map(POOL.map((p) => [p.id!, p]));
+}
 
 export function poolById(id: string): PoolPlayer | undefined {
   return BY_ID.get(id);

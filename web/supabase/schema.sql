@@ -43,15 +43,37 @@ create table if not exists news_log (
 create index if not exists idx_news_created on news_log (created_at desc);
 create index if not exists idx_news_club on news_log (club);
 
+-- Spieler-Pool je Saison (per Import-Button aus der kicker-CSV gefüllt).
+-- Ersetzt zur Laufzeit die gebündelte JSON, sodass neue Saisondaten ohne
+-- Redeploy in den Kader-Aufbau fließen.
+create table if not exists player_pool (
+  season     int  not null,
+  id         text not null,
+  name       text not null,
+  club       text not null,               -- kanonischer Vereinscode ('?' = unbekannt)
+  club_name  text not null,
+  position   text not null check (position in ('TW','ABW','MF','ST')),
+  mv         numeric not null,
+  points     int not null default 0,
+  exp_points numeric not null default 0,
+  has_history boolean,
+  updated_at timestamptz not null default now(),
+  primary key (season, id)
+);
+create index if not exists idx_pool_season on player_pool (season);
+
 -- Einzelnutzer-App (Kai): RLS an, anon darf lesen/schreiben.
 -- Für Mehrbenutzer später auf auth.uid() umstellen.
 alter table squad_players  enable row level security;
 alter table matchday_status enable row level security;
 alter table news_log        enable row level security;
+alter table player_pool     enable row level security;
 
 drop policy if exists "anon all squad"  on squad_players;
 drop policy if exists "anon all status" on matchday_status;
 drop policy if exists "anon all news"   on news_log;
+drop policy if exists "anon all pool"   on player_pool;
 create policy "anon all squad"  on squad_players  for all using (true) with check (true);
 create policy "anon all status" on matchday_status for all using (true) with check (true);
 create policy "anon all news"   on news_log        for all using (true) with check (true);
+create policy "anon all pool"   on player_pool     for all using (true) with check (true);
