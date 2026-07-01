@@ -7,6 +7,7 @@ function Nav() {
     { href: "/", label: "Übersicht" },
     { href: "/matchday", label: "Spieltag" },
     { href: "/squad", label: "Kader" },
+    { href: "/methodik", label: "Methodik" },
   ];
   return (
     <header className="border-b border-ink-line bg-paper">
