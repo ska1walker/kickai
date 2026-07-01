@@ -7,7 +7,8 @@ import { BUDGET } from "@/lib/engine/constraints";
 import { buildProposal, type Proposal, type Tiers } from "@/lib/engine/builder";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { saveSquad } from "@/lib/squadStore";
-import { loadNewsSignals, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
+import { loadNewsSignals, EMPTY_SIGNALS, norm, type NewsSignals } from "@/lib/newsSignals";
+import type { StrategyInput, SetPieceRole } from "@/lib/engine/strategy";
 
 const POS_LABEL: Record<Position, string> = {
   TW: "Torwart",
@@ -40,18 +41,33 @@ const DISTINCT_CLUBS = Array.from(new Set(POOL.map((p) => p.clubName))).sort();
 export default function AufbauPage() {
   const [tiers, setTiers] = useState<Tiers>({});
   const [news, setNews] = useState<NewsSignals>(EMPTY_SIGNALS);
+  const [stackDefense, setStackDefense] = useState(false);
+  const [setPieceTakers, setSetPieceTakers] = useState<Record<string, SetPieceRole>>({});
   const [proposal, setProposal] = useState<Proposal>(() => buildProposal({}));
   const [tierLoading, setTierLoading] = useState(false);
   const [tierError, setTierError] = useState<string | null>(null);
   const [tierDone, setTierDone] = useState(false);
+  const [spLoading, setSpLoading] = useState(false);
+  const [spError, setSpError] = useState<string | null>(null);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
+
+  const rebuild = (
+    t: Tiers,
+    n: NewsSignals,
+    stack: boolean,
+    sp: Record<string, SetPieceRole>,
+  ) => {
+    const strategy: StrategyInput = { stackDefense: stack, setPieceTakers: sp };
+    setProposal(buildProposal(t, n, strategy));
+  };
 
   // News-Memory laden und in den Vorschlag einfließen lassen.
   useEffect(() => {
     loadNewsSignals().then((n) => {
       setNews(n);
-      if (n.count) setProposal(buildProposal({}, n));
+      if (n.count) rebuild(tiers, n, stackDefense, setPieceTakers);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const overBudget = proposal.totalMv > BUDGET + 1e-6;
@@ -69,12 +85,42 @@ export default function AufbauPage() {
       if (!res.ok) throw new Error(json.error ?? "Fehler");
       const t = json.tiers as Tiers;
       setTiers(t);
-      setProposal(buildProposal(t, news));
+      rebuild(t, news, stackDefense, setPieceTakers);
       setTierDone(true);
     } catch (e) {
       setTierError((e as Error).message);
     } finally {
       setTierLoading(false);
+    }
+  }
+
+  function toggleStack() {
+    const v = !stackDefense;
+    setStackDefense(v);
+    rebuild(tiers, news, v, setPieceTakers);
+  }
+
+  async function researchSetPieces() {
+    setSpLoading(true);
+    setSpError(null);
+    try {
+      const res = await fetch("/api/set-pieces", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clubs: DISTINCT_CLUBS }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Fehler");
+      const map: Record<string, SetPieceRole> = {};
+      (json.takers as { player: string; role: SetPieceRole }[]).forEach((t) => {
+        map[norm(t.player)] = t.role;
+      });
+      setSetPieceTakers(map);
+      rebuild(tiers, news, stackDefense, map);
+    } catch (e) {
+      setSpError((e as Error).message);
+    } finally {
+      setSpLoading(false);
     }
   }
 
@@ -174,7 +220,52 @@ export default function AufbauPage() {
             </button>
           </div>
         </div>
+        <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-ink-line pt-3">
+          <span className="label-caps">Ceiling-Plays</span>
+          <button onClick={toggleStack} className={stackDefense ? "btn-signal" : "btn-ghost"}>
+            {stackDefense ? "✓ Abwehr-Stack aktiv" : "Abwehr stacken"}
+          </button>
+          <button
+            onClick={researchSetPieces}
+            disabled={spLoading}
+            className="btn-ghost disabled:opacity-50"
+          >
+            {spLoading
+              ? "Suche Schützen…"
+              : Object.keys(setPieceTakers).length
+                ? "Schützen erneut"
+                : "Standards/Elfmeter suchen"}
+          </button>
+          {Object.keys(setPieceTakers).length > 0 && (
+            <span className="text-xs text-ink-muted">
+              {Object.keys(setPieceTakers).length} Schützen erkannt
+            </span>
+          )}
+        </div>
         {tierError && <p className="mt-2 text-sm text-signal-700">{tierError}</p>}
+        {spError && <p className="mt-2 text-sm text-signal-700">{spError}</p>}
+        {proposal.clusterClubs.length > 0 && (
+          <p className="mt-2 text-xs text-ink-muted">
+            Anker-Cluster (Vorsaison):{" "}
+            <span className="text-ink">
+              {proposal.clusterClubs
+                .slice(0, 3)
+                .map((c) => `${CLUB_LABEL[c.club] ?? c.club} (${c.anchors})`)
+                .join(", ")}
+            </span>{" "}
+            — günstige Spieler dieser Teams höher gewichtet.
+          </p>
+        )}
+        {proposal.stackClub && (
+          <p className="mt-1 text-xs text-ink-muted">
+            Stärkste Defensive:{" "}
+            <span className="text-ink">{CLUB_LABEL[proposal.stackClub] ?? proposal.stackClub}</span>
+            {stackDefense
+              ? " — Torwart + Abwehr gestackt (korrelierte Zu-Null)"
+              : " — über den Stack-Button korreliert setzbar"}
+            .
+          </p>
+        )}
         {savedMsg && (
           <p className="mt-2 text-sm text-signal-700">
             {savedMsg}{" "}

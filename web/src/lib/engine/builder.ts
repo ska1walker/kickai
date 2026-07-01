@@ -12,6 +12,7 @@ import { BUDGET, SQUAD_SHAPE } from "./constraints";
 import type { Position } from "./types";
 import { playerNews, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
 import { computeSecurity, securityFactor, type SecInfo } from "./security";
+import { computeStrategy, EMPTY_STRATEGY, type StrategyInput } from "./strategy";
 
 export type Tier = "top" | "surprise" | "mid" | "lower";
 export interface TierInfo {
@@ -37,6 +38,8 @@ export interface Proposal {
   totalPoints: number;
   bestXiExp: number; // erwartete Punkte der besten aufstellbaren Elf pro Spieltag
   newsUsed: number;
+  clusterClubs: { club: string; anchors: number }[]; // #6 Anker-Cluster
+  stackClub: string | null; // #4 empfohlenes Abwehr-Stack-Team
 }
 
 const ORDER: Position[] = ["TW", "ABW", "MF", "ST"];
@@ -72,16 +75,18 @@ function adj(
   news: NewsSignals,
   nm: NewsMap,
   sec: Map<string, SecInfo>,
+  strat: Map<string, number>,
 ): number {
   const bonus = tiers[p.club]?.tier ? TIER_BONUS[tiers[p.club].tier] : 0;
   const clubDelta = news.byClub[p.club]?.delta ?? 0;
   const playerDelta = nm.get(p.id!)?.delta ?? 0;
+  const stratDelta = strat.get(p.id!) ?? 0; // #4/#5/#6 Strategie
   const secF = securityFactor(sec.get(p.id!)); // #2 Einsatzsicherheit
   return (
     p.points *
     POS_WEIGHT[p.position] *
     (1 + bonus) *
-    (1 + clubDelta + playerDelta) *
+    (1 + clubDelta + playerDelta + stratDelta) *
     secF
   );
 }
@@ -102,23 +107,32 @@ function newsNote(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
 function histNote(p: PoolPlayer): string {
   return p.hasHistory === false ? " · kein Vorsaison-Wert (Einschätzung via Scout/News)" : "";
 }
-
-function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
-  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
-}
-function fillerReason(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
-  return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf${newsNote(p, news, nm)}`;
-}
-function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
-  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
+function stratNote(p: PoolPlayer, sn: Map<string, string[]>): string {
+  const n = sn.get(p.id!);
+  return n && n.length ? ` · ${n.join("; ")}` : "";
 }
 
-export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNALS): Proposal {
+function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
+  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p)}`;
+}
+function fillerReason(p: PoolPlayer, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
+  return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf${newsNote(p, news, nm)}${stratNote(p, sn)}`;
+}
+function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
+  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p)}`;
+}
+
+export function buildProposal(
+  tiers: Tiers = {},
+  news: NewsSignals = EMPTY_SIGNALS,
+  strategy: StrategyInput = EMPTY_STRATEGY,
+): Proposal {
   const valid = POOL.filter((p) => p.mv > 0 && p.mv < 100 && p.club !== "?");
-  // News-Deltas/Notizen + Einsatzsicherheit je Spieler einmal vorberechnen.
+  // News-Deltas/Notizen + Einsatzsicherheit + Strategie einmal vorberechnen.
   const nm: NewsMap = new Map();
   if (news.count) for (const p of valid) nm.set(p.id!, playerNews(p.name, news));
   const sec = computeSecurity();
+  const strat = computeStrategy(strategy, news);
 
   const byPosPool: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   for (const p of valid) byPosPool[p.position].push(p);
@@ -126,7 +140,7 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
   const selected = new Set<string>();
   const premiumByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   const fillerByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
-  const A = (p: PoolPlayer) => adj(p, tiers, news, nm, sec);
+  const A = (p: PoolPlayer) => adj(p, tiers, news, nm, sec, strat.deltaById);
 
   for (const pos of ORDER) {
     const ranked = [...byPosPool[pos]].sort((a, b) => A(b) - A(a));
@@ -184,11 +198,11 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
         player: p,
         role: "premium",
         security: sec.get(p.id!),
-        reason: premiumReason(p, tiers, news, nm),
+        reason: premiumReason(p, tiers, news, nm, strat.notesById),
         alternatives: premAlts
           .filter((a) => a.mv <= p.mv * 1.2)
           .slice(0, 2)
-          .map((a) => ({ player: a, reason: altReason(a, tiers, news, nm) })),
+          .map((a) => ({ player: a, reason: altReason(a, tiers, news, nm, strat.notesById) })),
       });
     }
     for (const p of fillerByPos[pos]) {
@@ -196,8 +210,8 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
         player: p,
         role: "filler",
         security: sec.get(p.id!),
-        reason: fillerReason(p, news, nm),
-        alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers, news, nm) })),
+        reason: fillerReason(p, news, nm, strat.notesById),
+        alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers, news, nm, strat.notesById) })),
       });
     }
   }
@@ -224,5 +238,7 @@ export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNA
     totalPoints: flat.reduce((s, p) => s + p.player.points, 0),
     bestXiExp: Math.round(bestXiExp * 10) / 10,
     newsUsed: news.count,
+    clusterClubs: strat.clusterClubs,
+    stackClub: strat.stackClub,
   };
 }

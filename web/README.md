@@ -38,6 +38,10 @@ Browser (LocalStorage) gespeichert. Supabase ist optional (s.u.).
   dem Positions-Slot des Klubs; Chip „Stammplatz hoch/mittel/rotation").
   Pro Slot Top-Empfehlung + 2 Alternativen mit Begründungs-Tooltip, per „wählen"
   tauschbar, „übernehmen" lädt in den Editor.
+  **Ceiling-Plays** (`src/lib/engine/strategy.ts`): Abwehr-Stacking (TW+ABW des
+  stärksten Defensivteams für korrelierte Zu-Null, per Toggle), Anker-Cluster
+  (Vereine mit vielen billigen Stammspielern höher gewichtet, auto) und
+  Standard-/Elfmeterschützen (`src/app/api/set-pieces`, web_search; ABW-Tor=+5).
   Optional fließt eine **Team-Tier-Analyse** ein (`src/app/api/team-tiers`,
   web_search): erwartete Spitzen-/Überraschungs-/Mittel-/Abstiegsteams — günstige
   Spieler erwarteter Überraschungsteams werden höher gewichtet.
