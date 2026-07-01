@@ -3,11 +3,14 @@
 // pro Slot eine Top-Empfehlung + 2 Alternativen, jeweils mit Begründung.
 //
 // Leitidee (aus der Datenanalyse): Effizienz-Anker — viel Output pro Euro,
-// bevorzugt defensive Dauerläufer. Zusätzlich fließt die Team-Tier-Erwartung
-// ein: günstige Spieler von erwarteten Überraschungsteams sind unterbewertet.
+// bevorzugt defensive Dauerläufer. Zusätzlich fließen ein:
+//  - Team-Tier-Erwartung (günstige Spieler erwarteter Überraschungsteams),
+//  - News-Memory (Ab-/Zugänge, Verletzungen, Vorbereitung, Transferstärke),
+//    jeweils recency-gewichtet.
 import { POOL, type PoolPlayer } from "@/lib/data/pool";
 import { BUDGET, SQUAD_SHAPE } from "./constraints";
 import type { Position } from "./types";
+import { playerNews, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
 
 export type Tier = "top" | "surprise" | "mid" | "lower";
 export interface TierInfo {
@@ -30,6 +33,7 @@ export interface Proposal {
   byPos: Record<Position, Pick[]>;
   totalMv: number;
   totalPoints: number;
+  newsUsed: number;
 }
 
 const ORDER: Position[] = ["TW", "ABW", "MF", "ST"];
@@ -43,12 +47,17 @@ const TIER_LABEL: Record<Tier, string> = {
   lower: "unteres Drittel",
 };
 
-function adj(p: PoolPlayer, tiers: Tiers): number {
-  const t = tiers[p.club]?.tier;
-  const bonus = t ? TIER_BONUS[t] : 0;
-  return p.points * POS_WEIGHT[p.position] * (1 + bonus);
-}
 const ppm = (p: PoolPlayer) => p.points / Math.max(p.mv, 0.5);
+
+// Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
+type NewsMap = Map<string, { delta: number; notes: string[] }>;
+
+function adj(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): number {
+  const bonus = tiers[p.club]?.tier ? TIER_BONUS[tiers[p.club].tier] : 0;
+  const clubDelta = news.byClub[p.club]?.delta ?? 0;
+  const playerDelta = nm.get(p.id!)?.delta ?? 0;
+  return p.points * POS_WEIGHT[p.position] * (1 + bonus) * (1 + clubDelta + playerDelta);
+}
 
 function tierNote(p: PoolPlayer, tiers: Tiers): string {
   const info = tiers[p.club];
@@ -56,28 +65,40 @@ function tierNote(p: PoolPlayer, tiers: Tiers): string {
   const base = ` · ${TIER_LABEL[info.tier]}`;
   return info.reason ? `${base}: ${info.reason}` : base;
 }
-
-function premiumReason(p: PoolPlayer, tiers: Tiers): string {
-  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}`;
-}
-function fillerReason(p: PoolPlayer): string {
-  return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf`;
-}
-function altReason(p: PoolPlayer, tiers: Tiers): string {
-  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}`;
+function newsNote(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
+  const parts: string[] = [];
+  const club = news.byClub[p.club]?.note;
+  if (club) parts.push(club);
+  parts.push(...(nm.get(p.id!)?.notes ?? []));
+  return parts.length ? ` · News: ${parts.join("; ")}` : "";
 }
 
-export function buildProposal(tiers: Tiers = {}): Proposal {
+function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
+  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}`;
+}
+function fillerReason(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
+  return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf${newsNote(p, news, nm)}`;
+}
+function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap): string {
+  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}`;
+}
+
+export function buildProposal(tiers: Tiers = {}, news: NewsSignals = EMPTY_SIGNALS): Proposal {
   const valid = POOL.filter((p) => p.mv > 0 && p.mv < 100 && p.club !== "?");
+  // News-Deltas/Notizen je Spieler einmal vorberechnen.
+  const nm: NewsMap = new Map();
+  if (news.count) for (const p of valid) nm.set(p.id!, playerNews(p.name, news));
+
   const byPosPool: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   for (const p of valid) byPosPool[p.position].push(p);
 
   const selected = new Set<string>();
   const premiumByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
   const fillerByPos: Record<Position, PoolPlayer[]> = { TW: [], ABW: [], MF: [], ST: [] };
+  const A = (p: PoolPlayer) => adj(p, tiers, news, nm);
 
   for (const pos of ORDER) {
-    const ranked = [...byPosPool[pos]].sort((a, b) => adj(b, tiers) - adj(a, tiers));
+    const ranked = [...byPosPool[pos]].sort((a, b) => A(b) - A(a));
     const premium = ranked.slice(0, PREMIUM[pos]);
     premium.forEach((p) => selected.add(p.id!));
     premiumByPos[pos] = premium;
@@ -103,40 +124,26 @@ export function buildProposal(tiers: Tiers = {}): Proposal {
     let worst: { pos: Position; idx: number; p: PoolPlayer } | null = null;
     for (const pos of ORDER) {
       premiumByPos[pos].forEach((p, idx) => {
-        if (p.mv <= 0.5) return; // nicht weiter reduzierbar
-        const eff = adj(p, tiers) / p.mv;
-        if (!worst || eff < adj(worst.p, tiers) / worst.p.mv) worst = { pos, idx, p };
+        if (p.mv <= 0.5) return;
+        if (!worst || A(p) / p.mv < A(worst.p) / worst.p.mv) worst = { pos, idx, p };
       });
     }
     if (!worst) break;
     const w = worst as { pos: Position; idx: number; p: PoolPlayer };
     const replacement = [...byPosPool[w.pos]]
       .filter((c) => !selected.has(c.id!) && c.mv < w.p.mv)
-      .sort((a, b) => adj(b, tiers) - adj(a, tiers))[0];
-    if (!replacement) {
-      // nichts Billigeres frei → diesen Pick fixieren, nächst-teuren versuchen
-      const eff = adj(w.p, tiers) / w.p.mv;
-      const stuck = ORDER.every((pos) =>
-        premiumByPos[pos].every(
-          (p) => p.mv <= 0.5 || adj(p, tiers) / p.mv >= eff,
-        ),
-      );
-      if (stuck) break;
-      selected.delete(w.p.id!); // markieren, dann neu — Vereinfachung: abbrechen
-      selected.add(w.p.id!);
-      break;
-    }
+      .sort((a, b) => A(b) - A(a))[0];
+    if (!replacement) break;
     selected.delete(w.p.id!);
     selected.add(replacement.id!);
     premiumByPos[w.pos][w.idx] = replacement;
   }
 
-  // Ergebnis + Alternativen zusammenstellen.
   const byPos: Record<Position, Pick[]> = { TW: [], ABW: [], MF: [], ST: [] };
   for (const pos of ORDER) {
     const premAlts = [...byPosPool[pos]]
       .filter((p) => !selected.has(p.id!))
-      .sort((a, b) => adj(b, tiers) - adj(a, tiers));
+      .sort((a, b) => A(b) - A(a));
     const cheapAlts = [...byPosPool[pos]]
       .filter((p) => !selected.has(p.id!))
       .sort((a, b) => a.mv - b.mv);
@@ -145,19 +152,19 @@ export function buildProposal(tiers: Tiers = {}): Proposal {
       byPos[pos].push({
         player: p,
         role: "premium",
-        reason: premiumReason(p, tiers),
+        reason: premiumReason(p, tiers, news, nm),
         alternatives: premAlts
           .filter((a) => a.mv <= p.mv * 1.2)
           .slice(0, 2)
-          .map((a) => ({ player: a, reason: altReason(a, tiers) })),
+          .map((a) => ({ player: a, reason: altReason(a, tiers, news, nm) })),
       });
     }
     for (const p of fillerByPos[pos]) {
       byPos[pos].push({
         player: p,
         role: "filler",
-        reason: fillerReason(p),
-        alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers) })),
+        reason: fillerReason(p, news, nm),
+        alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers, news, nm) })),
       });
     }
   }
@@ -167,5 +174,6 @@ export function buildProposal(tiers: Tiers = {}): Proposal {
     byPos,
     totalMv: Math.round(flat.reduce((s, p) => s + p.player.mv, 0) * 10) / 10,
     totalPoints: flat.reduce((s, p) => s + p.player.points, 0),
+    newsUsed: news.count,
   };
 }

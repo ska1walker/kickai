@@ -55,7 +55,15 @@ Secret ist der Endpoint deaktiviert). Aktivieren:
 2. `CRON_SECRET` (beliebiger String) in Vercel-Env setzen; Cron aktiviert sich
    mit dem nächsten Deploy. Manuell testen:
    `curl -H "Authorization: Bearer $CRON_SECRET" https://<app>/api/collect-news`.
-Gewichtung/Weiterverwendung: `src/lib/news.ts` (`recencyWeight`).
+Gewichtung/Weiterverwendung: `src/lib/news.ts` (`recencyWeight`),
+`src/lib/newsSignals.ts` (Aufbereitung zu Spieler-/Vereins-Signalen).
+
+**Einfluss auf den Kader-Vorschlag:** `/aufbau` lädt die News-Memory und lässt sie
+in `buildProposal` einfließen — Ab-/Zugänge, Verletzungen/Sperren, Rückkehr,
+Vorbereitungsform (Spielerebene) sowie Netto-Transferstärke (Vereinsebene),
+recency-gewichtet. Ein Abgang wertet den Spieler stark ab, ein starker
+Transfersommer hebt die günstigen Spieler des Vereins. Erscheint als „News:"-Notiz
+in der Begründung und als Zähler „N News-Signale einbezogen".
 
 ## KI-Statusvorschlag mit eigener News-Recherche (optional)
 

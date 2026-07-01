@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { POOL } from "@/lib/data/pool";
 import { CLUB_LABEL } from "@/lib/engine/clubs";
@@ -7,6 +7,7 @@ import { BUDGET } from "@/lib/engine/constraints";
 import { buildProposal, type Proposal, type Tiers } from "@/lib/engine/builder";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { saveSquad } from "@/lib/squadStore";
+import { loadNewsSignals, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
 
 const POS_LABEL: Record<Position, string> = {
   TW: "Torwart",
@@ -33,11 +34,20 @@ const DISTINCT_CLUBS = Array.from(new Set(POOL.map((p) => p.clubName))).sort();
 
 export default function AufbauPage() {
   const [tiers, setTiers] = useState<Tiers>({});
+  const [news, setNews] = useState<NewsSignals>(EMPTY_SIGNALS);
   const [proposal, setProposal] = useState<Proposal>(() => buildProposal({}));
   const [tierLoading, setTierLoading] = useState(false);
   const [tierError, setTierError] = useState<string | null>(null);
   const [tierDone, setTierDone] = useState(false);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
+
+  // News-Memory laden und in den Vorschlag einfließen lassen.
+  useEffect(() => {
+    loadNewsSignals().then((n) => {
+      setNews(n);
+      if (n.count) setProposal(buildProposal({}, n));
+    });
+  }, []);
 
   const overBudget = proposal.totalMv > BUDGET + 1e-6;
 
@@ -54,7 +64,7 @@ export default function AufbauPage() {
       if (!res.ok) throw new Error(json.error ?? "Fehler");
       const t = json.tiers as Tiers;
       setTiers(t);
-      setProposal(buildProposal(t));
+      setProposal(buildProposal(t, news));
       setTierDone(true);
     } catch (e) {
       setTierError((e as Error).message);
@@ -136,6 +146,9 @@ export default function AufbauPage() {
             </p>
             <p className="text-sm text-ink-muted">
               Summe erwartete Basis: {proposal.totalPoints} Pkt (Vorsaison)
+              {news.count > 0 && (
+                <> · {news.count} News-Signale einbezogen</>
+              )}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
