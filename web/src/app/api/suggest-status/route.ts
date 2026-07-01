@@ -13,12 +13,12 @@ const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
 // Web-Search-Tool-Version passend zum Modell (Dynamic Filtering auf Opus 4.x /
 // Sonnet 4.6, sonst die Basis-Variante).
-function webSearchTool() {
+function webSearchTool(maxUses: number) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
-    max_uses: 12,
+    max_uses: maxUses,
   };
 }
 
@@ -47,17 +47,18 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel. Ziel: für
-jeden Kaderspieler den wahrscheinlichen Einsatz-Status im kommenden Spieltag
-bestimmen — auf Basis EIGENER Web-Recherche.
+const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel. Der Kader
+steht fest. Recherchiere AUSSCHLIESSLICH zu den unten genannten Vereinen und den
+dort aufgelisteten Kaderspielern — keine anderen Vereine, keine anderen Spieler.
 
 Vorgehen:
-1. Recherchiere je Verein die aktuelle voraussichtliche Aufstellung und
-   Verletzungs-/Sperren-News zum genannten Spiel (Gegner + Datum). Nutze das
-   web_search-Tool. Bevorzugte Quellen: kicker.de, ligainsider.de, transfermarkt.de,
-   offizielle Vereinskanäle. Suche gezielt, z.B. "voraussichtliche Aufstellung
-   <Verein> <Gegner>".
-2. Leite pro Spieler den Status ab:
+1. Gehe die Vereine der Reihe nach durch. Mache PRO VEREIN GENAU EINE gezielte Suche
+   nach der aktuellen voraussichtlichen Aufstellung / Verletzungs- und Sperren-News
+   zum genannten Spiel (Gegner + Datum), z.B. "voraussichtliche Aufstellung
+   <Verein> <Gegner>". Nutze das web_search-Tool. Bevorzugte Quellen: kicker.de,
+   ligainsider.de, transfermarkt.de, offizielle Vereinskanäle.
+2. Prüfe im Suchergebnis NUR die für diesen Verein aufgelisteten Kaderspieler und
+   leite je Spieler den Status ab:
    - "start": klar gesetzt / Stammelf
    - "doubt": fraglich, Rotationskandidat, angeschlagen
    - "bench": wahrscheinlich Bank
@@ -65,6 +66,7 @@ Vorgehen:
 3. Rufe am Ende report_status auf.
 
 Regeln:
+- Recherchiere nicht breiter als nötig: die Kaderspieler sind die einzige Zielmenge.
 - Nur belegte Signale. Findest du zu einem Spieler nichts Belastbares, lasse ihn weg.
 - Nutze EXAKT die Namen aus der Kaderliste.
 - "reason": ein kurzer Satz auf Deutsch, mit Quellenhinweis (z.B. "laut kicker").`;
@@ -94,22 +96,31 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "players sind nötig." }, { status: 400 });
   }
 
-  const roster = players
-    .map((p) => {
-      const game = p.opponent
-        ? ` — Spiel: ${p.opponent}${p.kickoff ? ` am ${p.kickoff.slice(0, 10)}` : ""}`
+  // Nach Verein gruppieren → eine Suche pro Verein, nur die Kaderspieler zählen.
+  const byClub = new Map<string, { opponent?: string; kickoff?: string | null; names: string[] }>();
+  for (const p of players) {
+    const club = p.club ?? "?";
+    const g = byClub.get(club) ?? { opponent: p.opponent, kickoff: p.kickoff, names: [] };
+    g.names.push(`${p.name} (${p.position ?? "?"})`);
+    byClub.set(club, g);
+  }
+  const roster = [...byClub.entries()]
+    .map(([club, g]) => {
+      const game = g.opponent
+        ? ` — Spiel: ${g.opponent}${g.kickoff ? ` am ${g.kickoff.slice(0, 10)}` : ""}`
         : "";
-      return `- ${p.name} (${p.position ?? "?"}, ${p.club ?? "?"})${game}`;
+      return `${club}${game}\n  Kaderspieler: ${g.names.join(", ")}`;
     })
     .join("\n");
+  const clubCount = byClub.size;
   const extra = newsText?.trim()
     ? `\n\nZUSÄTZLICHER KONTEXT (vom Nutzer eingefügt):\n${newsText.trim()}`
     : "";
-  const userText = `KADER (mit jeweiligem Spiel):\n${roster}${extra}\n\nRecherchiere und rufe dann report_status auf.`;
+  const userText = `KADER NACH VEREIN (fest — nur diese Vereine/Spieler recherchieren):\n${roster}${extra}\n\nEine Suche pro Verein. Danach report_status aufrufen.`;
 
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(), REPORT_TOOL];
+  const tools: any[] = [webSearchTool(Math.min(clubCount * 2, 16)), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
