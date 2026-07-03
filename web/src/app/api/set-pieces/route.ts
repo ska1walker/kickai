@@ -9,7 +9,7 @@ export const maxDuration = 120;
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
-const DEFAULT_DOMAINS = ["kicker.de", "transfermarkt.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com"];
+const DEFAULT_DOMAINS = ["kicker.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com"];
 const ENV_DOMAINS = (process.env.SETPIECE_ALLOWED_DOMAINS || "").split(",").map((d) => d.trim()).filter(Boolean);
 const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 

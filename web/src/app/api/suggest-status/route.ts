@@ -17,7 +17,6 @@ const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 const DEFAULT_DOMAINS = [
   "kicker.de",
   "ligainsider.de",
-  "transfermarkt.de",
   "sport1.de",
   "bundesliga.com",
   "fussballdaten.de",

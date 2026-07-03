@@ -10,11 +10,11 @@ export const maxDuration = 300; // Recherche über mehrere Spieler dauert länge
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
-// Quellen für Talent-/Nachwuchs-Recherche: DFB (U21, Fritz-Walter), transfermarkt
-// (Länderspiele, Vita), kicker/ligainsider (Vorbereitung), fussballdaten.
+// Quellen für Talent-/Nachwuchs-Recherche: DFB (U21, Fritz-Walter),
+// kicker/ligainsider (Vorbereitung), fussballdaten. (transfermarkt.de blockiert
+// Anthropics Such-Crawler → bewusst nicht in der Whitelist.)
 const DEFAULT_SCOUT_DOMAINS = [
   "dfb.de",
-  "transfermarkt.de",
   "kicker.de",
   "ligainsider.de",
   "fussballdaten.de",
