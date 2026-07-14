@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { Status } from "@/lib/engine/types";
+import { pruneBlockedDomains } from "@/lib/webSearch";
 
 export const runtime = "nodejs";
 export const maxDuration = 120; // Web-Recherche kann mehrere Sekunden dauern
@@ -20,6 +21,9 @@ const DEFAULT_DOMAINS = [
   "sport1.de",
   "bundesliga.com",
   "fussballdaten.de",
+  "spox.com",
+  "ran.de",
+  "sport.de",
 ];
 const ALLOWED_DOMAINS = (process.env.NEWS_ALLOWED_DOMAINS || "")
   .split(",")
@@ -141,13 +145,25 @@ export async function POST(req: NextRequest) {
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
-    let response = await client.messages.create({
-      model: MODEL,
-      max_tokens: 8000,
-      system: SYSTEM,
-      tools,
-      messages,
-    });
+    let response;
+    try {
+      response = await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools,
+        messages,
+      });
+    } catch (e) {
+      if (!pruneBlockedDomains(tools, e)) throw e;
+      response = await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools,
+        messages,
+      });
+    }
     // Server-Tool-Schleife (web_search) kann pausieren → fortsetzen.
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {

@@ -7,17 +7,29 @@ import Anthropic from "@anthropic-ai/sdk";
 import { supabase, supabaseEnabled } from "@/lib/supabase/client";
 import { canon } from "@/lib/engine/clubs";
 import { DURABLE_TYPES, type NewsType } from "@/lib/news";
+import { pruneBlockedDomains } from "@/lib/webSearch";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
+// Breite Quellenliste — robots.txt-geprobt (Juli 2026). Sollte die Such-API eine
+// Domain doch ablehnen, entfernt das Self-Healing (pruneBlockedDomains) sie
+// automatisch und wiederholt den Aufruf.
 const DEFAULT_DOMAINS = [
   "kicker.de",
   "ligainsider.de",
   "sport1.de",
   "bundesliga.com",
+  "spox.com",
+  "ran.de",
+  "sport.de",
+  "fupa.net",
+  "reviersport.de",
+  "90min.de",
+  "fussballtransfers.com",
+  "bulinews.com",
 ];
 const ENV_DOMAINS = (process.env.NEWS_COLLECT_ALLOWED_DOMAINS || "")
   .split(",")
@@ -30,10 +42,22 @@ function webSearchTool() {
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
-    max_uses: 12,
-    allowed_domains: DOMAINS,
+    max_uses: 16,
+    allowed_domains: [...DOMAINS],
   };
 }
+
+// Rotierender Tages-Schwerpunkt: über die Woche werden alle Bereiche
+// tiefergehend abgedeckt, statt jeden Tag nur die Schlagzeilen zu streifen.
+const FOCUS: Record<number, string> = {
+  0: "Vorbereitung & Testspiele: Ergebnisse, auffällige Spieler, Einsatzzeiten",
+  1: "Transfers: bestätigte Wechsel und konkrete, substanzielle Gerüchte",
+  2: "Verletzungen & Rückkehrer: Ausfalldauern, Aufbautraining, Comebacks",
+  3: "Trainer & Taktik: Systeme, Hierarchien, wer ist gesetzt",
+  4: "Vorbereitung & Testspiele: Ergebnisse, auffällige Spieler, Einsatzzeiten",
+  5: "Transfers: bestätigte Wechsel und konkrete, substanzielle Gerüchte",
+  6: "Aufsteiger & Überraschungsteams: Kaderqualität, Transferbilanz",
+};
 
 const TYPES: NewsType[] = [
   "transfer_in",
@@ -126,22 +150,37 @@ export async function GET(req: NextRequest) {
   // selbst wenn die Recherche danach fehlschlägt.
   await supabase.from("news_log").select("id", { head: true, count: "exact" });
 
-  const today = new Date().toISOString().slice(0, 10);
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+  const focus = FOCUS[now.getUTCDay()];
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tools: any[] = [webSearchTool(), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [
-    { role: "user", content: `Sammle die wichtigsten Bundesliga-News (Stand ${today}) und rufe report_news auf.` },
+    {
+      role: "user",
+      content:
+        `Sammle die wichtigsten Bundesliga-News (Stand ${today}) und rufe report_news auf.\n` +
+        `HEUTIGER SCHWERPUNKT (zusätzlich zu den Top-Meldungen besonders gründlich): ${focus}.`,
+    },
   ];
+  const baseParams = () => ({
+    model: MODEL,
+    max_tokens: 8000,
+    system: SYSTEM,
+    tools,
+    messages,
+  });
 
   try {
-    let response = await client.messages.create({
-      model: MODEL,
-      max_tokens: 8000,
-      system: SYSTEM,
-      tools,
-      messages,
-    });
+    let response;
+    try {
+      response = await client.messages.create(baseParams());
+    } catch (e) {
+      // Self-Healing: blockierte Domain(s) aus der Whitelist werfen, 1× retry.
+      if (!pruneBlockedDomains(tools, e)) throw e;
+      response = await client.messages.create(baseParams());
+    }
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {
       messages.push({ role: "assistant", content: response.content });

@@ -3,13 +3,14 @@
 // unterbepreisten Punkte-Boden (ABW-Tor = +5). Server-seitig, web_search.
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { pruneBlockedDomains } from "@/lib/webSearch";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
-const DEFAULT_DOMAINS = ["kicker.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com"];
+const DEFAULT_DOMAINS = ["kicker.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com", "spox.com", "sport.de"];
 const ENV_DOMAINS = (process.env.SETPIECE_ALLOWED_DOMAINS || "").split(",").map((d) => d.trim()).filter(Boolean);
 const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
@@ -68,7 +69,13 @@ export async function POST(req: NextRequest) {
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
-    let response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+    let response;
+    try {
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+    } catch (e) {
+      if (!pruneBlockedDomains(tools, e)) throw e;
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+    }
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {
       messages.push({ role: "assistant", content: response.content });

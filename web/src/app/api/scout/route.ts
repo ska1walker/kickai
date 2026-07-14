@@ -4,6 +4,7 @@
 // Signal ab. Ergänzt die Kaderauswahl, ersetzt sie nicht. Server-seitig.
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { pruneBlockedDomains } from "@/lib/webSearch";
 
 export const runtime = "nodejs";
 export const maxDuration = 300; // Recherche über mehrere Spieler dauert länger
@@ -18,6 +19,9 @@ const DEFAULT_SCOUT_DOMAINS = [
   "kicker.de",
   "ligainsider.de",
   "fussballdaten.de",
+  "fupa.net", // Jugend-/Testspiel-Berichte — stark für Vorbereitung
+  "sport.de",
+  "spox.com",
 ];
 const ENV_DOMAINS = (process.env.SCOUT_ALLOWED_DOMAINS || "")
   .split(",")
@@ -131,13 +135,25 @@ export async function POST(req: NextRequest) {
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
-    let response = await client.messages.create({
-      model: MODEL,
-      max_tokens: 8000,
-      system: SYSTEM,
-      tools,
-      messages,
-    });
+    let response;
+    try {
+      response = await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools,
+        messages,
+      });
+    } catch (e) {
+      if (!pruneBlockedDomains(tools, e)) throw e;
+      response = await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools,
+        messages,
+      });
+    }
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 8) {
       messages.push({ role: "assistant", content: response.content });
