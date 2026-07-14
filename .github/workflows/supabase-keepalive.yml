@@ -1,0 +1,25 @@
+# Supabase-Keepalive (Fallback-Schicht, unabhängig von Vercel).
+# Pingt die Supabase-REST-API alle 3 Tage, damit das Free-Tier-Projekt nie die
+# 7-Tage-Inaktivitätsgrenze erreicht — selbst wenn die Vercel-Crons ausfallen.
+# Der anon-Key ist by design öffentlich (steckt im Client-Bundle der App).
+# Hinweis: GitHub deaktiviert Scheduled Workflows nach 60 Tagen ohne Repo-
+# Aktivität — dieser Workflow ist die Redundanz, nicht die einzige Schicht.
+name: supabase-keepalive
+
+on:
+  schedule:
+    - cron: "30 7 */3 * *" # alle 3 Tage, 07:30 UTC
+  workflow_dispatch: {} # manuell auslösbar
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST (zählt als Aktivität)
+        run: |
+          KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsYWdueWJyenliYmtlaWRxdHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4Njk2OTEsImV4cCI6MjA5ODQ0NTY5MX0.S7fBWF5TVEoqU0WgB2htOyl5EgnT4UX9H8oKG_D9iN8"
+          URL="https://llagnybrzybbkeidqtzc.supabase.co/rest/v1/news_log?select=id&limit=1"
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" "$URL")
+          echo "Supabase antwortet: HTTP $code"
+          [ "$code" = "200" ] || exit 1

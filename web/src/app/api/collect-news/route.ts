@@ -121,6 +121,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Supabase nicht konfiguriert." }, { status: 501 });
   }
 
+  // Keepalive: DB VOR dem KI-Call berühren — so zählt jeder Cron-Lauf als
+  // Supabase-Aktivität (Free-Tier pausiert nach 7 Tagen ohne Aktivität),
+  // selbst wenn die Recherche danach fehlschlägt.
+  await supabase.from("news_log").select("id", { head: true, count: "exact" });
+
   const today = new Date().toISOString().slice(0, 10);
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
