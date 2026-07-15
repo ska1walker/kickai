@@ -88,10 +88,16 @@ const REPORT_TOOL = {
               type: "boolean",
               description: "true = dauerhafter Fakt (Transfer/Trainer/Sperre/Verletzung m. Dauer); false = flüchtiges Signal (Gerücht, Form)",
             },
+            impact: {
+              type: "integer",
+              enum: [1, 2, 3, 4],
+              description:
+                "Managerspiel-Relevanz: 4=kritisch (Stammspieler fällt lange aus / Star-Transfer), 3=hoch (ändert wahrscheinlich, wer spielt), 2=mittel (könnte Aufstellungen beeinflussen), 1=gering (Verein/Organisation/Termine ohne Aufstellungsbezug)",
+            },
             summary: { type: "string", description: "1 Satz, sachlich" },
             source: { type: "string", description: "Quelle (Domain oder URL)" },
           },
-          required: ["type", "durable", "summary"],
+          required: ["type", "durable", "impact", "summary"],
           additionalProperties: false,
         },
       },
@@ -116,6 +122,14 @@ Regeln:
 - Nur echte, belegte Meldungen. Erfinde nichts. Keine reinen Gerüchte ohne Substanz.
 - "durable": Transfers, Trainerwechsel, Sperren, Verletzungen mit Dauer = true;
   Formkurve, Vorbereitungs-Eindruck, vage Meldungen = false.
+- "impact" = Managerspiel-Relevanz. Die einzige Frage: Ändert diese Meldung,
+  WER SPIELT oder wie viele Punkte ein Spieler holt?
+  4 = kritisch: Stammspieler fällt lange aus, Star-Transfer, Torwartwechsel
+  3 = hoch: verändert wahrscheinlich Aufstellungen (Neuzugang auf besetzte
+      Position, Trainerwechsel, Rückkehr eines Stammspielers)
+  2 = mittel: könnte relevant werden (Testspiel-Auffälligkeit, Rotations-Indiz)
+  1 = gering: KEIN Aufstellungsbezug (Vorstand, Sponsoren, Tickets, Termine,
+      Stadion, Jubiläen) — solche Meldungen im Zweifel ganz weglassen.
 - Pro Meldung EIN Eintrag, "summary" ein sachlicher Satz, "source" die Quelle.
 - Quellen technisch beschränkt auf: ${DOMAINS.join(", ")}.
 - Ziel: 8-20 relevante Einträge. Am Ende report_news aufrufen.`;
@@ -209,6 +223,7 @@ export async function GET(req: NextRequest) {
         player?: string;
         type?: string;
         durable?: boolean;
+        impact?: number;
         summary?: string;
         source?: string;
       })
@@ -217,6 +232,14 @@ export async function GET(req: NextRequest) {
         const clubCode = s.club ? canon(s.club) : null;
         const type = s.type as NewsType;
         const durable = s.durable ?? DURABLE_TYPES.includes(type);
+        // Impact mit Code-Leitplanken: Modellwert clampen; 'other' ohne Spieler
+        // kann nie mehr als "mittel" sein; Verletzung/Transfer MIT Spieler nie
+        // weniger als "hoch".
+        let impact = Math.min(4, Math.max(1, Math.round(s.impact ?? 2)));
+        if (type === "other" && !s.player) impact = Math.min(impact, 2);
+        if (s.player && ["injury", "transfer_in", "transfer_out", "suspension"].includes(type)) {
+          impact = Math.max(impact, 3);
+        }
         // Gruppiert dieselbe Story über Tage (Typ + Verein + Spieler/Kern).
         const key = `${type}:${clubCode ?? "x"}:${slug(s.player || s.summary!)}`;
         return {
@@ -225,6 +248,7 @@ export async function GET(req: NextRequest) {
           player: s.player ?? null,
           type,
           durable,
+          impact,
           summary: s.summary!,
           source: s.source ?? null,
           dedup_key: key,
@@ -232,9 +256,17 @@ export async function GET(req: NextRequest) {
       });
 
     if (!rows.length) return NextResponse.json({ inserted: 0 });
-    const { error, count } = await supabase
+    let { error, count } = await supabase
       .from("news_log")
       .upsert(rows, { onConflict: "dedup_key", count: "exact" });
+    if (error && /impact/.test(error.message)) {
+      // DB noch ohne impact-Spalte (ALTER aus schema.sql fehlt) → ohne Feld
+      // schreiben, damit der Cron nie ausfällt.
+      const legacy = rows.map(({ impact: _i, ...rest }) => rest);
+      ({ error, count } = await supabase
+        .from("news_log")
+        .upsert(legacy, { onConflict: "dedup_key", count: "exact" }));
+    }
     if (error) {
       return NextResponse.json({ error: `DB: ${error.message}` }, { status: 502 });
     }

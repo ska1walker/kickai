@@ -2,7 +2,14 @@
 import { useEffect, useState } from "react";
 import { supabase, supabaseEnabled } from "@/lib/supabase/client";
 import { CLUB_LABEL } from "@/lib/engine/clubs";
-import { recencyWeight, TYPE_LABEL, type NewsItem } from "@/lib/news";
+import { newsWeight, IMPACT_LABEL, TYPE_LABEL, type NewsItem } from "@/lib/news";
+
+const IMPACT_CHIP: Record<number, string> = {
+  4: "bg-signal text-white",
+  3: "bg-signal-50 text-signal-700",
+  2: "bg-white text-ink-muted border border-ink-line",
+  1: "bg-white text-ink-muted border border-ink-line opacity-60",
+};
 
 const TYPE_STYLE: Record<string, string> = {
   transfer_in: "bg-signal text-white",
@@ -48,10 +55,12 @@ export default function NewsPage() {
           Gesammelte Transfer- & Kader-News
         </h1>
         <p className="mt-2 max-w-2xl text-ink-muted">
-          Ein täglicher Job sammelt die wichtigsten Bundesliga-News (Transfers,
-          Trainer, Rückkehrer, Verletzungen, Vorbereitung) und legt sie hier ab.
-          Dauerhafte Fakten behalten volles Gewicht; flüchtige Signale werden nach
-          Aktualität abgewertet — der Balken rechts zeigt das aktuelle Gewicht.
+          Zwei tägliche Läufe sammeln die wichtigsten Bundesliga-News (Transfers,
+          Trainer, Rückkehrer, Verletzungen, Vorbereitung). Jede Meldung wird nach
+          <strong className="text-ink"> Managerspiel-Relevanz</strong> bewertet
+          (kritisch/hoch/mittel/gering: ändert sie, wer spielt?) und nach
+          Aktualität abgewertet — der Balken zeigt das kombinierte Gewicht, mit dem
+          die Meldung in Entscheidungen einfließt. Sortiert nach Gewicht.
         </p>
       </div>
 
@@ -74,8 +83,10 @@ export default function NewsPage() {
 
       {items && items.length > 0 && (
         <div className="card divide-y divide-ink-line">
-          {items.map((it) => {
-            const w = recencyWeight(it);
+          {[...items]
+            .sort((a, b) => newsWeight(b) - newsWeight(a))
+            .map((it) => {
+            const w = newsWeight(it);
             return (
               <div key={it.id} className="flex items-start gap-3 px-4 py-3">
                 <span className="w-10 shrink-0 pt-0.5 font-mono text-xs text-ink-muted">
@@ -83,6 +94,9 @@ export default function NewsPage() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
+                    <span className={`chip text-[10px] ${IMPACT_CHIP[it.impact ?? 2]}`}>
+                      {IMPACT_LABEL[it.impact ?? 2]}
+                    </span>
                     <span className={`chip text-[10px] ${TYPE_STYLE[it.type]}`}>
                       {TYPE_LABEL[it.type]}
                     </span>

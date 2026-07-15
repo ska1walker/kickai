@@ -35,11 +35,15 @@ create table if not exists news_log (
   type       text not null check (type in
              ('transfer_in','transfer_out','coach','injury','suspension','return','preseason_form','other')),
   durable    boolean not null default false,
+  impact     int not null default 2 check (impact between 1 and 4),
+             -- Managerspiel-Relevanz: 4=kritisch, 3=hoch, 2=mittel, 1=gering
   summary    text not null,
   source     text,
   dedup_key  text not null unique,          -- gruppiert dieselbe Story über Tage
   created_at timestamptz not null default now()
 );
+-- Upgrade bestehender Installationen (idempotent):
+alter table news_log add column if not exists impact int not null default 2;
 create index if not exists idx_news_created on news_log (created_at desc);
 create index if not exists idx_news_club on news_log (club);
 

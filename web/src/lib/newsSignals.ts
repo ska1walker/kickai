@@ -4,7 +4,7 @@
 // Spieler höher gewichten). Alles nach Aktualität × Dauerhaftigkeit gewichtet.
 "use client";
 import { supabase, supabaseEnabled } from "@/lib/supabase/client";
-import { recencyWeight, TYPE_LABEL, type NewsItem, type NewsType } from "@/lib/news";
+import { newsWeight, TYPE_LABEL, type NewsItem, type NewsType } from "@/lib/news";
 
 // Basis-Delta je Typ (vor Recency-Gewicht) auf Spielerebene.
 const PLAYER_DELTA: Partial<Record<NewsType, number>> = {
@@ -40,7 +40,8 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
   const clubAgg: Record<string, number> = {};
 
   for (const it of rows) {
-    const w = recencyWeight(it, now);
+    // Gesamtgewicht = Managerspiel-Relevanz × Aktualität.
+    const w = newsWeight(it, now);
     // Spieler-Signal
     if (it.player && PLAYER_DELTA[it.type] != null) {
       players.push({
