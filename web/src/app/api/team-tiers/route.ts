@@ -69,9 +69,10 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Analyst für die Bundesliga-Saisonprognose. Recherchiere für
-die kommende Saison die erwartete Tabellen-Region der Vereine (Prognosen, Transfer-
-Bewertungen, Experten-Einschätzungen).
+const SYSTEM = `Du bist Analyst für die Saisonprognose der 1. Bundesliga
+(Deutschland) — nur diese Liga. Recherchiere für die kommende Saison die
+erwartete Tabellen-Region der Vereine (Prognosen, Transfer-Bewertungen,
+Experten-Einschätzungen).
 
 Ordne jeden genannten Verein einer Stufe zu:
 - "top": klar im oberen Drittel erwartet (z.B. Bayern, Dortmund, Leverkusen)

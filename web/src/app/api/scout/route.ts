@@ -73,8 +73,9 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Talent-Scout für das kicker-Managerspiel. Für jeden Spieler
-der Liste recherchiere Signale, die der Marktwert NICHT abbildet, und leite eine
+const SYSTEM = `Du bist Talent-Scout für das kicker-Managerspiel zur 1. Bundesliga
+(Deutschland) — nur diese Liga ist relevant. Für jeden Spieler der Liste
+recherchiere Signale, die der Marktwert NICHT abbildet, und leite eine
 Einschätzung der Stammplatz-/Durchbruch-Chance für die kommende Saison ab.
 
 Zu jedem Spieler recherchiere (web_search):

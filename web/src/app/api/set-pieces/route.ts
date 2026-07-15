@@ -44,9 +44,9 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du recherchierst für die Bundesliga-Kaderplanung die Standard- und
-Elfmeterschützen. Ziel: Spieler mit unterbepreistem Punkte-Boden (ein Abwehr-Tor
-gibt +5). Finde je Verein:
+const SYSTEM = `Du recherchierst für die Kaderplanung in der 1. Bundesliga
+(Deutschland) — nur diese Liga — die Standard- und Elfmeterschützen. Ziel:
+Spieler mit unterbepreistem Punkte-Boden (ein Abwehr-Tor gibt +5). Finde je Verein:
 - den designierten ELFMETERSCHÜTZEN ("penalty"),
 - den/die Hauptschützen für Freistöße ("freekick") und Ecken ("corner"), sofern klar.
 

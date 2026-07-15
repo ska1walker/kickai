@@ -101,8 +101,10 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Nachrichten-Sammler für die Bundesliga-Kaderplanung. Suche die
-WICHTIGSTEN News der letzten ~48 Stunden und melde sie strukturiert.
+const SYSTEM = `Du bist Nachrichten-Sammler für die Kaderplanung in der
+1. Bundesliga (Deutschland). NUR 1. Bundesliga — keine 2. Liga, keine anderen
+Ligen (Aufsteiger IN die 1. Bundesliga zählen dazu). Suche die WICHTIGSTEN News
+der letzten ~48 Stunden und melde sie strukturiert.
 
 Kategorien (jetzt, WM-/Vorbereitungsphase, in dieser Priorität):
 1. Transfers: bestätigte Zugänge/Abgänge (transfer_in/transfer_out).

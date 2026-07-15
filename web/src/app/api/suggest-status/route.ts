@@ -24,6 +24,7 @@ const DEFAULT_DOMAINS = [
   "spox.com",
   "ran.de",
   "sport.de",
+  "comunio.de", // deutsche Fantasy-Community, Aufstellungstipps wie ligainsider
 ];
 const ALLOWED_DOMAINS = (process.env.NEWS_ALLOWED_DOMAINS || "")
   .split(",")
@@ -68,9 +69,11 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel. Der Kader
-steht fest. Recherchiere AUSSCHLIESSLICH zu den unten genannten Vereinen und den
-dort aufgelisteten Kaderspielern — keine anderen Vereine, keine anderen Spieler.
+const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel zur
+1. Bundesliga (Deutschland). NUR 1. Bundesliga — keine 2. Liga, keine anderen
+Ligen. Der Kader steht fest. Recherchiere AUSSCHLIESSLICH zu den unten genannten
+Vereinen und den dort aufgelisteten Kaderspielern — keine anderen Vereine, keine
+anderen Spieler.
 
 Vorgehen:
 1. Gehe die Vereine der Reihe nach durch. Mache PRO VEREIN GENAU EINE gezielte Suche
