@@ -1,9 +1,9 @@
-// Default-Kader: 22 echte 2025/26-Anker, aus dem Spieler-Pool per ID abgeleitet
+// Default-Kader: bewährte 25/26-Anker, aus dem aktiven Spieler-Pool per ID abgeleitet
 // (eine Quelle der Wahrheit — Name/Verein/Position/MV/exp. Punkte aus der CSV).
 import type { SquadPlayer } from "@/lib/engine/types";
 import { poolById } from "./pool";
 
-export const DEFAULT_SEASON = 2025; // = Saison 2025/26
+export const DEFAULT_SEASON = 2026; // = Saison 2026/27
 
 const SEED_IDS = [
   "pl-k00118051", "pl-k00054360", "pl-k00039161", // TW
@@ -15,15 +15,17 @@ const SEED_IDS = [
   "pl-k00158876", // ST
 ];
 
-export const SEED_SQUAD: SquadPlayer[] = SEED_IDS.map((id) => {
+// Tolerant: Spieler, die die Liga verlassen haben, fallen still raus — der
+// echte Kader entsteht ohnehin über /aufbau bzw. den Kader-Editor.
+export const SEED_SQUAD: SquadPlayer[] = SEED_IDS.flatMap((id) => {
   const p = poolById(id);
-  if (!p) throw new Error(`Seed-Spieler ${id} nicht im Pool`);
-  return {
+  if (!p) return [];
+  return [{
     id: p.id,
     name: p.name,
     club: p.club,
     position: p.position,
     expPoints: p.expPoints,
     mv: p.mv,
-  };
+  }];
 });

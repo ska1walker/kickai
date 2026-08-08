@@ -27,11 +27,13 @@ Datenquelle: kicker-Export-CSV (Host braucht `www.` — sonst NXDOMAIN!)
 über Auf-/Absteiger). `se-k00012025` = Saison **2025/26**, NICHT 24/25! Der
 Hauptdatensatz, den frühere Notizen „24/25" nannten, ist in Wahrheit die
 komplette Saison 25/26. Gezogen liegen **4 Saisons** vor:
-`se-k00012022`=22/23, `2023`=23/24, `2024`=24/25, `2025`=25/26.
-`se-k00012026` = 26/27 → 404 (noch nicht gespielt, startet Aug 2026). Damit ist
-25/26 die **aktuellste komplette Saison und liegt bereits in `data/`** — nichts
-Neueres zu holen bis 26/27 durch ist. ACHTUNG Sentinel: MV=999 Mio = „kein
-Marktwert gelistet" (v.a. 24/25-Datei) → filtern.
+`se-k00012022`=22/23, `2023`=23/24, `2024`=24/25, `2025`=25/26,
+`se-k00012026`=26/27 (**seit Aug 2026 verfügbar, gezogen — die AKTIVE Saison**).
+Auf-/Absteiger 26/27: + Schalke, Paderborn, Elversberg / − Heidenheim,
+St. Pauli, Wolfsburg. WICHTIG: kicker befüllt die Punkte-Spalte der neuen
+Saison mit den VORSAISON-Punkten vor — auch für Rückkehrer ohne 25/26-Eintrag
+(Boey, Adamu …); build_pool nutzt das als zweite Bridge-Quelle. ACHTUNG
+Sentinel: MV=999 Mio = „kein Marktwert gelistet" (v.a. 24/25-Datei) → filtern.
 
 1. **Korrelation Marktwert ↔ Saisonpunkte = 0.70.** Marktwert sagt VIEL aus.
    → Stars blind meiden ist FALSCH. Reines "billig kaufen" verliert
@@ -149,16 +151,16 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    OFFEN: Vercel-Deploy + Supabase Frankfurt provisionieren, CSV-Import-UI für
    neue Saison, Auth für Mehrbenutzer (statt anon-Policy).
 
-4. **Für den Kaderbau 26/27:** sobald `se-k00012026` (26/27) verfügbar wird
-   (nach Saisonstart Aug 2026, aktuell 404), ziehen und Scanner/cross_season
-   erweitern. Bis dahin ist 25/26 (`se-k00012025`) die aktuellste Basis —
-   liegt schon in `data/`. **Vorsaison-Punkte-Bridge steht bereit**
-   (`engine/build_pool.py`): am Saisonanfang sind Punkte/Noten der neuen Saison
-   =0 → `--preseason --reference 2025` hängt 25/26-Punkte per ID an den neuen
-   Kader (Noten bleiben bewusst ungenutzt, Korr≈0); Spieler ohne Historie
-   (Aufsteiger/Neuzugänge) → hasHistory=false, Einschätzung via Scout/News.
-   Danach nur Pool-Import (`web/.../pool.ts`) + `DEFAULT_SEASON` umstellen und
-   neue Auf-/Absteiger in `clubs.py`/`clubs.ts` ergänzen.
+4. ~~Für den Kaderbau 26/27~~ **ERLEDIGT (8. Aug 2026):** `se-k00012026`
+   gezogen (549 Spieler, 0 unaufgelöste Vereine), Bridge gelaufen
+   (`--preseason --reference 2025`: 361 mit Historie inkl. 7 Rückkehrer über
+   die kicker-Vorbefüllung, 188 ohne → Scout/News), Aufsteiger in
+   `clubs.py`/`clubs.ts` ergänzt, `players-2026.json` gebündelt,
+   `DEFAULT_SEASON=2026`, SEED_SQUAD tolerant gegen Liga-Abgänge.
+   OpenLigaDB hat den 26/27-Spielplan (Auftakt 28.08.2026). OFFEN: Kai legt
+   `player_pool` per schema.sql im SQL-Editor an (für den /daten-Button;
+   die Supabase-MCP hat KEINEN Zugriff auf das kickai-Projekt), dann echten
+   26/27-Kader über /aufbau + /squad bauen.
 
 5. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
    Test gemacht. Ergebnis: statisches ML hebt den globalen Forecast leicht

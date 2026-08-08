@@ -104,9 +104,11 @@ export async function POST(req: NextRequest) {
     let points = Number(r["Punkte"]) || 0;
     let hasHistory: boolean | null = null;
     if (body.preseason) {
-      const has = id in refPoints;
-      points = has ? refPoints[id] : 0;
-      hasHistory = has;
+      // kicker befüllt die neue Saison mit Vorsaison-Punkten vor — auch für
+      // Rückkehrer ohne Referenz-Eintrag. Referenz zuerst, sonst CSV-Wert.
+      const csvPts = points;
+      hasHistory = id in refPoints || csvPts > 0;
+      points = refPoints[id] ?? csvPts;
     }
     rows.push({
       season,

@@ -79,8 +79,13 @@ def main() -> int:
             "mv": round(float(r.MV), 1),
         }
         if args.preseason:
-            has = r.ID in ref_points
-            pts = ref_points[r.ID] if has else 0
+            # kicker befüllt die Punkte-Spalte der neuen Saison mit den
+            # Vorsaison-Punkten vor — auch für Rückkehrer, die in --reference
+            # fehlen (z.B. Leih-Rückkehr, Ausland). Deshalb: Referenz zuerst,
+            # sonst CSV-Vorbefüllung; Historie = eine der beiden Quellen >0.
+            csv_pts = int(r.Punkte)
+            has = r.ID in ref_points or csv_pts > 0
+            pts = ref_points.get(r.ID, csv_pts)
             bridged += int(has)
             nohist += int(not has)
             entry["points"] = pts

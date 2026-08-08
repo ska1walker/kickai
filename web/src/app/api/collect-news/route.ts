@@ -229,6 +229,13 @@ export async function GET(req: NextRequest) {
       })
       .filter((s) => s.summary && typeSet.has(s.type as NewsType))
       .map((s) => {
+        // Platzhalter-Spielernamen ("-", "n/a", …) → null; Zitier-Markup aus
+        // Web-Search-Antworten aus dem Summary strippen.
+        const player = s.player && s.player.replace(/[^\p{L}\p{N}]/gu, "").length >= 3
+          ? s.player.trim()
+          : undefined;
+        s.player = player;
+        s.summary = s.summary!.replace(/<\/?cite[^>]*>/g, "").trim();
         const clubCode = s.club ? canon(s.club) : null;
         const type = s.type as NewsType;
         const durable = s.durable ?? DURABLE_TYPES.includes(type);

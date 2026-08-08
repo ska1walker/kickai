@@ -42,10 +42,12 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
   for (const it of rows) {
     // Gesamtgewicht = Managerspiel-Relevanz × Aktualität.
     const w = newsWeight(it, now);
-    // Spieler-Signal
-    if (it.player && PLAYER_DELTA[it.type] != null) {
+    // Spieler-Signal. Platzhalter wie "-" normalisieren zu "" und würden per
+    // includes("") JEDEN Spieler matchen — deshalb Mindestlänge verlangen.
+    const pn = it.player ? norm(it.player) : "";
+    if (pn.length >= 3 && PLAYER_DELTA[it.type] != null) {
       players.push({
-        norm: norm(it.player),
+        norm: pn,
         delta: PLAYER_DELTA[it.type]! * w,
         note: `${TYPE_LABEL[it.type]}${it.summary ? `: ${it.summary}` : ""}`,
       });
@@ -75,6 +77,7 @@ export function playerNews(
   const n = norm(name);
   let delta = 0;
   const notes: string[] = [];
+  if (n.length < 3) return { delta: 0, notes };
   for (const s of signals.players) {
     if (s.norm === n || s.norm.includes(n) || n.includes(s.norm)) {
       delta += s.delta;

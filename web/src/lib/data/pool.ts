@@ -1,6 +1,7 @@
-// Spieler-Pool (Bundesliga 25/26), generiert aus der kicker-CSV.
+// Spieler-Pool (Bundesliga 26/27, Preseason-Bridge aus 25/26), generiert aus
+// der kicker-CSV via engine/build_pool.py.
 // Basis für den Kader-Editor: echte Spieler mit Verein, Position, MV, exp. Punkten.
-import raw from "./players-2025.json";
+import raw from "./players-2026.json";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 
 export interface PoolPlayer extends SquadPlayer {

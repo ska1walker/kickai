@@ -24,6 +24,8 @@ const CLUBS: Record<string, string[]> = {
   hertha: ["Hertha BSC"],
   schalke: ["FC Schalke 04"],
   darmstadt: ["SV Darmstadt 98"],
+  paderborn: ["SC Paderborn 07", "SC Paderborn"],
+  elversberg: ["SV Elversberg", "SV 07 Elversberg"],
 };
 
 // Anzeigenamen je Code (für die UI).
