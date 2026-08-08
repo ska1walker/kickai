@@ -5,9 +5,12 @@ import { CLUB_LABEL } from "@/lib/engine/clubs";
 import { checkSquad, SQUAD_SHAPE, BUDGET } from "@/lib/engine/constraints";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { loadSquad, saveSquad, resetSquad } from "@/lib/squadStore";
-import { searchPool, type PoolPlayer } from "@/lib/data/pool";
+import { searchPool, poolById, type PoolPlayer } from "@/lib/data/pool";
 import { loadPool, getActiveSeason } from "@/lib/data/loadPool";
 import { supabaseEnabled } from "@/lib/supabase/client";
+import { explainPlayer, type Tiers } from "@/lib/engine/builder";
+import { loadNewsSignals, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
+import { loadStoredTiers } from "@/lib/research";
 
 const POS_LABEL: Record<Position, string> = {
   TW: "Torwart",
@@ -37,9 +40,22 @@ export default function SquadPage() {
   const [scoutError, setScoutError] = useState<string | null>(null);
   const [scoutByName, setScoutByName] = useState<Record<string, Scout>>({});
 
+  // Begründungs-Kontext: News-Signale + gespeicherte Team-Tier-Recherche.
+  const [news, setNews] = useState<NewsSignals>(EMPTY_SIGNALS);
+  const [tiers, setTiers] = useState<Tiers>({});
+
   useEffect(() => {
     loadPool(getActiveSeason()).finally(() => loadSquad().then(setSquad));
+    loadNewsSignals().then(setNews);
+    setTiers(loadStoredTiers());
   }, []);
+
+  // Warum steht der Spieler im Kader? Vorsaison-Basis, Tier, News, Historie —
+  // dynamisch berechnet, damit es auch für manuell ergänzte Spieler stimmt.
+  function explain(p: SquadPlayer): string | null {
+    const pool = p.id ? poolById(p.id) : undefined;
+    return pool ? explainPlayer(pool, tiers, news) : null;
+  }
 
   const check = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);
   const ids = useMemo(() => new Set((squad ?? []).map((p) => p.id)), [squad]);
@@ -293,6 +309,7 @@ export default function SquadPage() {
             <div className="card divide-y divide-ink-line">
               {players.map((p) => {
                 const sc = scoutByName[p.name];
+                const why = explain(p);
                 return (
                 <div key={p.id} className="flex items-center justify-between px-4 py-2.5">
                   <div className="min-w-0">
@@ -308,6 +325,11 @@ export default function SquadPage() {
                       )}
                     </p>
                     <p className="text-xs text-ink-muted">{CLUB_LABEL[p.club] ?? p.club}</p>
+                    {why && (
+                      <p className="mt-0.5 max-w-2xl text-xs leading-relaxed text-ink-muted">
+                        {why}
+                      </p>
+                    )}
                     {sc && (
                       <p className="mt-0.5 text-xs text-ink-muted">
                         {sc.tags.length > 0 && (

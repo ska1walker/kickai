@@ -112,6 +112,18 @@ function stratNote(p: PoolPlayer, sn: Map<string, string[]>): string {
   return n && n.length ? ` · ${n.join("; ")}` : "";
 }
 
+/** Nachvollziehbare Begründung für einen einzelnen (Kader-)Spieler — dieselben
+ *  Bausteine wie im Vorschlag: Vorsaison-Basis, Tier-Einordnung, News, Historie.
+ *  Wird u.a. im Kader-Editor unter jedem Spieler angezeigt. */
+export function explainPlayer(p: PoolPlayer, tiers: Tiers, news: NewsSignals): string {
+  const nm: NewsMap = new Map([[p.id!, playerNews(p.name, news)]]);
+  const base =
+    p.points > 0
+      ? `${p.points} Pkt Vorsaison bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio)`
+      : `Günstiger Kaderplatz (${p.mv.toFixed(1)}M) — spart Budget für die Startelf`;
+  return `${base}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
+}
+
 function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
   return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p)}`;
 }
