@@ -39,6 +39,10 @@ const SEC_CHIP: Record<string, string> = {
 // Distinkte Vereins-Anzeigenamen aus dem AKTIVEN Pool (für die Recherche).
 const distinctClubs = () => Array.from(new Set(POOL.map((p) => p.clubName))).sort();
 
+// Recherche-Ergebnisse überleben Reloads (localStorage).
+const TIERS_KEY = "kickai:tiers";
+const SETPIECES_KEY = "kickai:setpieces";
+
 export default function AufbauPage() {
   const [tiers, setTiers] = useState<Tiers>({});
   const [news, setNews] = useState<NewsSignals>(EMPTY_SIGNALS);
@@ -63,12 +67,25 @@ export default function AufbauPage() {
   };
 
   // Aktiven Pool (importierte Saison) + News laden und den Vorschlag neu bauen.
+  // Frühere Tier-/Schützen-Recherchen kommen aus localStorage — sie sollen
+  // einen Reload überleben, statt jedes Mal neu recherchiert werden zu müssen.
   useEffect(() => {
     (async () => {
       await loadPool(getActiveSeason());
       const n = await loadNewsSignals();
+      let t: Tiers = {};
+      let sp: Record<string, SetPieceRole> = {};
+      try {
+        t = JSON.parse(window.localStorage.getItem(TIERS_KEY) ?? "{}");
+        sp = JSON.parse(window.localStorage.getItem(SETPIECES_KEY) ?? "{}");
+      } catch {
+        /* korrupter Cache → ignorieren */
+      }
       setNews(n);
-      rebuild(tiers, n, stackDefense, setPieceTakers);
+      setTiers(t);
+      setSetPieceTakers(sp);
+      if (Object.keys(t).length) setTierDone(true);
+      rebuild(t, n, stackDefense, sp);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,6 +105,7 @@ export default function AufbauPage() {
       if (!res.ok) throw new Error(json.error ?? "Fehler");
       const t = json.tiers as Tiers;
       setTiers(t);
+      window.localStorage.setItem(TIERS_KEY, JSON.stringify(t));
       rebuild(t, news, stackDefense, setPieceTakers);
       setTierDone(true);
     } catch (e) {
@@ -119,6 +137,7 @@ export default function AufbauPage() {
         map[norm(t.player)] = t.role;
       });
       setSetPieceTakers(map);
+      window.localStorage.setItem(SETPIECES_KEY, JSON.stringify(map));
       rebuild(tiers, news, stackDefense, map);
     } catch (e) {
       setSpError((e as Error).message);
