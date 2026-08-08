@@ -57,11 +57,13 @@ const XI_FORMATIONS: Array<Record<Position, number>> = [
 ];
 const POS_WEIGHT: Record<Position, number> = { TW: 0.9, ABW: 1.05, MF: 1.05, ST: 1.0 };
 const TIER_BONUS: Record<Tier, number> = { top: 0.05, surprise: 0.15, mid: 0, lower: -0.1 };
+// Bewusst als "Verein …" formuliert: sonst liest sich die Tier-Einordnung
+// "Mittelfeld" wie eine Positionsangabe des Spielers.
 const TIER_LABEL: Record<Tier, string> = {
-  top: "Spitzenteam",
-  surprise: "Überraschungskandidat oberes Drittel",
-  mid: "Mittelfeld",
-  lower: "unteres Drittel",
+  top: "Verein im Spitzenfeld erwartet",
+  surprise: "Verein als Überraschungskandidat fürs obere Drittel",
+  mid: "Verein im Tabellen-Mittelfeld erwartet",
+  lower: "Verein im unteren Drittel erwartet",
 };
 
 const ppm = (p: PoolPlayer) => p.points / Math.max(p.mv, 0.5);

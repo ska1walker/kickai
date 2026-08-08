@@ -30,11 +30,13 @@ const TIER_CHIP: Record<string, string> = {
   mid: "bg-white text-ink-muted border border-ink-line",
   lower: "bg-white text-ink-muted border border-ink-line",
 };
+// Chip zeigt die Vereins-Erwartung — "Tabelle" davor, damit es nicht mit der
+// Spielerposition verwechselt wird.
 const TIER_SHORT: Record<string, string> = {
-  top: "Spitze",
-  surprise: "Überraschung",
-  mid: "Mittelfeld",
-  lower: "unten",
+  top: "Tabelle: Spitze",
+  surprise: "Tabelle: Überraschung",
+  mid: "Tabelle: Mitte",
+  lower: "Tabelle: unten",
 };
 const SEC_CHIP: Record<string, string> = {
   hoch: "bg-signal-50 text-signal-700",
