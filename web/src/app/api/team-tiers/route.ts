@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { canon } from "@/lib/engine/clubs";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import bundled2025 from "@/lib/data/players-2025.json";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -86,6 +87,7 @@ Regeln:
 - Nur die unten genannten Vereine bewerten.
 - Belege die Einschätzung (Transfers, Prognosen). "reason": ein knapper Satz mit Quelle.
 - Quellen technisch beschränkt auf: ${DOMAINS.join(", ")}.
+- Wer Aufsteiger ist, steht unten — nenne KEINEN anderen Verein "Aufsteiger".
 - Am Ende report_tiers aufrufen.`;
 
 export async function POST(req: NextRequest) {
@@ -102,7 +104,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "clubs sind nötig." }, { status: 400 });
   }
 
-  const userText = `VEREINE (nur diese bewerten):\n${clubs.map((c) => `- ${c}`).join("\n")}\n\nRecherchiere und rufe dann report_tiers auf.`;
+  // Aufsteiger deterministisch aus den Daten ableiten (Vereine, die in der
+  // Vorsaison nicht in der Liga waren) — das Modell rät sonst falsch, z.B.
+  // war der HSV in 26/27 fälschlich als Aufsteiger eingestuft.
+  const lastSeason = new Set(
+    (bundled2025 as { club: string }[]).map((p) => p.club).filter(Boolean),
+  );
+  const promoted = clubs.filter((c) => {
+    const code = canon(c);
+    return code ? !lastSeason.has(code) : false;
+  });
+
+  const userText =
+    `VEREINE (nur diese bewerten):\n${clubs.map((c) => `- ${c}`).join("\n")}\n\n` +
+    (promoted.length
+      ? `AUFSTEIGER dieser Saison (belegt, nicht abweichen): ${promoted.join(", ")}. Alle anderen waren letzte Saison bereits in der 1. Bundesliga.\n\n`
+      : "") +
+    `Recherchiere und rufe dann report_tiers auf.`;
 
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
