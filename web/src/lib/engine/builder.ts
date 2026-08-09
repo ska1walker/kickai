@@ -169,8 +169,10 @@ export function explainScore(
 
   const steps: ScoreStep[] = [];
   let running = base;
-  const push = (label: string, factor: number, why: string) => {
-    if (Math.abs(factor - 1) < 1e-9) return; // neutrale Schritte weglassen
+  // force = Schritt auch bei Faktor 1.00 zeigen: der Leser soll sehen, dass
+  // die Dimension geprüft wurde und schlicht neutral ausfiel.
+  const push = (label: string, factor: number, why: string, force = false) => {
+    if (!force && Math.abs(factor - 1) < 1e-9) return;
     const delta = running * factor - running;
     running *= factor;
     steps.push({ label, factor, delta, why });
@@ -188,7 +190,10 @@ export function explainScore(
   const tier = tiers[p.club]?.tier;
   if (tier) {
     push(`Vereins-Erwartung: ${TIER_LABEL[tier]}`, 1 + TIER_BONUS[tier],
-      tiers[p.club]?.reason || "aus der Team-Tier-Recherche");
+      tiers[p.club]?.reason || "aus der Team-Tier-Recherche", true);
+  } else {
+    push("Vereins-Erwartung", 1,
+      "noch keine Team-Tier-Recherche gelaufen — auf /aufbau anstoßen", true);
   }
   const clubDelta = news.byClub[p.club]?.delta ?? 0;
   if (clubDelta) {
@@ -196,10 +201,10 @@ export function explainScore(
       news.byClub[p.club]?.note ?? "Netto-Transferstärke aus der News-Memory");
   }
   const pn = nm.get(p.id!);
-  if (pn?.delta) {
-    push("Spieler-News", 1 + pn.delta,
-      pn.notes.join("; ") || "gewichtet nach Relevanz × Aktualität");
-  }
+  push("Spieler-News", 1 + (pn?.delta ?? 0),
+    pn?.notes.length
+      ? pn.notes.join("; ")
+      : "keine Meldung zu diesem Spieler in der News-Memory", true);
   const sd = strat.deltaById.get(p.id!) ?? 0;
   if (sd) {
     push("Strategie (Ceiling-Play)", 1 + sd,
