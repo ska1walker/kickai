@@ -72,6 +72,38 @@ Die Kernbefunde sind jetzt über 4 Saisons geprüft, nicht mehr nur über eine:
   (23/24 VfB ×5, 24/25 1.FC Union ×6, 25/26 TSG ×10). Aus der Vorsaison
   NICHT vorhersagbar, welches Team nächstes Jahr clustert.
 
+### Muster-Analyse Aug 2026 (neu — direkt in die Engine eingeflossen)
+
+1. **Team-Stärke wirkt je Preisklasse GEGENSÄTZLICH** (Teams nach Kader-MV in
+   Terzile, Punkte-Mittel relativ zum Schnitt, 4 Saisons):
+   | Segment | starkes Team | Mittelfeld | schwaches Team |
+   |---|---|---|---|
+   | ≤2.5 M | **0.83×** | 1.08× | **1.09×** |
+   | 2.5–4 M | 0.94× | 1.00× | 1.06× |
+   | >4 M | **1.23×** | 0.77× | — |
+   Ursache: billiger Spieler bei Bayern = Ersatzbank; billiger Spieler beim
+   Aufsteiger = Stammspieler. In ALLEN 4 Saisons gleichgerichtet.
+   → `builder.ts` hat jetzt `TIER_BONUS_BY_SEGMENT` statt eines pauschalen
+   Bonus; der alte flache Top-Bonus (+0.05) bestrafte die Anker-Jagd.
+2. **Neuzugänge ohne Vorsaison-Eintrag**: 72–85 % kommen überhaupt zum Einsatz,
+   Median-Punkte nur ~halb so hoch wie bei Etablierten (16–32 vs. 66–84) —
+   ABER die Anker-Quote ist gleich (8–10 %). Korr(MV, Punkte) bei ihnen
+   0.56–0.64, fast so gut wie bei Etablierten. Marktwert ist also ein
+   valider Schätzer, die Verteilung nur bimodaler.
+3. **Kalibrierung des Neuzugangs-Abschlags**: MV-Modell auf Etablierten
+   gefittet → Neuzugänge holten **0.84 / 0.72 / 0.81** des Prognosewerts
+   (Mittel **0.79**). `EST_DISCOUNT = 0.79`; der Evidenz-Faktor spreizt nur
+   noch (0.85 unbestätigt / 1.15 bestätigt), statt ein zweites Mal zu dämpfen.
+4. **Anker-Persistenz ist schwach**: von den billigen Ankern einer Saison sind
+   im Folgejahr nur **24–54 %** wieder ≥120 Pkt; 18–32 von je ~50 sind zudem
+   teurer als 2.5 M geworden. Vorjahres-Anker abschreiben ist keine Strategie.
+5. **Aufsteiger-Spieler im billigen Segment liefern leicht ÜBER dem Rest**
+   (Ø 55.8 vs. 50.8 Pkt; Anker-Quote 14.0 % vs. 12.2 %, 3 Saisons) — bei
+   niedrigerem Marktwert. Aufsteiger pauschal meiden ist falsch.
+6. **P/Mio nach Position, stabil über 4 Saisons**: TW 47–58, MF 33–40,
+   ABW 30–43, **ST 27–30 (immer Schlusslicht)**. Teure Stürmer sind der
+   teuerste Weg zu Punkten (Stürmertor = 3 Pkt vs. ABW 5 / TW 6).
+
 ## Die entscheidende methodische Grenze (WICHTIG — nicht ignorieren)
 
 **Auch mit 4 Saisons löst statisches ML den Kaderbau NICHT.** Ehrlicher
