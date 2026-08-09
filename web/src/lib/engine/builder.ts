@@ -7,7 +7,7 @@
 //  - Team-Tier-Erwartung (günstige Spieler erwarteter Überraschungsteams),
 //  - News-Memory (Ab-/Zugänge, Verletzungen, Vorbereitung, Transferstärke),
 //    jeweils recency-gewichtet.
-import { POOL, type PoolPlayer } from "@/lib/data/pool";
+import { POOL, effectivePoints, type PoolPlayer } from "@/lib/data/pool";
 import { BUDGET, SQUAD_SHAPE } from "./constraints";
 import type { Position } from "./types";
 import { playerNews, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
@@ -66,7 +66,19 @@ const TIER_LABEL: Record<Tier, string> = {
   lower: "Verein im unteren Drittel erwartet",
 };
 
-const ppm = (p: PoolPlayer) => p.points / Math.max(p.mv, 0.5);
+// Rechenpunkte: echte Vorsaison-Punkte, sonst Marktwert-Schaetzung.
+const pts = (p: PoolPlayer) => effectivePoints(p);
+const ppm = (p: PoolPlayer) => pts(p) / Math.max(p.mv, 0.5);
+
+// Der Marktwert sagt, was der Verein GEZAHLT hat — nicht, ob der Spieler
+// spielt. Punkte kommen aber aus Einsatzminuten (Korr 0.69 vs. Note ~0).
+// Eine reine Marktwert-Schätzung ohne Bestätigung aus Vorbereitung/News wird
+// deshalb zusätzlich gedämpft; erst Testspiel-/Kader-Meldungen heben sie an.
+const UNCONFIRMED = 0.6;
+function evidenceFactor(p: PoolPlayer, nm: NewsMap): number {
+  if (p.hasHistory !== false) return 1; // belegte Vorsaison-Daten
+  return (nm.get(p.id!)?.notes.length ?? 0) > 0 ? 1 : UNCONFIRMED;
+}
 
 // Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
 type NewsMap = Map<string, { delta: number; notes: string[] }>;
@@ -85,7 +97,8 @@ function adj(
   const stratDelta = strat.get(p.id!) ?? 0; // #4/#5/#6 Strategie
   const secF = securityFactor(sec.get(p.id!)); // #2 Einsatzsicherheit
   return (
-    p.points *
+    pts(p) *
+    evidenceFactor(p, nm) *
     POS_WEIGHT[p.position] *
     (1 + bonus) *
     (1 + clubDelta + playerDelta + stratDelta) *
@@ -106,8 +119,12 @@ function newsNote(p: PoolPlayer, news: NewsSignals, nm: NewsMap): string {
   parts.push(...(nm.get(p.id!)?.notes ?? []));
   return parts.length ? ` · News: ${parts.join("; ")}` : "";
 }
-function histNote(p: PoolPlayer): string {
-  return p.hasHistory === false ? " · kein Vorsaison-Wert (Einschätzung via Scout/News)" : "";
+function histNote(p: PoolPlayer, nm?: NewsMap): string {
+  if (p.hasHistory !== false) return "";
+  const confirmed = nm ? (nm.get(p.id!)?.notes.length ?? 0) > 0 : false;
+  return confirmed
+    ? " · keine Vorsaison-Daten, aber durch Vorbereitung/News bestätigt"
+    : " · keine Vorsaison-Daten und noch keine Vorbereitungs-/News-Bestätigung — bewusst abgewertet";
 }
 function stratNote(p: PoolPlayer, sn: Map<string, string[]>): string {
   const n = sn.get(p.id!);
@@ -122,18 +139,24 @@ export function explainPlayer(p: PoolPlayer, tiers: Tiers, news: NewsSignals): s
   const base =
     p.points > 0
       ? `${p.points} Pkt Vorsaison bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio)`
-      : `Günstiger Kaderplatz (${p.mv.toFixed(1)}M) — spart Budget für die Startelf`;
-  return `${base}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p)}`;
+      : p.estPoints
+        ? `Ohne Vorsaison-Daten — Richtwert ${p.estPoints} Pkt aus dem Marktwert (${p.mv.toFixed(1)}M); der Marktwert zeigt die Investition, nicht die Einsatzzeit`
+        : `Günstiger Kaderplatz (${p.mv.toFixed(1)}M) — spart Budget für die Startelf`;
+  return `${base}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p, nm)}`;
 }
 
+// "247 Pkt" bei echten Daten, "gesch. 133 Pkt" wenn nur der Marktwert vorliegt.
+const basePts = (p: PoolPlayer) =>
+  p.points > 0 ? `${p.points} Pkt` : `gesch. ${p.estPoints ?? 0} Pkt`;
+
 function premiumReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
-  return `${p.points} Pkt bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p)}`;
+  return `${basePts(p)} bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio) · ${p.clubName}${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p, nm)}`;
 }
 function fillerReason(p: PoolPlayer, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
   return `Günstiger Bankplatz (${p.mv.toFixed(1)}M) · ${p.clubName} — spart Budget für die Startelf${newsNote(p, news, nm)}${stratNote(p, sn)}`;
 }
 function altReason(p: PoolPlayer, tiers: Tiers, news: NewsSignals, nm: NewsMap, sn: Map<string, string[]>): string {
-  return `${p.points} Pkt / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p)}`;
+  return `${basePts(p)} / ${p.mv.toFixed(1)}M${tierNote(p, tiers)}${newsNote(p, news, nm)}${stratNote(p, sn)}${histNote(p, nm)}`;
 }
 
 export function buildProposal(
@@ -249,7 +272,7 @@ export function buildProposal(
   return {
     byPos,
     totalMv: Math.round(flat.reduce((s, p) => s + p.player.mv, 0) * 10) / 10,
-    totalPoints: flat.reduce((s, p) => s + p.player.points, 0),
+    totalPoints: flat.reduce((s, p) => s + pts(p.player), 0),
     bestXiExp: Math.round(bestXiExp * 10) / 10,
     newsUsed: news.count,
     clusterClubs: strat.clusterClubs,

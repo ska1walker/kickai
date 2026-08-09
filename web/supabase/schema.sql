@@ -61,9 +61,11 @@ create table if not exists player_pool (
   points     int not null default 0,
   exp_points numeric not null default 0,
   has_history boolean,
+  est_points int,                          -- Marktwert-Schätzung, wenn keine Historie
   updated_at timestamptz not null default now(),
   primary key (season, id)
 );
+alter table player_pool add column if not exists est_points int;
 create index if not exists idx_pool_season on player_pool (season);
 
 -- Einzelnutzer-App (Kai): RLS an, anon darf lesen/schreiben.

@@ -34,6 +34,7 @@ export async function loadPool(season: number = getActiveSeason()): Promise<numb
     points: r.points,
     expPoints: Number(r.exp_points),
     hasHistory: r.has_history ?? undefined,
+    estPoints: r.est_points ?? undefined,
   }));
   setPool(rows);
   return rows.length;

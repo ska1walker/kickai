@@ -27,6 +27,35 @@ interface Row {
   points: number;
   exp_points: number;
   has_history: boolean | null;
+  est_points: number | null;
+}
+
+// Punkte ≈ a + b·Marktwert, je Position auf den Spielern MIT Historie gefittet.
+// Für Spieler ohne Vorsaison-Daten ist der Marktwert der einzige belastbare
+// Anhaltspunkt — bewusst mit Abschlag, weil er die Investition zeigt, nicht die
+// Einsatzzeit. Bestätigen muss ihn die Vorbereitung/News-Recherche.
+const EST_DISCOUNT = 0.75;
+function fitMvModel(rows: { position: string; mv: number; points: number }[]) {
+  const model: Record<string, [number, number]> = {};
+  for (const pos of ["TW", "ABW", "MF", "ST", "*"]) {
+    const sub = rows.filter((r) => r.points > 0 && (pos === "*" || r.position === pos));
+    if (sub.length < 8) continue;
+    const mx = sub.reduce((s, r) => s + r.mv, 0) / sub.length;
+    const my = sub.reduce((s, r) => s + r.points, 0) / sub.length;
+    const den = sub.reduce((s, r) => s + (r.mv - mx) ** 2, 0);
+    if (!den) continue;
+    const b = sub.reduce((s, r) => s + (r.mv - mx) * (r.points - my), 0) / den;
+    model[pos] = [my - b * mx, b];
+  }
+  return model;
+}
+function estimatePoints(
+  mv: number,
+  pos: string,
+  model: Record<string, [number, number]>,
+): number {
+  const [a, b] = model[pos] ?? model["*"] ?? [0, 0];
+  return Math.max(0, Math.round((a + b * mv) * EST_DISCOUNT));
 }
 
 function parseCsv(text: string): Record<string, string>[] {
@@ -121,9 +150,18 @@ export async function POST(req: NextRequest) {
       points,
       exp_points: Math.round((points / 34) * 100) / 100,
       has_history: hasHistory,
+      est_points: null,
     });
   }
   if (!rows.length) return NextResponse.json({ error: "Keine gültigen Zeilen." }, { status: 400 });
+
+  // Marktwert-Schätzung für alle ohne Historie (Modell aus derselben Datei).
+  if (body.preseason) {
+    const model = fitMvModel(rows);
+    for (const r of rows) {
+      if (!r.has_history) r.est_points = estimatePoints(r.mv, r.position, model);
+    }
+  }
 
   // Saison ersetzen: alte Zeilen weg, neue rein (in Chunks).
   await supabase.from("player_pool").delete().eq("season", season);

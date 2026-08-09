@@ -9,6 +9,16 @@ export interface PoolPlayer extends SquadPlayer {
   points: number;
   mv: number;
   hasHistory?: boolean; // false = kein Vorsaison-Wert (Aufsteiger/Neuzugang/Jugend)
+  estPoints?: number; // Marktwert-Schätzung, wenn keine Historie vorliegt
+}
+
+/** Punkte, mit denen gerechnet wird: echte Vorsaison-Punkte, sonst die
+ *  Marktwert-Schätzung (Neuzugänge sind sonst rechnerisch wertlos). */
+export function effectivePoints(p: {
+  points: number;
+  estPoints?: number;
+}): number {
+  return p.points > 0 ? p.points : (p.estPoints ?? 0);
 }
 
 const BUNDLED = raw as PoolPlayer[];

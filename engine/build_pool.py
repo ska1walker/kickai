@@ -45,6 +45,33 @@ def load(season: int) -> pd.DataFrame:
     return df
 
 
+#: Risiko-Abschlag für geschätzte Spieler: Neuzugänge brauchen Eingewöhnung und
+#: haben keinen belegten Stammplatz. Ohne Abschlag würden sie bewährte Anker
+#: verdrängen, obwohl ihre Schätzung viel unsicherer ist.
+EST_DISCOUNT = 0.75
+
+
+def fit_mv_model(df: pd.DataFrame) -> dict[str, tuple[float, float]]:
+    """Punkte ≈ a + b·Marktwert, je Position auf den Spielern MIT Historie
+    gefittet. Marktwert ist der einzige belastbare Proxy für Spieler ohne
+    Vorsaison-Daten (Korr ≈ 0.84, R² ≈ 0.71 im 26/27-Datensatz)."""
+    ref = df[df["Punkte"] > 0]
+    model: dict[str, tuple[float, float]] = {}
+    for pos in ["TW", "ABW", "MF", "ST", "*"]:
+        sub = ref if pos == "*" else ref[ref["Position"].map(POSMAP) == pos]
+        if len(sub) < 8:
+            continue
+        x, y = sub["MV"], sub["Punkte"]
+        b = ((x - x.mean()) * (y - y.mean())).sum() / ((x - x.mean()) ** 2).sum()
+        model[pos] = (float(y.mean() - b * x.mean()), float(b))
+    return model
+
+
+def estimate_points(mv: float, pos: str, model: dict[str, tuple[float, float]]) -> int:
+    a, b = model.get(pos) or model.get("*", (0.0, 0.0))
+    return max(0, int(round((a + b * mv) * EST_DISCOUNT)))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Spieler-Pool erzeugen (mit Vorsaison-Bridge)")
     ap.add_argument("--season", type=int, required=True, help="Startjahr, z.B. 2026 = 26/27")
@@ -59,9 +86,11 @@ def main() -> int:
 
     target = load(args.season)
     ref_points: dict[str, int] = {}
+    mv_model: dict[str, tuple[float, float]] = {}
     if args.preseason:
         rdf = load(args.reference)
         ref_points = {r.ID: int(r.Punkte) for r in rdf.itertuples()}
+        mv_model = fit_mv_model(target)
 
     pool = []
     unresolved = bridged = nohist = 0
@@ -91,6 +120,10 @@ def main() -> int:
             entry["points"] = pts
             entry["expPoints"] = round(pts / 34, 2)
             entry["hasHistory"] = bool(has)
+            if not has:
+                # Ohne Historie: Marktwert-Schätzung, damit teure Neuzugänge
+                # nicht als wertlos durchs Raster fallen.
+                entry["estPoints"] = estimate_points(float(r.MV), entry["position"], mv_model)
         else:
             pts = int(r.Punkte)
             entry["points"] = pts
@@ -107,7 +140,7 @@ def main() -> int:
         print(f"  ⚠ {unresolved} unaufgelöste Vereine (in clubs.py ergänzen!)")
     if args.preseason:
         print(f"  Bridge aus Saison {args.reference}: {bridged} mit Vorsaison-Punkten, "
-              f"{nohist} ohne Historie (→ Scout/News).")
+              f"{nohist} ohne Historie → Marktwert-Schätzung (×{EST_DISCOUNT}) + Scout/News.")
     return 0
 
 
