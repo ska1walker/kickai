@@ -179,14 +179,20 @@ export function explainScore(
   };
 
   const ev = evidenceFactor(p, nm);
-  push("Fehlende Bestätigung", ev,
-    "Marktwert zeigt die Investition, nicht die Einsatzzeit — ohne Vorbereitungs-/News-Beleg gedämpft");
+  if (p.hasHistory === false) {
+    push(ev < 1 ? "Ohne Bestätigung" : "Durch Vorbereitung/News bestätigt", ev,
+      ev < 1
+        ? "Marktwert zeigt die Investition, nicht die Einsatzzeit — ohne Vorbereitungs-/News-Beleg gedämpft"
+        : "Testspiel-/Kadermeldung liegt vor — der Marktwert-Richtwert zählt voll",
+      true);
+  }
   push(`Position ${p.position}`, POS_WEIGHT[p.position],
     p.position === "TW"
       ? "Torhüter punkten stabil, aber ohne Tor-/Assist-Aufschlag"
       : p.position === "ST"
         ? "Stürmertor zählt nur 3 Pkt (Abwehr 5, TW 6) — kein Aufschlag"
-        : "Tore aus der Tiefe zählen 4–5 Pkt und Dauerläufer sind hier unterbewertet");
+        : "Tore aus der Tiefe zählen 4–5 Pkt und Dauerläufer sind hier unterbewertet",
+    true);
   const tier = tiers[p.club]?.tier;
   if (tier) {
     push(`Vereins-Erwartung: ${TIER_LABEL[tier]}`, 1 + TIER_BONUS[tier],
