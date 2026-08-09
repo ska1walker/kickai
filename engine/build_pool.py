@@ -45,10 +45,10 @@ def load(season: int) -> pd.DataFrame:
     return df
 
 
-#: Risiko-Abschlag für geschätzte Spieler: Neuzugänge brauchen Eingewöhnung und
-#: haben keinen belegten Stammplatz. Ohne Abschlag würden sie bewährte Anker
-#: verdrängen, obwohl ihre Schätzung viel unsicherer ist.
-EST_DISCOUNT = 0.75
+#: Risiko-Abschlag für geschätzte Spieler, KALIBRIERT an 3 Saisonübergängen:
+#: Marktwert-Modell auf Etablierten gefittet, auf echte Neuzugänge angewandt →
+#: sie holten 0.84 / 0.72 / 0.81 des prognostizierten Werts (Mittel 0.79).
+EST_DISCOUNT = 0.79
 
 
 def fit_mv_model(df: pd.DataFrame) -> dict[str, tuple[float, float]]:

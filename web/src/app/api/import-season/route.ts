@@ -34,7 +34,7 @@ interface Row {
 // Für Spieler ohne Vorsaison-Daten ist der Marktwert der einzige belastbare
 // Anhaltspunkt — bewusst mit Abschlag, weil er die Investition zeigt, nicht die
 // Einsatzzeit. Bestätigen muss ihn die Vorbereitung/News-Recherche.
-const EST_DISCOUNT = 0.75;
+const EST_DISCOUNT = 0.79; // kalibriert an 3 Saisonübergängen (0.84/0.72/0.81)
 function fitMvModel(rows: { position: string; mv: number; points: number }[]) {
   const model: Record<string, [number, number]> = {};
   for (const pos of ["TW", "ABW", "MF", "ST", "*"]) {

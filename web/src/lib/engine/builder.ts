@@ -56,7 +56,33 @@ const XI_FORMATIONS: Array<Record<Position, number>> = [
   { TW: 1, ABW: 4, MF: 5, ST: 1 },
 ];
 const POS_WEIGHT: Record<Position, number> = { TW: 0.9, ABW: 1.05, MF: 1.05, ST: 1.0 };
-const TIER_BONUS: Record<Tier, number> = { top: 0.05, surprise: 0.15, mid: 0, lower: -0.1 };
+
+// Team-Stärke wirkt je nach Preisklasse GEGENSÄTZLICH — gemessen über 4 Saisons
+// (Teams nach Kader-Marktwert in Terzile, Punkte-Mittel relativ zum Schnitt):
+//   günstig ≤2.5M : starkes Team 0.83× · Mittelfeld 1.08× · schwaches Team 1.09×
+//   mittel 2.5–4M : 0.94× · 1.00× · 1.06×
+//   teuer   >4M   : 1.23× · 0.77× · (kein Fall)
+// Ursache: Ein billiger Spieler bei Bayern ist Ersatzmann, ein billiger Spieler
+// beim Aufsteiger ist Stammspieler — und Punkte kommen aus Einsatzminuten.
+// Ein pauschaler Top-Bonus (früher +0.05 für alle) bestrafte damit genau die
+// Anker-Jagd. Werte auf ~70% der Messung geschrumpft (Rauschen).
+const TIER_BONUS_BY_SEGMENT: Record<"cheap" | "mid" | "premium", Record<Tier, number>> = {
+  cheap: { top: -0.12, surprise: 0.12, mid: 0.06, lower: 0.06 },
+  mid: { top: -0.04, surprise: 0.12, mid: 0, lower: 0.04 },
+  premium: { top: 0.15, surprise: 0.15, mid: -0.04, lower: -0.1 },
+};
+function priceSegment(mv: number): "cheap" | "mid" | "premium" {
+  return mv <= 2.5 ? "cheap" : mv <= 4 ? "mid" : "premium";
+}
+const SEGMENT_NOTE: Record<"cheap" | "mid" | "premium", string> = {
+  cheap:
+    "billiges Segment: hier zahlt sich ein Top-Verein NICHT aus (Ersatzbank), günstige Spieler schwächerer Teams spielen häufiger",
+  mid: "mittleres Segment: Vereinsstärke wirkt nur schwach",
+  premium: "teures Segment: hier zahlt sich ein starker Verein aus (1.23× über 4 Saisons)",
+};
+function tierBonus(tier: Tier, mv: number): number {
+  return TIER_BONUS_BY_SEGMENT[priceSegment(mv)][tier];
+}
 // Bewusst als "Verein …" formuliert: sonst liest sich die Tier-Einordnung
 // "Mittelfeld" wie eine Positionsangabe des Spielers.
 const TIER_LABEL: Record<Tier, string> = {
@@ -72,12 +98,17 @@ const ppm = (p: PoolPlayer) => pts(p) / Math.max(p.mv, 0.5);
 
 // Der Marktwert sagt, was der Verein GEZAHLT hat — nicht, ob der Spieler
 // spielt. Punkte kommen aber aus Einsatzminuten (Korr 0.69 vs. Note ~0).
-// Eine reine Marktwert-Schätzung ohne Bestätigung aus Vorbereitung/News wird
-// deshalb zusätzlich gedämpft; erst Testspiel-/Kader-Meldungen heben sie an.
-const UNCONFIRMED = 0.6;
+//
+// KALIBRIERT an 3 Saisonübergängen: Marktwert-Modell auf Etablierten gefittet,
+// auf echte Neuzugänge angewandt → sie holten 0.84 / 0.72 / 0.81 des prognosti-
+// zierten Werts, im Mittel 0.79. Dieser Abschlag steckt bereits in estPoints.
+// Der Evidenz-Faktor darf deshalb nur noch SPREIZEN, nicht nochmals dämpfen —
+// sonst wären Neuzugänge doppelt bestraft (frühere Kombi 0.45 statt 0.79).
+const UNCONFIRMED = 0.85; // ohne Vorbereitungs-/News-Beleg
+const CONFIRMED = 1.15; // mit Testspiel-/Kadermeldung
 function evidenceFactor(p: PoolPlayer, nm: NewsMap): number {
   if (p.hasHistory !== false) return 1; // belegte Vorsaison-Daten
-  return (nm.get(p.id!)?.notes.length ?? 0) > 0 ? 1 : UNCONFIRMED;
+  return (nm.get(p.id!)?.notes.length ?? 0) > 0 ? CONFIRMED : UNCONFIRMED;
 }
 
 // Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
@@ -91,7 +122,7 @@ function adj(
   sec: Map<string, SecInfo>,
   strat: Map<string, number>,
 ): number {
-  const bonus = tiers[p.club]?.tier ? TIER_BONUS[tiers[p.club].tier] : 0;
+  const bonus = tiers[p.club]?.tier ? tierBonus(tiers[p.club].tier, p.mv) : 0;
   const clubDelta = news.byClub[p.club]?.delta ?? 0;
   const playerDelta = nm.get(p.id!)?.delta ?? 0;
   const stratDelta = strat.get(p.id!) ?? 0; // #4/#5/#6 Strategie
@@ -182,8 +213,8 @@ export function explainScore(
   if (p.hasHistory === false) {
     push(ev < 1 ? "Ohne Bestätigung" : "Durch Vorbereitung/News bestätigt", ev,
       ev < 1
-        ? "Marktwert zeigt die Investition, nicht die Einsatzzeit — ohne Vorbereitungs-/News-Beleg gedämpft"
-        : "Testspiel-/Kadermeldung liegt vor — der Marktwert-Richtwert zählt voll",
+        ? "Marktwert zeigt die Investition, nicht die Einsatzzeit — ohne Testspiel-/Kaderbeleg zurückhaltender bewertet"
+        : "Testspiel-/Kadermeldung liegt vor — Richtwert wird angehoben",
       true);
   }
   push(`Position ${p.position}`, POS_WEIGHT[p.position],
@@ -195,8 +226,8 @@ export function explainScore(
     true);
   const tier = tiers[p.club]?.tier;
   if (tier) {
-    push(`Vereins-Erwartung: ${TIER_LABEL[tier]}`, 1 + TIER_BONUS[tier],
-      tiers[p.club]?.reason || "aus der Team-Tier-Recherche", true);
+    push(`Vereins-Erwartung: ${TIER_LABEL[tier]}`, 1 + tierBonus(tier, p.mv),
+      `${SEGMENT_NOTE[priceSegment(p.mv)]} — ${tiers[p.club]?.reason || "aus der Team-Tier-Recherche"}`, true);
   } else {
     push("Vereins-Erwartung", 1,
       "noch keine Team-Tier-Recherche gelaufen — auf /aufbau anstoßen", true);
