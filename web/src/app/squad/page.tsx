@@ -8,7 +8,9 @@ import { loadSquad, saveSquad, resetSquad } from "@/lib/squadStore";
 import { searchPool, poolById, type PoolPlayer } from "@/lib/data/pool";
 import { loadPool, getActiveSeason } from "@/lib/data/loadPool";
 import { supabaseEnabled } from "@/lib/supabase/client";
-import { explainPlayer, type Tiers } from "@/lib/engine/builder";
+import { explainPlayer, explainScore, type Tiers } from "@/lib/engine/builder";
+import { ScoreTrace } from "@/components/ScoreTrace";
+import { computeSecurity } from "@/lib/engine/security";
 import { loadNewsSignals, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
 import { loadStoredTiers } from "@/lib/research";
 
@@ -55,6 +57,13 @@ export default function SquadPage() {
   function explain(p: SquadPlayer): string | null {
     const pool = p.id ? poolById(p.id) : undefined;
     return pool ? explainPlayer(pool, tiers, news) : null;
+  }
+
+  // Einsatzsicherheit einmal für den ganzen Pool (teuer je Aufruf).
+  const security = useMemo(() => computeSecurity(), [squad]);
+  function trace(p: SquadPlayer) {
+    const pool = p.id ? poolById(p.id) : undefined;
+    return pool ? explainScore(pool, tiers, news, undefined, security) : null;
   }
 
   const check = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);
@@ -310,8 +319,9 @@ export default function SquadPage() {
               {players.map((p) => {
                 const sc = scoutByName[p.name];
                 const why = explain(p);
+                const bd = trace(p);
                 return (
-                <div key={p.id} className="flex items-center justify-between px-4 py-2.5">
+                <div key={p.id} className="flex items-start justify-between gap-3 px-4 py-2.5">
                   <div className="min-w-0">
                     <p className="font-medium">
                       {p.name}
@@ -338,8 +348,9 @@ export default function SquadPage() {
                         {sc.note}
                       </p>
                     )}
+                    {bd && <ScoreTrace bd={bd} />}
                   </div>
-                  <div className="flex shrink-0 items-center gap-4">
+                  <div className="flex shrink-0 items-center gap-4 pt-0.5">
                     <span className="font-mono text-xs text-ink-muted">
                       {(p.mv ?? 0).toFixed(1)}M · ~{p.expPoints.toFixed(1)}
                     </span>

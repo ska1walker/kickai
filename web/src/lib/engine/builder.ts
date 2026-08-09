@@ -131,6 +131,89 @@ function stratNote(p: PoolPlayer, sn: Map<string, string[]>): string {
   return n && n.length ? ` · ${n.join("; ")}` : "";
 }
 
+/** Ein Schritt im Rechenweg: Faktor, was er in Punkten bewirkt, und warum. */
+export interface ScoreStep {
+  label: string;
+  factor: number; // Multiplikator
+  delta: number; // Punkte-Wirkung dieses Schritts
+  why: string;
+}
+export interface ScoreBreakdown {
+  base: number; // Rechenpunkte vor allen Faktoren
+  baseLabel: string;
+  steps: ScoreStep[];
+  score: number; // Endwert, nach dem sortiert wird
+}
+
+/** Legt den Rechenweg für einen Spieler offen — exakt die Faktoren aus adj(),
+ *  in derselben Reihenfolge, mit ihrer Wirkung in Punkten. Damit ist jede
+ *  Empfehlung Schritt für Schritt nachprüfbar. */
+export function explainScore(
+  p: PoolPlayer,
+  tiers: Tiers,
+  news: NewsSignals,
+  strategy: StrategyInput = EMPTY_STRATEGY,
+  sec?: Map<string, SecInfo>,
+): ScoreBreakdown {
+  const nm: NewsMap = new Map([[p.id!, playerNews(p.name, news)]]);
+  const strat = computeStrategy(strategy, news);
+  const security = (sec ?? computeSecurity()).get(p.id!);
+
+  const base = pts(p);
+  const baseLabel =
+    p.points > 0
+      ? `${p.points} Pkt aus der Vorsaison`
+      : p.estPoints
+        ? `${p.estPoints} Pkt Richtwert aus dem Marktwert (${p.mv.toFixed(1)}M)`
+        : `0 Pkt — keine Datenbasis`;
+
+  const steps: ScoreStep[] = [];
+  let running = base;
+  const push = (label: string, factor: number, why: string) => {
+    if (Math.abs(factor - 1) < 1e-9) return; // neutrale Schritte weglassen
+    const delta = running * factor - running;
+    running *= factor;
+    steps.push({ label, factor, delta, why });
+  };
+
+  const ev = evidenceFactor(p, nm);
+  push("Fehlende Bestätigung", ev,
+    "Marktwert zeigt die Investition, nicht die Einsatzzeit — ohne Vorbereitungs-/News-Beleg gedämpft");
+  push(`Position ${p.position}`, POS_WEIGHT[p.position],
+    p.position === "TW"
+      ? "Torhüter punkten stabil, aber ohne Tor-/Assist-Aufschlag"
+      : p.position === "ST"
+        ? "Stürmertor zählt nur 3 Pkt (Abwehr 5, TW 6) — kein Aufschlag"
+        : "Tore aus der Tiefe zählen 4–5 Pkt und Dauerläufer sind hier unterbewertet");
+  const tier = tiers[p.club]?.tier;
+  if (tier) {
+    push(`Vereins-Erwartung: ${TIER_LABEL[tier]}`, 1 + TIER_BONUS[tier],
+      tiers[p.club]?.reason || "aus der Team-Tier-Recherche");
+  }
+  const clubDelta = news.byClub[p.club]?.delta ?? 0;
+  if (clubDelta) {
+    push("Vereins-News (Transferbilanz)", 1 + clubDelta,
+      news.byClub[p.club]?.note ?? "Netto-Transferstärke aus der News-Memory");
+  }
+  const pn = nm.get(p.id!);
+  if (pn?.delta) {
+    push("Spieler-News", 1 + pn.delta,
+      pn.notes.join("; ") || "gewichtet nach Relevanz × Aktualität");
+  }
+  const sd = strat.deltaById.get(p.id!) ?? 0;
+  if (sd) {
+    push("Strategie (Ceiling-Play)", 1 + sd,
+      (strat.notesById.get(p.id!) ?? []).join("; ") || "aktivierte Strategie");
+  }
+  const secF = securityFactor(security);
+  push(`Einsatzsicherheit: ${security?.label ?? "unklar"}`, secF,
+    security
+      ? `Stammplatz-Score ${(security.score * 100).toFixed(0)}% (Minuten-Proxy + Dominanz auf der Vereinsposition)`
+      : "keine Vorsaisondaten zur Einordnung");
+
+  return { base, baseLabel, steps, score: running };
+}
+
 /** Nachvollziehbare Begründung für einen einzelnen (Kader-)Spieler — dieselben
  *  Bausteine wie im Vorschlag: Vorsaison-Basis, Tier-Einordnung, News, Historie.
  *  Wird u.a. im Kader-Editor unter jedem Spieler angezeigt. */

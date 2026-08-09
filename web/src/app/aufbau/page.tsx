@@ -4,7 +4,8 @@ import Link from "next/link";
 import { POOL } from "@/lib/data/pool";
 import { CLUB_LABEL } from "@/lib/engine/clubs";
 import { BUDGET } from "@/lib/engine/constraints";
-import { buildProposal, type Proposal, type Tiers } from "@/lib/engine/builder";
+import { buildProposal, explainScore, type Proposal, type Tiers } from "@/lib/engine/builder";
+import { ScoreTrace } from "@/components/ScoreTrace";
 import type { Position, SquadPlayer } from "@/lib/engine/types";
 import { saveSquad } from "@/lib/squadStore";
 import { loadNewsSignals, EMPTY_SIGNALS, norm, type NewsSignals } from "@/lib/newsSignals";
@@ -69,6 +70,13 @@ export default function AufbauPage() {
     const strategy: StrategyInput = { stackDefense: stack, setPieceTakers: sp };
     setProposal(buildProposal(t, n, strategy));
   };
+
+  // Gleicher Strategie-Input wie im letzten Build — für den offengelegten
+  // Rechenweg unter jedem Spieler.
+  const strategyInput: StrategyInput = useMemo(
+    () => ({ stackDefense: stackDefense, setPieceTakers: setPieceTakers }),
+    [stackDefense, setPieceTakers],
+  );
 
   // Aktiven Pool (importierte Saison) + News laden und den Vorschlag neu bauen.
   // Frühere Tier-/Schützen-Recherchen kommen aus localStorage — sie sollen
@@ -335,6 +343,7 @@ export default function AufbauPage() {
                       <p className="mt-0.5 text-xs text-ink-muted" title={pk.reason}>
                         {pk.reason}
                       </p>
+                      <ScoreTrace bd={explainScore(pk.player, tiers, news, strategyInput)} />
                     </div>
                     <span className="shrink-0 font-mono text-xs text-ink-muted">
                       {pk.player.mv.toFixed(1)}M · {pk.player.points}P
