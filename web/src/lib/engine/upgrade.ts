@@ -164,15 +164,20 @@ export function suggestUpgrades(
     }
   }
 
-  // Beste zuerst; pro herausgehendem Spieler nur den stärksten Vorschlag zeigen,
-  // damit die Liste Entscheidungen anbietet statt Varianten desselben Zuges.
+  // Beste zuerst. Dedupliziert wird nach dem WUNSCHSPIELER (erster Zugang):
+  // „Kramaric holen" ist eine Entscheidung — ob er über Mittelstädt oder
+  // Tapsoba finanziert wird, ist nur die günstigste Variante davon. Zusätzlich
+  // darf ein Spieler nicht in mehreren Vorschlägen abgegeben werden, sonst
+  // lassen sich die Vorschläge nicht kombinieren.
   found.sort((a, b) => b.gain - a.gain);
-  const seen = new Set<string>();
+  const takenIn = new Set<string>();
+  const takenOut = new Set<string>();
   const out: Upgrade[] = [];
   for (const u of found) {
-    const key = u.out.map((p) => p.id).sort().join("|");
-    if (seen.has(key)) continue;
-    seen.add(key);
+    if (u.in.some((p) => takenIn.has(p.id!))) continue;
+    if (u.out.some((p) => takenOut.has(p.id!))) continue;
+    u.in.forEach((p) => takenIn.add(p.id!));
+    u.out.forEach((p) => takenOut.add(p.id!));
     out.push(u);
     if (out.length >= maxResults) break;
   }
