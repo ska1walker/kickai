@@ -11,6 +11,12 @@ import { saveSquad } from "@/lib/squadStore";
 import { loadNewsSignals, EMPTY_SIGNALS, norm, type NewsSignals } from "@/lib/newsSignals";
 import type { StrategyInput, SetPieceRole } from "@/lib/engine/strategy";
 import { loadPool, getActiveSeason } from "@/lib/data/loadPool";
+import { POOL as LIVE_POOL, poolById } from "@/lib/data/pool";
+import { loadSquad } from "@/lib/squadStore";
+import { checkSquad } from "@/lib/engine/constraints";
+import { suggestUpgrades, toPoolSquad, bestXi, type Upgrade } from "@/lib/engine/upgrade";
+import { UpgradeList } from "@/components/UpgradeList";
+import { computeSecurity } from "@/lib/engine/security";
 import {
   loadStoredTiers,
   loadStoredSetPieces,
@@ -61,6 +67,14 @@ export default function AufbauPage() {
   const [spError, setSpError] = useState<string | null>(null);
   const [savedMsg, setSavedMsg] = useState<string | null>(null);
 
+  // Modus: den bestehenden Kader verbessern (Default) ODER einen kompletten
+  // Gegenentwurf bauen. Beides in einem Werkzeug, damit die Seiten nicht mehr
+  // nebeneinanderher laufen.
+  const [mode, setMode] = useState<"improve" | "fresh">("improve");
+  const [squad, setSquad] = useState<SquadPlayer[] | null>(null);
+  const [applying, setApplying] = useState(false);
+  const [poolVersion, setPoolVersion] = useState(0); // erzwingt Neuberechnung
+
   const rebuild = (
     t: Tiers,
     n: NewsSignals,
@@ -92,6 +106,8 @@ export default function AufbauPage() {
       setSetPieceTakers(sp);
       if (Object.keys(t).length) setTierDone(true);
       rebuild(t, n, stackDefense, sp);
+      setSquad(await loadSquad());
+      setPoolVersion((v) => v + 1);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -187,9 +203,10 @@ export default function AufbauPage() {
         mv: pk.player.mv,
       })),
     );
-    saveSquad(squad).then(() =>
-      setSavedMsg("Kader übernommen — im Kader-Editor verfeinerbar."),
-    );
+    saveSquad(squad).then(() => {
+      setSquad(squad);
+      setSavedMsg("Kompletter Vorschlag übernommen — ersetzt den bisherigen Kader.");
+    });
   }
 
   const surprises = useMemo(
@@ -197,20 +214,159 @@ export default function AufbauPage() {
     [tiers],
   );
 
+  // --- Verbesserungsmodus ---------------------------------------------------
+  const poolSquad = useMemo(
+    () => (squad ? toPoolSquad(squad, poolById) : []),
+    // poolVersion: der Pool ist ein Live-Binding, das async gefüllt wird.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [squad, poolVersion],
+  );
+  const squadCheck = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);
+  const squadXi = useMemo(() => bestXi(poolSquad), [poolSquad]);
+  const upgrades = useMemo(
+    () => (poolSquad.length ? suggestUpgrades(poolSquad, LIVE_POOL) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [poolSquad, poolVersion],
+  );
+  const security = useMemo(() => computeSecurity(), [poolVersion]);
+  const traceFor = (p: Parameters<typeof explainScore>[0]) =>
+    explainScore(p, tiers, news, strategyInput, security);
+
+  async function applyUpgrade(u: Upgrade) {
+    if (!squad) return;
+    setApplying(true);
+    const outIds = new Set(u.out.map((p) => p.id));
+    const next: SquadPlayer[] = squad
+      .filter((p) => !outIds.has(p.id))
+      .concat(
+        u.in.map((p) => ({
+          id: p.id,
+          name: p.name,
+          club: p.club,
+          position: p.position,
+          expPoints: p.expPoints,
+          mv: p.mv,
+        })),
+      );
+    await saveSquad(next);
+    setSquad(next);
+    setSavedMsg(`Übernommen: ${u.headline}`);
+    setApplying(false);
+  }
+
   return (
     <div className="space-y-6">
       <div>
         <p className="label-caps">Kader-Aufbau</p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight">
-          Vorgeschlagener Kader
+          {mode === "improve" ? "Kader verbessern" : "Kompletter Neuvorschlag"}
         </h1>
         <p className="mt-2 max-w-2xl text-ink-muted">
-          Automatischer Vorschlag aus den Saisondaten: pro Slot eine
-          Top-Empfehlung + zwei Alternativen, jeweils mit Begründung. Optional
-          fließt eine Team-Tier-Analyse ein — günstige Spieler erwarteter
-          Überraschungsteams werden bevorzugt.
+          {mode === "improve" ? (
+            <>
+              Ausgangspunkt ist <strong className="text-ink">dein gespeicherter Kader</strong>.
+              Gesucht werden die wenigen Tausche, die die beste aufstellbare Elf
+              am stärksten heben — auch gegenfinanzierte, bei denen an einer
+              Stelle heruntergestuft wird. Denk an das Transferlimit: nur
+              4 Wechsel pro Saison.
+            </>
+          ) : (
+            <>
+              Kader komplett neu aus den Saisondaten gebaut, ohne Rücksicht auf
+              deinen aktuellen: pro Slot eine Top-Empfehlung + zwei Alternativen.
+              Gut als Ideengeber — übernehmen ersetzt deinen Kader vollständig.
+            </>
+          )}
         </p>
+        <div className="mt-3 flex gap-2">
+          <button
+            onClick={() => setMode("improve")}
+            className={mode === "improve" ? "btn-signal text-sm" : "btn-ghost text-sm"}
+          >
+            Meinen Kader verbessern
+          </button>
+          <button
+            onClick={() => setMode("fresh")}
+            className={mode === "fresh" ? "btn-signal text-sm" : "btn-ghost text-sm"}
+          >
+            Kompletter Neuvorschlag
+          </button>
+        </div>
       </div>
+
+      {savedMsg && (
+        <div className="card border-signal p-3 text-sm text-signal-700">
+          {savedMsg}{" "}
+          <Link href="/squad" className="underline">
+            Zum Kader-Editor →
+          </Link>
+        </div>
+      )}
+
+      {mode === "improve" && (
+        <>
+          <div className="card p-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="label-caps">Dein Kader</p>
+                <p className="mt-1 font-mono text-xl font-semibold">
+                  {(squadCheck?.totalMv ?? 0).toFixed(1)}{" "}
+                  <span className="text-ink-muted">/ {BUDGET} Mio</span>
+                </p>
+                <p className="mt-1 text-sm">
+                  <span className="text-ink-muted">Beste Elf: </span>
+                  <span className="font-mono font-semibold text-signal">
+                    {squadXi.value.toFixed(1)}
+                  </span>{" "}
+                  <span className="text-ink-muted">
+                    Pkt/Spieltag · Formation {squadXi.formation}
+                  </span>
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={researchTiers}
+                  disabled={tierLoading}
+                  className="btn-ghost disabled:opacity-50"
+                >
+                  {tierLoading
+                    ? "Analysiere Teams…"
+                    : tierDone
+                      ? "Team-Tiers erneut"
+                      : "Team-Tiers analysieren"}
+                </button>
+                <Link href="/squad" className="btn-ghost">
+                  Zum Kader-Editor
+                </Link>
+              </div>
+            </div>
+            {squadCheck && !squadCheck.valid && (
+              <p className="mt-3 text-sm text-amber-800">
+                {squadCheck.issues.join(" · ")}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <p className="label-caps mb-2">
+              Verbesserungsvorschläge · sortiert nach Wirkung auf die Startelf
+            </p>
+            {squad === null ? (
+              <p className="text-sm text-ink-muted">Lade Kader…</p>
+            ) : (
+              <UpgradeList
+                upgrades={upgrades}
+                onApply={applyUpgrade}
+                trace={traceFor}
+                busy={applying}
+              />
+            )}
+          </div>
+        </>
+      )}
+
+      {mode === "fresh" && (
+      <>
 
       {/* Steuerung */}
       <div className="card p-4">
@@ -292,14 +448,6 @@ export default function AufbauPage() {
               ? " — Torwart + Abwehr gestackt (korrelierte Zu-Null)"
               : " — über den Stack-Button korreliert setzbar"}
             .
-          </p>
-        )}
-        {savedMsg && (
-          <p className="mt-2 text-sm text-signal-700">
-            {savedMsg}{" "}
-            <Link href="/squad" className="underline">
-              Zum Kader →
-            </Link>
           </p>
         )}
         {surprises.length > 0 && (
@@ -388,6 +536,8 @@ export default function AufbauPage() {
           Zum Editor
         </Link>
       </div>
+      </>
+      )}
     </div>
   );
 }
