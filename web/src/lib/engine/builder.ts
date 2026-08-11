@@ -355,16 +355,33 @@ export function buildProposal(
       .filter((p) => !selected.has(p.id!))
       .sort((a, b) => a.mv - b.mv);
 
+    // Alternativen dürfen sich zwischen den Slots NICHT wiederholen: sonst
+    // konnte derselbe Spieler in zwei Slots gewählt werden und landete doppelt
+    // im Kader — beim Speichern kollidierten die IDs und die Position blieb
+    // unterbesetzt.
+    const usedAlts = new Set<string>();
+    const takeAlts = (from: PoolPlayer[], limit: number, maxMv?: number) => {
+      const out: PoolPlayer[] = [];
+      for (const a of from) {
+        if (out.length >= limit) break;
+        if (usedAlts.has(a.id!)) continue;
+        if (maxMv != null && a.mv > maxMv) continue;
+        usedAlts.add(a.id!);
+        out.push(a);
+      }
+      return out;
+    };
+
     for (const p of premiumByPos[pos]) {
       byPos[pos].push({
         player: p,
         role: "premium",
         security: sec.get(p.id!),
         reason: premiumReason(p, tiers, news, nm, strat.notesById),
-        alternatives: premAlts
-          .filter((a) => a.mv <= p.mv * 1.2)
-          .slice(0, 2)
-          .map((a) => ({ player: a, reason: altReason(a, tiers, news, nm, strat.notesById) })),
+        alternatives: takeAlts(premAlts, 2, p.mv * 1.2).map((a) => ({
+          player: a,
+          reason: altReason(a, tiers, news, nm, strat.notesById),
+        })),
       });
     }
     for (const p of fillerByPos[pos]) {
@@ -373,7 +390,10 @@ export function buildProposal(
         role: "filler",
         security: sec.get(p.id!),
         reason: fillerReason(p, news, nm, strat.notesById),
-        alternatives: cheapAlts.slice(0, 2).map((a) => ({ player: a, reason: altReason(a, tiers, news, nm, strat.notesById) })),
+        alternatives: takeAlts(cheapAlts, 2).map((a) => ({
+          player: a,
+          reason: altReason(a, tiers, news, nm, strat.notesById),
+        })),
       });
     }
   }

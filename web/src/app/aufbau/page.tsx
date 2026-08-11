@@ -176,6 +176,11 @@ export default function AufbauPage() {
       const pick = { ...list[pickIdx] };
       const alt = pick.alternatives[altIdx];
       if (!alt) return prev;
+      // Sicherheitsnetz: derselbe Spieler darf nie in zwei Slots landen.
+      const already = ORDER.some((q) =>
+        next.byPos[q].some((x, k) => x.player.id === alt.player.id && !(q === pos && k === pickIdx)),
+      );
+      if (already) return prev;
       const oldPlayer = pick.player;
       const oldReason = pick.reason;
       pick.player = alt.player;

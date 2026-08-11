@@ -27,12 +27,26 @@ export async function loadSquad(): Promise<SquadPlayer[]> {
   return raw ? (JSON.parse(raw) as SquadPlayer[]) : SEED_SQUAD;
 }
 
+/** Doppelte Spieler entfernen. `squad_players.id` ist Primärschlüssel — ein
+ *  doppelter Spieler ließ den INSERT fehlschlagen und die Position blieb
+ *  unterbesetzt (Symptom: 6 statt 7 Abwehrspieler). */
+function dedupe(squad: SquadPlayer[]): SquadPlayer[] {
+  const seen = new Set<string>();
+  return squad.filter((p) => {
+    const key = p.id ?? p.name;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export async function saveSquad(squad: SquadPlayer[]): Promise<void> {
+  const clean = dedupe(squad);
   if (supabaseEnabled && supabase) {
     await supabase.from("squad_players").delete().neq("id", "");
-    if (squad.length) {
-      await supabase.from("squad_players").insert(
-        squad.map((p) => ({
+    if (clean.length) {
+      const { error } = await supabase.from("squad_players").insert(
+        clean.map((p) => ({
           id: p.id,
           name: p.name,
           club: p.club,
@@ -41,11 +55,12 @@ export async function saveSquad(squad: SquadPlayer[]): Promise<void> {
           mv: p.mv ?? null,
         })),
       );
+      if (error) throw new Error(`Kader speichern fehlgeschlagen: ${error.message}`);
     }
     return;
   }
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(LS_KEY, JSON.stringify(squad));
+  window.localStorage.setItem(LS_KEY, JSON.stringify(clean));
 }
 
 export async function resetSquad(): Promise<void> {
