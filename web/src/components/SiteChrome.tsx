@@ -10,6 +10,7 @@ function Nav() {
     { href: "/squad", label: "Kader" },
     { href: "/daten", label: "Daten" },
     { href: "/news", label: "News" },
+    { href: "/quellen", label: "Quellen" },
     { href: "/anleitung", label: "Anleitung" },
     { href: "/methodik", label: "Methodik" },
   ];

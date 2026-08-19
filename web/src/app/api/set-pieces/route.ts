@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import { loadAllowedDomains } from "@/lib/sources";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -12,11 +13,11 @@ const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
 
 const DEFAULT_DOMAINS = ["kicker.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com", "spox.com", "sport.de"];
 const ENV_DOMAINS = (process.env.SETPIECE_ALLOWED_DOMAINS || "").split(",").map((d) => d.trim()).filter(Boolean);
-const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
+const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
-function webSearchTool() {
+function webSearchTool(domains: string[]) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
-  return { type: modern ? "web_search_20260209" : "web_search_20250305", name: "web_search", max_uses: 12, allowed_domains: DOMAINS };
+  return { type: modern ? "web_search_20260209" : "web_search_20250305", name: "web_search", max_uses: 12, allowed_domains: domains };
 }
 
 const REPORT_TOOL = {
@@ -44,7 +45,7 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du recherchierst für die Kaderplanung in der 1. Bundesliga
+const SYSTEM = (DOMAINS: string[]) => `Du recherchierst für die Kaderplanung in der 1. Bundesliga
 (Deutschland) — nur diese Liga — die Standard- und Elfmeterschützen. Ziel:
 Spieler mit unterbepreistem Punkte-Boden (ein Abwehr-Tor gibt +5). Finde je Verein:
 - den designierten ELFMETERSCHÜTZEN ("penalty"),
@@ -65,21 +66,22 @@ export async function POST(req: NextRequest) {
   const userText = `VEREINE (nur diese):\n${clubs.map((c) => `- ${c}`).join("\n")}\n\nRecherchiere und rufe dann report_takers auf.`;
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(), REPORT_TOOL];
+  const DOMAINS = await loadAllowedDomains(FALLBACK_DOMAINS);
+  const tools: any[] = [webSearchTool(DOMAINS), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
     let response;
     try {
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
     } catch (e) {
       if (!pruneBlockedDomains(tools, e)) throw e;
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
     }
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {
       messages.push({ role: "assistant", content: response.content });
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM, tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
     }
     const block = response.content.find((b) => b.type === "tool_use" && b.name === "report_takers");
     if (!block || block.type !== "tool_use") return NextResponse.json({ takers: [], model: MODEL });

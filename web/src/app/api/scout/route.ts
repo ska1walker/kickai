@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import { loadAllowedDomains } from "@/lib/sources";
 
 export const runtime = "nodejs";
 export const maxDuration = 300; // Recherche über mehrere Spieler dauert länger
@@ -27,15 +28,15 @@ const ENV_DOMAINS = (process.env.SCOUT_ALLOWED_DOMAINS || "")
   .split(",")
   .map((d) => d.trim())
   .filter(Boolean);
-const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_SCOUT_DOMAINS;
+const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_SCOUT_DOMAINS;
 
-function webSearchTool(maxUses: number) {
+function webSearchTool(maxUses: number, domains: string[]) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
     max_uses: maxUses,
-    allowed_domains: DOMAINS,
+    allowed_domains: domains,
   };
 }
 
@@ -73,7 +74,7 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Talent-Scout für das kicker-Managerspiel zur 1. Bundesliga
+const SYSTEM = (DOMAINS: string[]) => `Du bist Talent-Scout für das kicker-Managerspiel zur 1. Bundesliga
 (Deutschland) — nur diese Liga ist relevant. Für jeden Spieler der Liste
 recherchiere Signale, die der Marktwert NICHT abbildet, und leite eine
 Einschätzung der Stammplatz-/Durchbruch-Chance für die kommende Saison ab.
@@ -132,7 +133,8 @@ export async function POST(req: NextRequest) {
 
   const client = new Anthropic({ apiKey, timeout: 290_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(Math.min(players.length * 2, 30)), REPORT_TOOL];
+  const DOMAINS = await loadAllowedDomains(FALLBACK_DOMAINS);
+  const tools: any[] = [webSearchTool(Math.min(players.length * 2, 30), DOMAINS), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
@@ -141,7 +143,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -150,7 +152,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -161,7 +163,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });

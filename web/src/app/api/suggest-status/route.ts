@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { Status } from "@/lib/engine/types";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import { loadAllowedDomains } from "@/lib/sources";
 
 export const runtime = "nodejs";
 export const maxDuration = 120; // Web-Recherche kann mehrere Sekunden dauern
@@ -30,17 +31,17 @@ const ALLOWED_DOMAINS = (process.env.NEWS_ALLOWED_DOMAINS || "")
   .split(",")
   .map((d) => d.trim())
   .filter(Boolean);
-const DOMAINS = ALLOWED_DOMAINS.length ? ALLOWED_DOMAINS : DEFAULT_DOMAINS;
+const FALLBACK_DOMAINS = ALLOWED_DOMAINS.length ? ALLOWED_DOMAINS : DEFAULT_DOMAINS;
 
 // Web-Search-Tool-Version passend zum Modell (Dynamic Filtering auf Opus 4.x /
 // Sonnet 4.6, sonst die Basis-Variante). allowed_domains beschränkt hart.
-function webSearchTool(maxUses: number) {
+function webSearchTool(maxUses: number, domains: string[]) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
     max_uses: maxUses,
-    allowed_domains: DOMAINS,
+    allowed_domains: domains,
   };
 }
 
@@ -69,7 +70,7 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Recherche-Assistent für das kicker-Managerspiel zur
+const SYSTEM = (DOMAINS: string[]) => `Du bist Recherche-Assistent für das kicker-Managerspiel zur
 1. Bundesliga (Deutschland). NUR 1. Bundesliga — keine 2. Liga, keine anderen
 Ligen. Der Kader steht fest. Recherchiere AUSSCHLIESSLICH zu den unten genannten
 Vereinen und den dort aufgelisteten Kaderspielern — keine anderen Vereine, keine
@@ -144,7 +145,8 @@ export async function POST(req: NextRequest) {
 
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(Math.min(clubCount * 2, 16)), REPORT_TOOL];
+  const DOMAINS = await loadAllowedDomains(FALLBACK_DOMAINS);
+  const tools: any[] = [webSearchTool(Math.min(clubCount * 2, 16), DOMAINS), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
@@ -153,7 +155,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -162,7 +164,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -174,7 +176,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });

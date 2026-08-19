@@ -68,18 +68,31 @@ create table if not exists player_pool (
 alter table player_pool add column if not exists est_points int;
 create index if not exists idx_pool_season on player_pool (season);
 
+-- News-Quellen: welche Domains die KI-Recherchen durchsuchen dürfen.
+-- Leer/keine aktive Zeile = die im Code hinterlegte Standardliste gilt.
+-- WICHTIG: nur deutsche 1.-Bundesliga-Quellen, keine Paywall-Inhalte.
+create table if not exists news_sources (
+  domain     text primary key,             -- z.B. 'kicker.de' (ohne https://)
+  active     boolean not null default true,
+  note       text,                         -- warum diese Quelle
+  created_at timestamptz not null default now()
+);
+
 -- Einzelnutzer-App (Kai): RLS an, anon darf lesen/schreiben.
 -- Für Mehrbenutzer später auf auth.uid() umstellen.
 alter table squad_players  enable row level security;
 alter table matchday_status enable row level security;
 alter table news_log        enable row level security;
 alter table player_pool     enable row level security;
+alter table news_sources    enable row level security;
 
 drop policy if exists "anon all squad"  on squad_players;
 drop policy if exists "anon all status" on matchday_status;
 drop policy if exists "anon all news"   on news_log;
 drop policy if exists "anon all pool"   on player_pool;
+drop policy if exists "anon all sources" on news_sources;
 create policy "anon all squad"  on squad_players  for all using (true) with check (true);
 create policy "anon all status" on matchday_status for all using (true) with check (true);
 create policy "anon all news"   on news_log        for all using (true) with check (true);
 create policy "anon all pool"   on player_pool     for all using (true) with check (true);
+create policy "anon all sources" on news_sources   for all using (true) with check (true);

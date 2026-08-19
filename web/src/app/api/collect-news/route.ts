@@ -8,6 +8,7 @@ import { supabase, supabaseEnabled } from "@/lib/supabase/client";
 import { canon } from "@/lib/engine/clubs";
 import { DURABLE_TYPES, type NewsType } from "@/lib/news";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import { loadAllowedDomains } from "@/lib/sources";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -35,15 +36,15 @@ const ENV_DOMAINS = (process.env.NEWS_COLLECT_ALLOWED_DOMAINS || "")
   .split(",")
   .map((d) => d.trim())
   .filter(Boolean);
-const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
+const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
-function webSearchTool() {
+function webSearchTool(domains: string[]) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
     max_uses: 16,
-    allowed_domains: [...DOMAINS],
+    allowed_domains: [...domains],
   };
 }
 
@@ -107,7 +108,7 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Nachrichten-Sammler für die Kaderplanung in der
+const SYSTEM = (DOMAINS: string[]) => `Du bist Nachrichten-Sammler für die Kaderplanung in der
 1. Bundesliga (Deutschland). NUR 1. Bundesliga — keine 2. Liga, keine anderen
 Ligen (Aufsteiger IN die 1. Bundesliga zählen dazu). Suche die WICHTIGSTEN News
 der letzten ~48 Stunden und melde sie strukturiert.
@@ -171,7 +172,8 @@ export async function GET(req: NextRequest) {
   const focus = FOCUS[now.getUTCDay()];
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(), REPORT_TOOL];
+  const DOMAINS = await loadAllowedDomains(FALLBACK_DOMAINS);
+  const tools: any[] = [webSearchTool(DOMAINS), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [
     {
       role: "user",
@@ -183,7 +185,7 @@ export async function GET(req: NextRequest) {
   const baseParams = () => ({
     model: MODEL,
     max_tokens: 8000,
-    system: SYSTEM,
+    system: SYSTEM(DOMAINS),
     tools,
     messages,
   });
@@ -203,7 +205,7 @@ export async function GET(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 8000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });

@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { canon } from "@/lib/engine/clubs";
 import { pruneBlockedDomains } from "@/lib/webSearch";
+import { loadAllowedDomains } from "@/lib/sources";
 import bundled2025 from "@/lib/data/players-2025.json";
 
 export const runtime = "nodejs";
@@ -28,15 +29,15 @@ const ENV_DOMAINS = (process.env.TIERS_ALLOWED_DOMAINS || "")
   .split(",")
   .map((d) => d.trim())
   .filter(Boolean);
-const DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
+const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
-function webSearchTool(maxUses: number) {
+function webSearchTool(maxUses: number, domains: string[]) {
   const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
     max_uses: maxUses,
-    allowed_domains: DOMAINS,
+    allowed_domains: domains,
   };
 }
 
@@ -70,7 +71,7 @@ const REPORT_TOOL = {
   },
 };
 
-const SYSTEM = `Du bist Analyst für die Saisonprognose der 1. Bundesliga
+const SYSTEM = (DOMAINS: string[]) => `Du bist Analyst für die Saisonprognose der 1. Bundesliga
 (Deutschland) — nur diese Liga. Recherchiere für die kommende Saison die
 erwartete Tabellen-Region der Vereine (Prognosen, Transfer-Bewertungen,
 Experten-Einschätzungen).
@@ -124,7 +125,8 @@ export async function POST(req: NextRequest) {
 
   const client = new Anthropic({ apiKey, timeout: 110_000 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const tools: any[] = [webSearchTool(12), REPORT_TOOL];
+  const DOMAINS = await loadAllowedDomains(FALLBACK_DOMAINS);
+  const tools: any[] = [webSearchTool(12, DOMAINS), REPORT_TOOL];
   const messages: Anthropic.MessageParam[] = [{ role: "user", content: userText }];
 
   try {
@@ -133,7 +135,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -142,7 +144,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
@@ -153,7 +155,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
-        system: SYSTEM,
+        system: SYSTEM(DOMAINS),
         tools,
         messages,
       });
