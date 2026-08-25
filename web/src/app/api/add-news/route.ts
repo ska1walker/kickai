@@ -155,7 +155,15 @@ export async function POST(req: NextRequest) {
     });
 
   if (!rows.length) return NextResponse.json({ inserted: 0 });
-  const { error } = await supabase.from("news_log").upsert(rows, { onConflict: "dedup_key" });
+  let { error } = await supabase.from("news_log").upsert(rows, { onConflict: "dedup_key" });
+  if (error && /type_check|constraint/i.test(error.message)) {
+    // DB kennt den Typ 'starter' noch nicht (ALTER aus schema.sql fehlt) —
+    // als preseason_form ablegen, damit keine Meldung verloren geht.
+    const legacy = rows.map((r) =>
+      r.type === "starter" ? { ...r, type: "preseason_form" as NewsType } : r,
+    );
+    ({ error } = await supabase.from("news_log").upsert(legacy, { onConflict: "dedup_key" }));
+  }
   if (error) return NextResponse.json({ error: `DB: ${error.message}` }, { status: 502 });
   return NextResponse.json({ inserted: rows.length, items: rows });
 }

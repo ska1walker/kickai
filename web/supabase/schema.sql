@@ -33,7 +33,8 @@ create table if not exists news_log (
   club       text,                          -- kanonischer Vereinscode (nullable)
   player     text,
   type       text not null check (type in
-             ('transfer_in','transfer_out','coach','injury','suspension','return','preseason_form','other')),
+             ('transfer_in','transfer_out','coach','injury','suspension','return',
+              'preseason_form','starter','other')),
   durable    boolean not null default false,
   impact     int not null default 2 check (impact between 1 and 4),
              -- Managerspiel-Relevanz: 4=kritisch, 3=hoch, 2=mittel, 1=gering
@@ -44,6 +45,11 @@ create table if not exists news_log (
 );
 -- Upgrade bestehender Installationen (idempotent):
 alter table news_log add column if not exists impact int not null default 2;
+-- Typ 'starter' nachtraeglich erlauben (Stammplatz-Meldungen):
+alter table news_log drop constraint if exists news_log_type_check;
+alter table news_log add constraint news_log_type_check check (type in
+  ('transfer_in','transfer_out','coach','injury','suspension','return',
+   'preseason_form','starter','other'));
 create index if not exists idx_news_created on news_log (created_at desc);
 create index if not exists idx_news_club on news_log (club);
 
