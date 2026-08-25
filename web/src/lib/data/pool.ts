@@ -12,13 +12,21 @@ export interface PoolPlayer extends SquadPlayer {
   estPoints?: number; // Marktwert-Schätzung, wenn keine Historie vorliegt
 }
 
-/** Punkte, mit denen gerechnet wird: echte Vorsaison-Punkte, sonst die
- *  Marktwert-Schätzung (Neuzugänge sind sonst rechnerisch wertlos). */
+/** Punkte, mit denen gerechnet wird. Die Marktwert-Schätzung ist eine
+ *  UNTERGRENZE, kein Ersatz: Wer echte Vorsaisonpunkte hat, behält sie —
+ *  wer kaum gespielt hat (Talente, Aufsteiger-Stammspieler, Rückkehrer),
+ *  fällt nicht mehr auf null, sondern auf das, was sein Marktwert nahelegt. */
 export function effectivePoints(p: {
   points: number;
   estPoints?: number;
 }): number {
-  return p.points > 0 ? p.points : (p.estPoints ?? 0);
+  return Math.max(p.points, p.estPoints ?? 0);
+}
+
+/** Stützt sich der Wert auf die Schätzung statt auf echte Punkte? Dann ist er
+ *  unsicherer und muss durch Vorbereitungs-/News-Belege bestätigt werden. */
+export function isEstimated(p: { points: number; estPoints?: number }): boolean {
+  return (p.estPoints ?? 0) > p.points;
 }
 
 const BUNDLED = raw as PoolPlayer[];

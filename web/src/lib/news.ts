@@ -10,6 +10,7 @@ export type NewsType =
   | "suspension"
   | "return"
   | "preseason_form"
+  | "starter"
   | "other";
 
 export interface NewsItem {
@@ -33,6 +34,7 @@ export const TYPE_LABEL: Record<NewsType, string> = {
   suspension: "Sperre",
   return: "Rückkehr",
   preseason_form: "Vorbereitung",
+  starter: "Stammplatz",
   other: "Sonstiges",
 };
 
@@ -45,6 +47,19 @@ export const DURABLE_TYPES: NewsType[] = [
 ];
 
 export const NEWS_HALFLIFE_DAYS = 12;
+
+// Einsatz-Erwartung aus einer Stammplatz-Meldung, in Saisonpunkten.
+// Hintergrund: Ein Bundesliga-Stammspieler holt grob 4,5-5 Punkte je Einsatz;
+// 30 Einsaetze sind also rund 140 Punkte. Nach Belegstaerke abgestuft, weil
+// "spielte 34-mal durch" etwas anderes ist als "darf mittrainieren".
+// Das ist der einzige Weg, wie ein 0,5-Mio-Talent ueberhaupt sichtbar wird:
+// Weder Vorsaisonpunkte noch Marktwert koennen es abbilden.
+export const STARTER_FLOOR: Record<number, number> = {
+  4: 130, // unangefochtener Stammspieler, "34 Spiele", "Saeule"
+  3: 90, // steht in der Startelf, ueberzeugt in der Vorbereitung
+  2: 40, // aussichtsreich, Einsatzzeit aber offen
+  1: 0,
+};
 
 /** Gewicht 0..1: dauerhafte Fakten = 1, flüchtige Signale exponentiell fallend. */
 export function recencyWeight(

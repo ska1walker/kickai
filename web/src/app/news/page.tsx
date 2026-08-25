@@ -19,6 +19,7 @@ const TYPE_STYLE: Record<string, string> = {
   suspension: "bg-white text-ink-muted border border-ink-line",
   return: "bg-signal-50 text-signal-700",
   preseason_form: "bg-amber-100 text-amber-900",
+  starter: "bg-signal text-white",
   other: "bg-white text-ink-muted border border-ink-line",
 };
 
@@ -30,6 +31,38 @@ function fmtDate(iso: string): string {
 export default function NewsPage() {
   const [items, setItems] = useState<NewsItem[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // Manuelle Eingabe: Artikel einfügen, Claude zerlegt ihn in Einträge.
+  const [draft, setDraft] = useState("");
+  const [src, setSrc] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  async function submit() {
+    if (!draft.trim()) return;
+    setBusy(true);
+    setMsg(null);
+    try {
+      const res = await fetch("/api/add-news", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: draft, source: src }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Fehler");
+      setMsg(`${json.inserted} Meldung(en) übernommen.`);
+      setDraft("");
+      const { data } = await supabase!
+        .from("news_log")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(120);
+      setItems((data as NewsItem[]) ?? []);
+    } catch (e) {
+      setMsg((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
 
   useEffect(() => {
     if (!supabaseEnabled || !supabase) {
@@ -62,6 +95,37 @@ export default function NewsPage() {
           Aktualität abgewertet — der Balken zeigt das kombinierte Gewicht, mit dem
           die Meldung in Entscheidungen einfließt. Sortiert nach Gewicht.
         </p>
+      </div>
+
+      {/* Manuelle Eingabe */}
+      <div className="card p-4">
+        <p className="label-caps">Meldung selbst einfügen</p>
+        <p className="mt-1 text-xs text-ink-muted">
+          Artikel oder Absatz hier einfügen — die KI zerlegt ihn in einzelne
+          Einträge und stuft die Relevanz ein. Besonders wertvoll sind
+          Stammplatz-Hinweise („gesetzt“, „34 Einsätze“, „vertritt den
+          Verletzten“): Genau die kann das System aus Marktwert und
+          Vorsaisonpunkten nicht ableiten.
+        </p>
+        <textarea
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          rows={5}
+          placeholder="Text hier einfügen…"
+          className="mt-2 w-full rounded-md border border-ink-line px-3 py-2 text-sm outline-none focus:border-signal"
+        />
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <input
+            value={src}
+            onChange={(e) => setSrc(e.target.value)}
+            placeholder="Quelle (optional), z. B. kicker.de"
+            className="min-w-48 flex-1 rounded-md border border-ink-line px-3 py-2 text-sm outline-none focus:border-signal"
+          />
+          <button onClick={submit} disabled={busy || !draft.trim()} className="btn-signal disabled:opacity-50">
+            {busy ? "Werte aus…" : "Übernehmen"}
+          </button>
+          {msg && <span className="text-sm text-signal-700">{msg}</span>}
+        </div>
       </div>
 
       {!supabaseEnabled && (

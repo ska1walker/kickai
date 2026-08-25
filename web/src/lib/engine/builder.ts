@@ -92,9 +92,15 @@ const TIER_LABEL: Record<Tier, string> = {
   lower: "Verein im unteren Drittel erwartet",
 };
 
-// Rechenpunkte: echte Vorsaison-Punkte, sonst Marktwert-Schaetzung.
-const pts = (p: PoolPlayer) => effectivePoints(p);
-const ppm = (p: PoolPlayer) => pts(p) / Math.max(p.mv, 0.5);
+// Rechenpunkte = das Maximum aus drei Quellen, keine addiert sich:
+//   1. echte Vorsaisonpunkte
+//   2. Marktwert-Schaetzung (was der Verein investiert hat)
+//   3. Stammplatz-Meldung aus den News (wer laut Recherche spielen wird)
+// Punkt 3 ist der einzige Weg, wie ein 0,5-Mio-Talent sichtbar wird: Es hat
+// weder Vorsaisonpunkte noch einen Marktwert, der etwas aussagt.
+const pts = (p: PoolPlayer, nm?: NewsMap) =>
+  Math.max(effectivePoints(p), nm?.get(p.id!)?.floor ?? 0);
+const ppm = (p: PoolPlayer, nm?: NewsMap) => pts(p, nm) / Math.max(p.mv, 0.5);
 
 // Der Marktwert sagt, was der Verein GEZAHLT hat — nicht, ob der Spieler
 // spielt. Punkte kommen aber aus Einsatzminuten (Korr 0.69 vs. Note ~0).
@@ -112,7 +118,7 @@ function evidenceFactor(p: PoolPlayer, nm: NewsMap): number {
 }
 
 // Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
-type NewsMap = Map<string, { delta: number; notes: string[] }>;
+type NewsMap = Map<string, { delta: number; notes: string[]; floor: number; floorNote?: string }>;
 
 function adj(
   p: PoolPlayer,
@@ -128,7 +134,7 @@ function adj(
   const stratDelta = strat.get(p.id!) ?? 0; // #4/#5/#6 Strategie
   const secF = securityFactor(sec.get(p.id!)); // #2 Einsatzsicherheit
   return (
-    pts(p) *
+    pts(p, nm) *
     evidenceFactor(p, nm) *
     POS_WEIGHT[p.position] *
     (1 + bonus) *
@@ -190,7 +196,8 @@ export function explainScore(
   const strat = computeStrategy(strategy, news);
   const security = (sec ?? computeSecurity()).get(p.id!);
 
-  const base = pts(p);
+  const base = pts(p, nm);
+  const floor = nm.get(p.id!)?.floor ?? 0;
   const baseLabel =
     p.points > 0
       ? `${p.points} Pkt aus der Vorsaison`
@@ -200,6 +207,15 @@ export function explainScore(
 
   const steps: ScoreStep[] = [];
   let running = base;
+  if (floor > 0 && floor >= effectivePoints(p)) {
+    // Stammplatz-Meldung schlaegt Vorsaisonpunkte und Marktwert-Schaetzung.
+    steps.push({
+      label: "Stammplatz laut News",
+      factor: 1,
+      delta: 0,
+      why: nm.get(p.id!)?.floorNote ?? "als gesetzt gemeldet — setzt die Punkte-Untergrenze",
+    });
+  }
   // force = Schritt auch bei Faktor 1.00 zeigen: der Leser soll sehen, dass
   // die Dimension geprüft wurde und schlicht neutral ausfiel.
   const push = (label: string, factor: number, why: string, force = false) => {
@@ -265,7 +281,7 @@ export function explainPlayer(p: PoolPlayer, tiers: Tiers, news: NewsSignals): s
     p.points > 0
       ? `${p.points} Pkt Vorsaison bei ${p.mv.toFixed(1)}M (${ppm(p).toFixed(0)} P/Mio)`
       : p.estPoints
-        ? `Ohne Vorsaison-Daten — Richtwert ${p.estPoints} Pkt aus dem Marktwert (${p.mv.toFixed(1)}M); der Marktwert zeigt die Investition, nicht die Einsatzzeit`
+        ? `Ohne verwertbare Vorsaison-Daten — Richtwert ${p.estPoints} Pkt aus dem Marktwert (${p.mv.toFixed(1)}M); der Marktwert zeigt die Investition, nicht die Einsatzzeit`
         : `Günstiger Kaderplatz (${p.mv.toFixed(1)}M) — spart Budget für die Startelf`;
   return `${base}${tierNote(p, tiers)}${newsNote(p, news, nm)}${histNote(p, nm)}`;
 }
@@ -417,7 +433,7 @@ export function buildProposal(
   return {
     byPos,
     totalMv: Math.round(flat.reduce((s, p) => s + p.player.mv, 0) * 10) / 10,
-    totalPoints: flat.reduce((s, p) => s + pts(p.player), 0),
+    totalPoints: flat.reduce((s, p) => s + pts(p.player, nm), 0),
     bestXiExp: Math.round(bestXiExp * 10) / 10,
     newsUsed: news.count,
     clusterClubs: strat.clusterClubs,

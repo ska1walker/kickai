@@ -52,9 +52,9 @@ EST_DISCOUNT = 0.79
 
 
 def fit_mv_model(df: pd.DataFrame) -> dict[str, tuple[float, float]]:
-    """Punkte ≈ a + b·Marktwert, je Position auf den Spielern MIT Historie
-    gefittet. Marktwert ist der einzige belastbare Proxy für Spieler ohne
-    Vorsaison-Daten (Korr ≈ 0.84, R² ≈ 0.71 im 26/27-Datensatz)."""
+    """Punkte ≈ a + b·Marktwert, je Position auf den Spielern MIT Punkten
+    gefittet. Marktwert ist der beste Proxy für alle, deren Vorsaisonpunkte
+    nichts über die kommende Saison sagen (Korr ≈ 0.84, R² ≈ 0.71 in 26/27)."""
     ref = df[df["Punkte"] > 0]
     model: dict[str, tuple[float, float]] = {}
     for pos in ["TW", "ABW", "MF", "ST", "*"]:
@@ -120,10 +120,14 @@ def main() -> int:
             entry["points"] = pts
             entry["expPoints"] = round(pts / 34, 2)
             entry["hasHistory"] = bool(has)
-            if not has:
-                # Ohne Historie: Marktwert-Schätzung, damit teure Neuzugänge
-                # nicht als wertlos durchs Raster fallen.
-                entry["estPoints"] = estimate_points(float(r.MV), entry["position"], mv_model)
+            # Marktwert-Schätzung für JEDEN Spieler, nicht nur für Spieler ohne
+            # Historie. Grund: Wer letzte Saison im Kader stand, aber kaum
+            # spielte (Talente, Rückkehrer, Aufsteiger-Stammspieler aus der
+            # 2. Liga), hat zwar "Historie", aber eine Punktzahl nahe null —
+            # und wäre damit unsichtbar. Der Marktwert bildet ab, welche Rolle
+            # der Verein ihm zutraut. Die Schätzung wirkt als UNTERGRENZE:
+            # Wer viele echte Punkte hat, behält sie (siehe effectivePoints).
+            entry["estPoints"] = estimate_points(float(r.MV), entry["position"], mv_model)
         else:
             pts = int(r.Punkte)
             entry["points"] = pts

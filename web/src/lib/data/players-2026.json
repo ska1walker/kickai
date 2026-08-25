@@ -8,7 +8,8 @@
 "mv": 10.0,
 "points": 407,
 "expPoints": 11.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 338
 },
 {
 "id": "pl-k00125181",
@@ -19,7 +20,8 @@
 "mv": 8.5,
 "points": 348,
 "expPoints": 10.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 284
 },
 {
 "id": "pl-k00115737",
@@ -30,7 +32,8 @@
 "mv": 7.0,
 "points": 287,
 "expPoints": 8.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 230
 },
 {
 "id": "pl-k00059041",
@@ -41,7 +44,8 @@
 "mv": 4.2,
 "points": 276,
 "expPoints": 8.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 162
 },
 {
 "id": "pl-k00102800",
@@ -52,7 +56,8 @@
 "mv": 4.2,
 "points": 256,
 "expPoints": 7.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 162
 },
 {
 "id": "pl-k00087885",
@@ -63,7 +68,8 @@
 "mv": 6.0,
 "points": 255,
 "expPoints": 7.5,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 194
 },
 {
 "id": "pl-k00087673",
@@ -74,7 +80,8 @@
 "mv": 3.6,
 "points": 254,
 "expPoints": 7.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 167
 },
 {
 "id": "pl-k00068674",
@@ -85,7 +92,8 @@
 "mv": 3.2,
 "points": 253,
 "expPoints": 7.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 147
 },
 {
 "id": "pl-k00079199",
@@ -96,7 +104,8 @@
 "mv": 3.0,
 "points": 246,
 "expPoints": 7.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 138
 },
 {
 "id": "pl-k00070990",
@@ -107,7 +116,8 @@
 "mv": 4.2,
 "points": 239,
 "expPoints": 7.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 177
 },
 {
 "id": "pl-k00081053",
@@ -118,7 +128,8 @@
 "mv": 3.2,
 "points": 238,
 "expPoints": 7.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 125
 },
 {
 "id": "pl-k00071150",
@@ -129,7 +140,8 @@
 "mv": 5.5,
 "points": 230,
 "expPoints": 6.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 220
 },
 {
 "id": "pl-k00118051",
@@ -140,7 +152,8 @@
 "mv": 3.2,
 "points": 230,
 "expPoints": 6.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 147
 },
 {
 "id": "pl-k00119669",
@@ -151,7 +164,8 @@
 "mv": 5.0,
 "points": 226,
 "expPoints": 6.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 158
 },
 {
 "id": "pl-k00070374",
@@ -162,7 +176,8 @@
 "mv": 3.0,
 "points": 224,
 "expPoints": 6.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 138
 },
 {
 "id": "pl-k00088240",
@@ -173,7 +188,8 @@
 "mv": 4.0,
 "points": 223,
 "expPoints": 6.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 153
 },
 {
 "id": "pl-k00159629",
@@ -184,7 +200,8 @@
 "mv": 4.2,
 "points": 222,
 "expPoints": 6.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 162
 },
 {
 "id": "pl-k00096140",
@@ -195,7 +212,8 @@
 "mv": 3.5,
 "points": 217,
 "expPoints": 6.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 141
 },
 {
 "id": "pl-k00104317",
@@ -206,7 +224,8 @@
 "mv": 4.0,
 "points": 215,
 "expPoints": 6.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 153
 },
 {
 "id": "pl-k00105845",
@@ -217,7 +236,8 @@
 "mv": 3.2,
 "points": 215,
 "expPoints": 6.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 147
 },
 {
 "id": "pl-k00105180",
@@ -228,7 +248,8 @@
 "mv": 4.0,
 "points": 213,
 "expPoints": 6.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 153
 },
 {
 "id": "pl-k00084943",
@@ -239,7 +260,8 @@
 "mv": 4.0,
 "points": 210,
 "expPoints": 6.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 167
 },
 {
 "id": "pl-k00039245",
@@ -250,7 +272,8 @@
 "mv": 3.0,
 "points": 208,
 "expPoints": 6.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 138
 },
 {
 "id": "pl-k00087750",
@@ -261,7 +284,8 @@
 "mv": 3.5,
 "points": 208,
 "expPoints": 6.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 141
 },
 {
 "id": "pl-k00080174",
@@ -272,7 +296,8 @@
 "mv": 3.8,
 "points": 207,
 "expPoints": 6.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 156
 },
 {
 "id": "pl-k00080351",
@@ -283,7 +308,8 @@
 "mv": 3.8,
 "points": 203,
 "expPoints": 5.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 144
 },
 {
 "id": "pl-k00107842",
@@ -294,7 +320,8 @@
 "mv": 3.4,
 "points": 201,
 "expPoints": 5.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 126
 },
 {
 "id": "pl-k00114601",
@@ -305,7 +332,8 @@
 "mv": 3.5,
 "points": 201,
 "expPoints": 5.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 141
 },
 {
 "id": "pl-k00079813",
@@ -316,7 +344,8 @@
 "mv": 3.5,
 "points": 200,
 "expPoints": 5.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 141
 },
 {
 "id": "pl-k00153662",
@@ -327,7 +356,8 @@
 "mv": 3.4,
 "points": 198,
 "expPoints": 5.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 126
 },
 {
 "id": "pl-k00156434",
@@ -338,7 +368,8 @@
 "mv": 3.2,
 "points": 196,
 "expPoints": 5.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 117
 },
 {
 "id": "pl-k00080083",
@@ -349,7 +380,8 @@
 "mv": 4.2,
 "points": 190,
 "expPoints": 5.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 162
 },
 {
 "id": "pl-k00089442",
@@ -360,7 +392,8 @@
 "mv": 5.0,
 "points": 186,
 "expPoints": 5.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 158
 },
 {
 "id": "pl-k00104485",
@@ -371,7 +404,8 @@
 "mv": 3.2,
 "points": 186,
 "expPoints": 5.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 125
 },
 {
 "id": "pl-k00075608",
@@ -382,7 +416,8 @@
 "mv": 2.6,
 "points": 185,
 "expPoints": 5.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 118
 },
 {
 "id": "pl-k00085382",
@@ -393,7 +428,8 @@
 "mv": 3.6,
 "points": 183,
 "expPoints": 5.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 146
 },
 {
 "id": "pl-k00069255",
@@ -404,7 +440,8 @@
 "mv": 3.0,
 "points": 182,
 "expPoints": 5.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 115
 },
 {
 "id": "pl-k00080088",
@@ -415,7 +452,8 @@
 "mv": 3.4,
 "points": 182,
 "expPoints": 5.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 126
 },
 {
 "id": "pl-k00070592",
@@ -426,7 +464,8 @@
 "mv": 4.3,
 "points": 180,
 "expPoints": 5.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 182
 },
 {
 "id": "pl-k00117298",
@@ -437,7 +476,8 @@
 "mv": 3.6,
 "points": 180,
 "expPoints": 5.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 135
 },
 {
 "id": "pl-k00149146",
@@ -448,7 +488,8 @@
 "mv": 3.8,
 "points": 177,
 "expPoints": 5.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 144
 },
 {
 "id": "pl-k00106928",
@@ -459,7 +500,8 @@
 "mv": 3.8,
 "points": 175,
 "expPoints": 5.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 144
 },
 {
 "id": "pl-k00114736",
@@ -470,7 +512,8 @@
 "mv": 3.6,
 "points": 175,
 "expPoints": 5.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00085778",
@@ -481,7 +524,8 @@
 "mv": 4.5,
 "points": 174,
 "expPoints": 5.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 140
 },
 {
 "id": "pl-k00075651",
@@ -492,7 +536,8 @@
 "mv": 2.6,
 "points": 173,
 "expPoints": 5.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 118
 },
 {
 "id": "pl-k00066753",
@@ -503,7 +548,8 @@
 "mv": 4.2,
 "points": 171,
 "expPoints": 5.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 130
 },
 {
 "id": "pl-k00097452",
@@ -514,7 +560,8 @@
 "mv": 2.8,
 "points": 171,
 "expPoints": 5.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 99
 },
 {
 "id": "pl-k00102731",
@@ -525,7 +572,8 @@
 "mv": 3.5,
 "points": 168,
 "expPoints": 4.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 141
 },
 {
 "id": "pl-k00139305",
@@ -536,7 +584,8 @@
 "mv": 3.8,
 "points": 162,
 "expPoints": 4.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 115
 },
 {
 "id": "pl-k00111937",
@@ -547,7 +596,8 @@
 "mv": 3.0,
 "points": 161,
 "expPoints": 4.74,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00057241",
@@ -558,7 +608,8 @@
 "mv": 2.4,
 "points": 160,
 "expPoints": 4.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00087292",
@@ -569,7 +620,8 @@
 "mv": 2.4,
 "points": 157,
 "expPoints": 4.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 84
 },
 {
 "id": "pl-k00099747",
@@ -580,7 +632,8 @@
 "mv": 3.0,
 "points": 157,
 "expPoints": 4.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00131599",
@@ -591,7 +644,8 @@
 "mv": 2.4,
 "points": 157,
 "expPoints": 4.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 84
 },
 {
 "id": "pl-k00131930",
@@ -602,7 +656,8 @@
 "mv": 2.4,
 "points": 155,
 "expPoints": 4.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00089649",
@@ -613,7 +668,8 @@
 "mv": 3.0,
 "points": 154,
 "expPoints": 4.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 115
 },
 {
 "id": "pl-k00087705",
@@ -624,7 +680,8 @@
 "mv": 4.0,
 "points": 151,
 "expPoints": 4.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 122
 },
 {
 "id": "pl-k00054360",
@@ -635,7 +692,8 @@
 "mv": 1.0,
 "points": 150,
 "expPoints": 4.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 39
 },
 {
 "id": "pl-k00115533",
@@ -646,7 +704,8 @@
 "mv": 3.0,
 "points": 150,
 "expPoints": 4.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00130252",
@@ -657,7 +716,8 @@
 "mv": 2.8,
 "points": 150,
 "expPoints": 4.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 99
 },
 {
 "id": "pl-k00072759",
@@ -668,7 +728,8 @@
 "mv": 3.0,
 "points": 148,
 "expPoints": 4.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00088151",
@@ -679,7 +740,8 @@
 "mv": 3.8,
 "points": 145,
 "expPoints": 4.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 156
 },
 {
 "id": "pl-k00079503",
@@ -690,7 +752,8 @@
 "mv": 2.5,
 "points": 143,
 "expPoints": 4.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00143036",
@@ -701,7 +764,8 @@
 "mv": 2.8,
 "points": 143,
 "expPoints": 4.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 79
 },
 {
 "id": "pl-k00088192",
@@ -712,7 +776,8 @@
 "mv": 4.0,
 "points": 141,
 "expPoints": 4.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 122
 },
 {
 "id": "pl-k00129671",
@@ -723,7 +788,8 @@
 "mv": 3.6,
 "points": 141,
 "expPoints": 4.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 146
 },
 {
 "id": "pl-k00147890",
@@ -734,7 +800,8 @@
 "mv": 2.2,
 "points": 141,
 "expPoints": 4.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00146292",
@@ -745,7 +812,8 @@
 "mv": 3.5,
 "points": 140,
 "expPoints": 4.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 131
 },
 {
 "id": "pl-k00107843",
@@ -756,7 +824,8 @@
 "mv": 2.4,
 "points": 139,
 "expPoints": 4.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 84
 },
 {
 "id": "pl-k00135025",
@@ -767,7 +836,8 @@
 "mv": 3.0,
 "points": 139,
 "expPoints": 4.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 115
 },
 {
 "id": "pl-k00099946",
@@ -778,7 +848,8 @@
 "mv": 2.2,
 "points": 138,
 "expPoints": 4.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00121834",
@@ -789,7 +860,8 @@
 "mv": 2.4,
 "points": 138,
 "expPoints": 4.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00105006",
@@ -800,7 +872,8 @@
 "mv": 2.5,
 "points": 137,
 "expPoints": 4.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00089892",
@@ -811,7 +884,8 @@
 "mv": 2.6,
 "points": 136,
 "expPoints": 4.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 94
 },
 {
 "id": "pl-k00103853",
@@ -822,7 +896,8 @@
 "mv": 2.8,
 "points": 136,
 "expPoints": 4.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 104
 },
 {
 "id": "pl-k00156015",
@@ -833,7 +908,8 @@
 "mv": 3.3,
 "points": 136,
 "expPoints": 4.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 122
 },
 {
 "id": "pl-k00054640",
@@ -844,7 +920,8 @@
 "mv": 2.0,
 "points": 135,
 "expPoints": 3.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00143483",
@@ -855,7 +932,8 @@
 "mv": 3.2,
 "points": 135,
 "expPoints": 3.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 125
 },
 {
 "id": "pl-k00144663",
@@ -866,7 +944,8 @@
 "mv": 3.0,
 "points": 133,
 "expPoints": 3.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00100804",
@@ -877,7 +956,8 @@
 "mv": 2.3,
 "points": 131,
 "expPoints": 3.85,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 79
 },
 {
 "id": "pl-k00132187",
@@ -888,7 +968,8 @@
 "mv": 3.2,
 "points": 131,
 "expPoints": 3.85,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 117
 },
 {
 "id": "pl-k00072478",
@@ -899,7 +980,8 @@
 "mv": 2.8,
 "points": 130,
 "expPoints": 3.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 128
 },
 {
 "id": "pl-k00030669",
@@ -910,7 +992,8 @@
 "mv": 2.8,
 "points": 128,
 "expPoints": 3.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 128
 },
 {
 "id": "pl-k00090042",
@@ -921,7 +1004,8 @@
 "mv": 2.6,
 "points": 126,
 "expPoints": 3.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 94
 },
 {
 "id": "pl-k00113079",
@@ -932,7 +1016,8 @@
 "mv": 2.0,
 "points": 125,
 "expPoints": 3.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00116302",
@@ -943,7 +1028,8 @@
 "mv": 2.2,
 "points": 124,
 "expPoints": 3.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00137082",
@@ -954,7 +1040,8 @@
 "mv": 2.0,
 "points": 124,
 "expPoints": 3.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00086138",
@@ -965,7 +1052,8 @@
 "mv": 2.4,
 "points": 123,
 "expPoints": 3.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00136435",
@@ -976,7 +1064,8 @@
 "mv": 1.9,
 "points": 123,
 "expPoints": 3.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 59
 },
 {
 "id": "pl-k00133786",
@@ -987,7 +1076,8 @@
 "mv": 2.6,
 "points": 122,
 "expPoints": 3.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 94
 },
 {
 "id": "pl-k00149508",
@@ -998,7 +1088,8 @@
 "mv": 2.2,
 "points": 122,
 "expPoints": 3.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00073206",
@@ -1009,7 +1100,8 @@
 "mv": 2.5,
 "points": 121,
 "expPoints": 3.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00150671",
@@ -1020,7 +1112,8 @@
 "mv": 2.0,
 "points": 120,
 "expPoints": 3.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00100591",
@@ -1031,7 +1124,8 @@
 "mv": 3.0,
 "points": 118,
 "expPoints": 3.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00169471",
@@ -1042,7 +1136,8 @@
 "mv": 2.4,
 "points": 118,
 "expPoints": 3.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00086106",
@@ -1053,7 +1148,8 @@
 "mv": 2.0,
 "points": 117,
 "expPoints": 3.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00104895",
@@ -1064,7 +1160,8 @@
 "mv": 2.5,
 "points": 117,
 "expPoints": 3.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00174580",
@@ -1075,7 +1172,8 @@
 "mv": 3.0,
 "points": 117,
 "expPoints": 3.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00110187",
@@ -1086,7 +1184,8 @@
 "mv": 2.0,
 "points": 116,
 "expPoints": 3.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00058938",
@@ -1097,7 +1196,8 @@
 "mv": 1.8,
 "points": 114,
 "expPoints": 3.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00102817",
@@ -1108,7 +1208,8 @@
 "mv": 3.3,
 "points": 113,
 "expPoints": 3.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 122
 },
 {
 "id": "pl-k00119414",
@@ -1119,7 +1220,8 @@
 "mv": 1.8,
 "points": 113,
 "expPoints": 3.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00126161",
@@ -1130,7 +1232,8 @@
 "mv": 2.5,
 "points": 113,
 "expPoints": 3.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00090371",
@@ -1141,7 +1244,8 @@
 "mv": 1.8,
 "points": 112,
 "expPoints": 3.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00138529",
@@ -1152,7 +1256,8 @@
 "mv": 3.5,
 "points": 112,
 "expPoints": 3.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 131
 },
 {
 "id": "pl-k00132198",
@@ -1163,7 +1268,8 @@
 "mv": 1.8,
 "points": 111,
 "expPoints": 3.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00125269",
@@ -1174,7 +1280,8 @@
 "mv": 2.0,
 "points": 110,
 "expPoints": 3.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00141500",
@@ -1185,7 +1292,8 @@
 "mv": 2.7,
 "points": 110,
 "expPoints": 3.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 95
 },
 {
 "id": "pl-k00087823",
@@ -1196,7 +1304,8 @@
 "mv": 2.3,
 "points": 109,
 "expPoints": 3.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 77
 },
 {
 "id": "pl-k00139342",
@@ -1207,7 +1316,8 @@
 "mv": 3.0,
 "points": 109,
 "expPoints": 3.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00076421",
@@ -1218,7 +1328,8 @@
 "mv": 2.0,
 "points": 107,
 "expPoints": 3.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00084550",
@@ -1229,7 +1340,8 @@
 "mv": 2.5,
 "points": 106,
 "expPoints": 3.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 89
 },
 {
 "id": "pl-k00092331",
@@ -1240,7 +1352,8 @@
 "mv": 1.8,
 "points": 106,
 "expPoints": 3.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00095745",
@@ -1251,7 +1364,8 @@
 "mv": 1.9,
 "points": 106,
 "expPoints": 3.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00076796",
@@ -1262,7 +1376,8 @@
 "mv": 1.8,
 "points": 105,
 "expPoints": 3.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00103305",
@@ -1273,7 +1388,8 @@
 "mv": 2.2,
 "points": 105,
 "expPoints": 3.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00131913",
@@ -1284,7 +1400,8 @@
 "mv": 1.8,
 "points": 105,
 "expPoints": 3.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00116762",
@@ -1295,7 +1412,8 @@
 "mv": 1.8,
 "points": 103,
 "expPoints": 3.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00076053",
@@ -1306,7 +1424,8 @@
 "mv": 1.5,
 "points": 102,
 "expPoints": 3.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00080364",
@@ -1317,7 +1436,8 @@
 "mv": 1.8,
 "points": 102,
 "expPoints": 3.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00138666",
@@ -1328,7 +1448,8 @@
 "mv": 2.4,
 "points": 102,
 "expPoints": 3.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 65
 },
 {
 "id": "pl-k00132190",
@@ -1339,7 +1460,8 @@
 "mv": 3.2,
 "points": 101,
 "expPoints": 2.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 94
 },
 {
 "id": "pl-k00148193",
@@ -1350,7 +1472,8 @@
 "mv": 1.8,
 "points": 100,
 "expPoints": 2.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00110959",
@@ -1361,7 +1484,8 @@
 "mv": 2.0,
 "points": 99,
 "expPoints": 2.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00123434",
@@ -1372,7 +1496,8 @@
 "mv": 2.0,
 "points": 99,
 "expPoints": 2.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 88
 },
 {
 "id": "pl-k00135660",
@@ -1383,7 +1508,8 @@
 "mv": 1.9,
 "points": 98,
 "expPoints": 2.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 59
 },
 {
 "id": "pl-k00063777",
@@ -1394,7 +1520,8 @@
 "mv": 1.8,
 "points": 96,
 "expPoints": 2.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00099914",
@@ -1405,7 +1532,8 @@
 "mv": 1.8,
 "points": 95,
 "expPoints": 2.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00116616",
@@ -1416,7 +1544,8 @@
 "mv": 1.8,
 "points": 95,
 "expPoints": 2.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00141455",
@@ -1427,7 +1556,8 @@
 "mv": 2.2,
 "points": 95,
 "expPoints": 2.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00093857",
@@ -1438,7 +1568,8 @@
 "mv": 1.8,
 "points": 93,
 "expPoints": 2.74,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00139273",
@@ -1449,7 +1580,8 @@
 "mv": 1.7,
 "points": 93,
 "expPoints": 2.74,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00083988",
@@ -1460,7 +1592,8 @@
 "mv": 1.7,
 "points": 91,
 "expPoints": 2.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 40
 },
 {
 "id": "pl-k00079176",
@@ -1471,7 +1604,8 @@
 "mv": 2.2,
 "points": 90,
 "expPoints": 2.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00116706",
@@ -1482,7 +1616,8 @@
 "mv": 2.3,
 "points": 90,
 "expPoints": 2.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 79
 },
 {
 "id": "pl-k00091126",
@@ -1493,7 +1628,8 @@
 "mv": 2.4,
 "points": 89,
 "expPoints": 2.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 82
 },
 {
 "id": "pl-k00113185",
@@ -1504,7 +1640,8 @@
 "mv": 1.6,
 "points": 88,
 "expPoints": 2.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00116506",
@@ -1515,7 +1652,8 @@
 "mv": 2.5,
 "points": 88,
 "expPoints": 2.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 68
 },
 {
 "id": "pl-k00071294",
@@ -1526,7 +1664,8 @@
 "mv": 1.8,
 "points": 87,
 "expPoints": 2.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00148187",
@@ -1537,7 +1676,8 @@
 "mv": 1.8,
 "points": 87,
 "expPoints": 2.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00070997",
@@ -1548,7 +1688,8 @@
 "mv": 2.2,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00079935",
@@ -1559,7 +1700,8 @@
 "mv": 1.8,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00084940",
@@ -1570,7 +1712,8 @@
 "mv": 2.5,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 89
 },
 {
 "id": "pl-k00100606",
@@ -1581,7 +1724,8 @@
 "mv": 1.6,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00109674",
@@ -1592,7 +1736,8 @@
 "mv": 2.6,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 91
 },
 {
 "id": "pl-k00138020",
@@ -1603,7 +1748,8 @@
 "mv": 1.7,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00154546",
@@ -1614,7 +1760,8 @@
 "mv": 1.7,
 "points": 86,
 "expPoints": 2.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00075379",
@@ -1625,7 +1772,8 @@
 "mv": 1.6,
 "points": 84,
 "expPoints": 2.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00087260",
@@ -1636,7 +1784,8 @@
 "mv": 2.6,
 "points": 82,
 "expPoints": 2.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 72
 },
 {
 "id": "pl-k00063799",
@@ -1647,7 +1796,8 @@
 "mv": 1.8,
 "points": 81,
 "expPoints": 2.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00107692",
@@ -1658,7 +1808,8 @@
 "mv": 4.5,
 "points": 81,
 "expPoints": 2.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 175
 },
 {
 "id": "pl-k00112730",
@@ -1669,7 +1820,8 @@
 "mv": 1.7,
 "points": 81,
 "expPoints": 2.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00112924",
@@ -1680,7 +1832,8 @@
 "mv": 3.0,
 "points": 81,
 "expPoints": 2.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 138
 },
 {
 "id": "pl-k00093478",
@@ -1691,7 +1844,8 @@
 "mv": 1.6,
 "points": 79,
 "expPoints": 2.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00101460",
@@ -1702,7 +1856,8 @@
 "mv": 1.8,
 "points": 79,
 "expPoints": 2.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00114616",
@@ -1713,7 +1868,8 @@
 "mv": 1.7,
 "points": 78,
 "expPoints": 2.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00123373",
@@ -1724,7 +1880,8 @@
 "mv": 1.7,
 "points": 77,
 "expPoints": 2.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00149673",
@@ -1735,7 +1892,8 @@
 "mv": 1.8,
 "points": 77,
 "expPoints": 2.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00072706",
@@ -1746,7 +1904,8 @@
 "mv": 1.8,
 "points": 76,
 "expPoints": 2.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00129118",
@@ -1757,7 +1916,8 @@
 "mv": 2.2,
 "points": 75,
 "expPoints": 2.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00156279",
@@ -1768,7 +1928,8 @@
 "mv": 2.2,
 "points": 75,
 "expPoints": 2.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00090213",
@@ -1779,7 +1940,8 @@
 "mv": 2.2,
 "points": 74,
 "expPoints": 2.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00129291",
@@ -1790,7 +1952,8 @@
 "mv": 2.3,
 "points": 74,
 "expPoints": 2.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 79
 },
 {
 "id": "pl-k00149094",
@@ -1801,7 +1964,8 @@
 "mv": 1.8,
 "points": 74,
 "expPoints": 2.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00043520",
@@ -1812,7 +1976,8 @@
 "mv": 1.0,
 "points": 73,
 "expPoints": 2.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 39
 },
 {
 "id": "pl-k00068029",
@@ -1823,7 +1988,8 @@
 "mv": 1.6,
 "points": 72,
 "expPoints": 2.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00119706",
@@ -1834,7 +2000,8 @@
 "mv": 1.5,
 "points": 72,
 "expPoints": 2.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00129414",
@@ -1845,7 +2012,8 @@
 "mv": 2.2,
 "points": 72,
 "expPoints": 2.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00070598",
@@ -1856,7 +2024,8 @@
 "mv": 1.6,
 "points": 71,
 "expPoints": 2.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00133609",
@@ -1867,7 +2036,8 @@
 "mv": 2.2,
 "points": 71,
 "expPoints": 2.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00118068",
@@ -1878,7 +2048,8 @@
 "mv": 3.2,
 "points": 70,
 "expPoints": 2.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 117
 },
 {
 "id": "pl-k00131777",
@@ -1889,7 +2060,8 @@
 "mv": 1.7,
 "points": 70,
 "expPoints": 2.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00130503",
@@ -1900,7 +2072,8 @@
 "mv": 1.5,
 "points": 68,
 "expPoints": 2.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00058007",
@@ -1911,7 +2084,8 @@
 "mv": 2.0,
 "points": 67,
 "expPoints": 1.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00095063",
@@ -1922,7 +2096,8 @@
 "mv": 1.4,
 "points": 66,
 "expPoints": 1.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00067514",
@@ -1933,7 +2108,8 @@
 "mv": 1.7,
 "points": 65,
 "expPoints": 1.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00075196",
@@ -1944,7 +2120,8 @@
 "mv": 1.7,
 "points": 65,
 "expPoints": 1.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00079577",
@@ -1955,7 +2132,8 @@
 "mv": 1.5,
 "points": 65,
 "expPoints": 1.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00060522",
@@ -1966,7 +2144,8 @@
 "mv": 1.6,
 "points": 64,
 "expPoints": 1.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00098905",
@@ -1977,7 +2156,8 @@
 "mv": 1.7,
 "points": 64,
 "expPoints": 1.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00118291",
@@ -1988,7 +2168,8 @@
 "mv": 1.8,
 "points": 64,
 "expPoints": 1.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00106358",
@@ -1999,7 +2180,8 @@
 "mv": 2.2,
 "points": 63,
 "expPoints": 1.85,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00071610",
@@ -2010,7 +2192,8 @@
 "mv": 1.6,
 "points": 62,
 "expPoints": 1.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00145381",
@@ -2021,7 +2204,8 @@
 "mv": 1.7,
 "points": 62,
 "expPoints": 1.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 40
 },
 {
 "id": "pl-k00136443",
@@ -2032,7 +2216,8 @@
 "mv": 1.4,
 "points": 61,
 "expPoints": 1.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00144843",
@@ -2043,7 +2228,8 @@
 "mv": 1.6,
 "points": 61,
 "expPoints": 1.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00167749",
@@ -2054,7 +2240,8 @@
 "mv": 1.6,
 "points": 61,
 "expPoints": 1.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00090996",
@@ -2065,7 +2252,8 @@
 "mv": 3.0,
 "points": 60,
 "expPoints": 1.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00097797",
@@ -2076,7 +2264,8 @@
 "mv": 1.8,
 "points": 60,
 "expPoints": 1.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00086142",
@@ -2087,7 +2276,8 @@
 "mv": 1.5,
 "points": 58,
 "expPoints": 1.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00096661",
@@ -2098,7 +2288,8 @@
 "mv": 1.6,
 "points": 58,
 "expPoints": 1.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00120042",
@@ -2109,7 +2300,8 @@
 "mv": 1.6,
 "points": 58,
 "expPoints": 1.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00145594",
@@ -2120,7 +2312,8 @@
 "mv": 1.5,
 "points": 56,
 "expPoints": 1.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00112775",
@@ -2131,7 +2324,8 @@
 "mv": 2.0,
 "points": 54,
 "expPoints": 1.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00141456",
@@ -2142,7 +2336,8 @@
 "mv": 1.7,
 "points": 54,
 "expPoints": 1.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 40
 },
 {
 "id": "pl-k00149407",
@@ -2153,7 +2348,8 @@
 "mv": 1.7,
 "points": 54,
 "expPoints": 1.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00151054",
@@ -2164,7 +2360,8 @@
 "mv": 2.0,
 "points": 54,
 "expPoints": 1.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00123744",
@@ -2175,7 +2372,8 @@
 "mv": 2.2,
 "points": 53,
 "expPoints": 1.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00123098",
@@ -2186,7 +2384,8 @@
 "mv": 1.7,
 "points": 52,
 "expPoints": 1.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00146229",
@@ -2197,7 +2396,8 @@
 "mv": 1.8,
 "points": 52,
 "expPoints": 1.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00146323",
@@ -2208,7 +2408,8 @@
 "mv": 1.5,
 "points": 52,
 "expPoints": 1.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00155808",
@@ -2219,7 +2420,8 @@
 "mv": 1.5,
 "points": 52,
 "expPoints": 1.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00118312",
@@ -2230,7 +2432,8 @@
 "mv": 1.7,
 "points": 51,
 "expPoints": 1.5,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 40
 },
 {
 "id": "pl-k00065896",
@@ -2241,7 +2444,8 @@
 "mv": 2.8,
 "points": 50,
 "expPoints": 1.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 128
 },
 {
 "id": "pl-k00101721",
@@ -2252,7 +2456,8 @@
 "mv": 1.5,
 "points": 50,
 "expPoints": 1.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00121221",
@@ -2263,7 +2468,8 @@
 "mv": 1.4,
 "points": 50,
 "expPoints": 1.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00143938",
@@ -2274,7 +2480,8 @@
 "mv": 1.6,
 "points": 50,
 "expPoints": 1.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00161193",
@@ -2285,7 +2492,8 @@
 "mv": 1.8,
 "points": 50,
 "expPoints": 1.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00081913",
@@ -2296,7 +2504,8 @@
 "mv": 1.4,
 "points": 48,
 "expPoints": 1.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00140663",
@@ -2307,7 +2516,8 @@
 "mv": 1.6,
 "points": 48,
 "expPoints": 1.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00165908",
@@ -2318,7 +2528,8 @@
 "mv": 2.2,
 "points": 48,
 "expPoints": 1.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00118061",
@@ -2329,7 +2540,8 @@
 "mv": 1.5,
 "points": 47,
 "expPoints": 1.38,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00136357",
@@ -2340,7 +2552,8 @@
 "mv": 1.5,
 "points": 46,
 "expPoints": 1.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00143407",
@@ -2351,7 +2564,8 @@
 "mv": 1.6,
 "points": 46,
 "expPoints": 1.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00083017",
@@ -2362,7 +2576,8 @@
 "mv": 2.0,
 "points": 45,
 "expPoints": 1.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00156588",
@@ -2373,7 +2588,8 @@
 "mv": 1.7,
 "points": 45,
 "expPoints": 1.32,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 40
 },
 {
 "id": "pl-k00103374",
@@ -2384,7 +2600,8 @@
 "mv": 1.6,
 "points": 44,
 "expPoints": 1.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00128262",
@@ -2395,7 +2612,8 @@
 "mv": 1.6,
 "points": 43,
 "expPoints": 1.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00125971",
@@ -2406,7 +2624,8 @@
 "mv": 1.5,
 "points": 42,
 "expPoints": 1.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00091372",
@@ -2417,7 +2636,8 @@
 "mv": 1.5,
 "points": 41,
 "expPoints": 1.21,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00136677",
@@ -2428,7 +2648,8 @@
 "mv": 1.6,
 "points": 40,
 "expPoints": 1.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00167335",
@@ -2439,7 +2660,8 @@
 "mv": 1.6,
 "points": 40,
 "expPoints": 1.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00101451",
@@ -2450,7 +2672,8 @@
 "mv": 1.8,
 "points": 39,
 "expPoints": 1.15,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00080172",
@@ -2461,7 +2684,8 @@
 "mv": 1.2,
 "points": 38,
 "expPoints": 1.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 },
 {
 "id": "pl-k00099583",
@@ -2472,7 +2696,8 @@
 "mv": 3.0,
 "points": 37,
 "expPoints": 1.09,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 115
 },
 {
 "id": "pl-k00075006",
@@ -2483,7 +2708,8 @@
 "mv": 2.0,
 "points": 36,
 "expPoints": 1.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 63
 },
 {
 "id": "pl-k00094605",
@@ -2494,7 +2720,8 @@
 "mv": 1.4,
 "points": 36,
 "expPoints": 1.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00151366",
@@ -2505,7 +2732,8 @@
 "mv": 1.7,
 "points": 36,
 "expPoints": 1.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00070987",
@@ -2516,7 +2744,8 @@
 "mv": 0.5,
 "points": 35,
 "expPoints": 1.03,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00088061",
@@ -2527,7 +2756,8 @@
 "mv": 1.2,
 "points": 34,
 "expPoints": 1.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00099897",
@@ -2538,7 +2768,8 @@
 "mv": 1.2,
 "points": 34,
 "expPoints": 1.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00140563",
@@ -2549,7 +2780,8 @@
 "mv": 1.4,
 "points": 33,
 "expPoints": 0.97,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00043592",
@@ -2560,7 +2792,8 @@
 "mv": 1.8,
 "points": 32,
 "expPoints": 0.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00104484",
@@ -2571,7 +2804,8 @@
 "mv": 1.7,
 "points": 32,
 "expPoints": 0.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00136673",
@@ -2582,7 +2816,8 @@
 "mv": 1.8,
 "points": 32,
 "expPoints": 0.94,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00071021",
@@ -2593,7 +2828,8 @@
 "mv": 1.6,
 "points": 31,
 "expPoints": 0.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00167640",
@@ -2604,7 +2840,8 @@
 "mv": 1.4,
 "points": 31,
 "expPoints": 0.91,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00155136",
@@ -2615,7 +2852,8 @@
 "mv": 2.4,
 "points": 30,
 "expPoints": 0.88,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00106313",
@@ -2626,7 +2864,8 @@
 "mv": 1.6,
 "points": 29,
 "expPoints": 0.85,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00100305",
@@ -2637,7 +2876,8 @@
 "mv": 2.2,
 "points": 28,
 "expPoints": 0.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00115990",
@@ -2648,7 +2888,8 @@
 "mv": 1.4,
 "points": 28,
 "expPoints": 0.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00150682",
@@ -2659,7 +2900,8 @@
 "mv": 1.6,
 "points": 28,
 "expPoints": 0.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00171930",
@@ -2670,7 +2912,8 @@
 "mv": 1.5,
 "points": 28,
 "expPoints": 0.82,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00076446",
@@ -2681,7 +2924,8 @@
 "mv": 1.6,
 "points": 27,
 "expPoints": 0.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00169162",
@@ -2692,7 +2936,8 @@
 "mv": 1.8,
 "points": 27,
 "expPoints": 0.79,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00071151",
@@ -2703,7 +2948,8 @@
 "mv": 1.8,
 "points": 26,
 "expPoints": 0.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 53
 },
 {
 "id": "pl-k00097916",
@@ -2714,7 +2960,8 @@
 "mv": 1.8,
 "points": 26,
 "expPoints": 0.76,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00120073",
@@ -2725,7 +2972,8 @@
 "mv": 1.5,
 "points": 25,
 "expPoints": 0.74,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00132735",
@@ -2736,7 +2984,8 @@
 "mv": 1.6,
 "points": 25,
 "expPoints": 0.74,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00132205",
@@ -2747,7 +2996,8 @@
 "mv": 1.4,
 "points": 24,
 "expPoints": 0.71,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00111315",
@@ -2758,7 +3008,8 @@
 "mv": 1.2,
 "points": 23,
 "expPoints": 0.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 },
 {
 "id": "pl-k00121838",
@@ -2769,7 +3020,8 @@
 "mv": 1.4,
 "points": 23,
 "expPoints": 0.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00130251",
@@ -2780,7 +3032,8 @@
 "mv": 1.6,
 "points": 23,
 "expPoints": 0.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 36
 },
 {
 "id": "pl-k00154239",
@@ -2791,7 +3044,8 @@
 "mv": 2.2,
 "points": 23,
 "expPoints": 0.68,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00111919",
@@ -2802,7 +3056,8 @@
 "mv": 1.7,
 "points": 22,
 "expPoints": 0.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00137935",
@@ -2813,7 +3068,8 @@
 "mv": 1.3,
 "points": 22,
 "expPoints": 0.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 27
 },
 {
 "id": "pl-k00168200",
@@ -2824,7 +3080,8 @@
 "mv": 1.0,
 "points": 22,
 "expPoints": 0.65,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00105275",
@@ -2835,7 +3092,8 @@
 "mv": 1.3,
 "points": 21,
 "expPoints": 0.62,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 27
 },
 {
 "id": "pl-k00065090",
@@ -2846,7 +3104,8 @@
 "mv": 1.2,
 "points": 20,
 "expPoints": 0.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 },
 {
 "id": "pl-k00082727",
@@ -2857,7 +3116,8 @@
 "mv": 2.2,
 "points": 20,
 "expPoints": 0.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 73
 },
 {
 "id": "pl-k00116648",
@@ -2868,7 +3128,8 @@
 "mv": 1.2,
 "points": 20,
 "expPoints": 0.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 },
 {
 "id": "pl-k00130193",
@@ -2879,7 +3140,8 @@
 "mv": 1.3,
 "points": 20,
 "expPoints": 0.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 33
 },
 {
 "id": "pl-k00132208",
@@ -2890,7 +3152,8 @@
 "mv": 1.5,
 "points": 20,
 "expPoints": 0.59,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00089655",
@@ -2901,7 +3164,8 @@
 "mv": 1.6,
 "points": 19,
 "expPoints": 0.56,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 46
 },
 {
 "id": "pl-k00130808",
@@ -2912,7 +3176,8 @@
 "mv": 2.4,
 "points": 18,
 "expPoints": 0.53,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 108
 },
 {
 "id": "pl-k00158876",
@@ -2923,7 +3188,8 @@
 "mv": 1.4,
 "points": 17,
 "expPoints": 0.5,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00132800",
@@ -2934,7 +3200,8 @@
 "mv": 2.0,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 50
 },
 {
 "id": "pl-k00143035",
@@ -2945,7 +3212,8 @@
 "mv": 1.5,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00149290",
@@ -2956,7 +3224,8 @@
 "mv": 1.8,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 43
 },
 {
 "id": "pl-k00155318",
@@ -2967,7 +3236,8 @@
 "mv": 0.8,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 7
 },
 {
 "id": "pl-k00156895",
@@ -2978,7 +3248,8 @@
 "mv": 1.4,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00160199",
@@ -2989,7 +3260,8 @@
 "mv": 1.4,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00170610",
@@ -3000,7 +3272,8 @@
 "mv": 0.8,
 "points": 16,
 "expPoints": 0.47,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 10
 },
 {
 "id": "pl-k00039161",
@@ -3011,7 +3284,8 @@
 "mv": 0.5,
 "points": 15,
 "expPoints": 0.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00141205",
@@ -3022,7 +3296,8 @@
 "mv": 0.8,
 "points": 15,
 "expPoints": 0.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00167928",
@@ -3033,7 +3308,8 @@
 "mv": 1.0,
 "points": 15,
 "expPoints": 0.44,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00076575",
@@ -3044,7 +3320,8 @@
 "mv": 1.5,
 "points": 14,
 "expPoints": 0.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00100299",
@@ -3055,7 +3332,8 @@
 "mv": 1.4,
 "points": 14,
 "expPoints": 0.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 32
 },
 {
 "id": "pl-k00144420",
@@ -3066,7 +3344,8 @@
 "mv": 1.2,
 "points": 14,
 "expPoints": 0.41,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00088182",
@@ -3077,7 +3356,8 @@
 "mv": 1.2,
 "points": 12,
 "expPoints": 0.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00153733",
@@ -3088,7 +3368,8 @@
 "mv": 1.5,
 "points": 12,
 "expPoints": 0.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00178704",
@@ -3099,7 +3380,8 @@
 "mv": 1.2,
 "points": 12,
 "expPoints": 0.35,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 22
 },
 {
 "id": "pl-k00094875",
@@ -3110,7 +3392,8 @@
 "mv": 0.8,
 "points": 10,
 "expPoints": 0.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00096032",
@@ -3121,7 +3404,8 @@
 "mv": 1.5,
 "points": 10,
 "expPoints": 0.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00104978",
@@ -3132,7 +3416,8 @@
 "mv": 2.2,
 "points": 10,
 "expPoints": 0.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 58
 },
 {
 "id": "pl-k00141432",
@@ -3143,7 +3428,8 @@
 "mv": 1.0,
 "points": 10,
 "expPoints": 0.29,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00109664",
@@ -3154,7 +3440,8 @@
 "mv": 1.0,
 "points": 9,
 "expPoints": 0.26,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00077333",
@@ -3165,7 +3452,8 @@
 "mv": 1.6,
 "points": 8,
 "expPoints": 0.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00145004",
@@ -3176,7 +3464,8 @@
 "mv": 1.2,
 "points": 8,
 "expPoints": 0.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 },
 {
 "id": "pl-k00156019",
@@ -3187,7 +3476,8 @@
 "mv": 0.8,
 "points": 8,
 "expPoints": 0.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 7
 },
 {
 "id": "pl-k00173877",
@@ -3198,7 +3488,8 @@
 "mv": 1.7,
 "points": 8,
 "expPoints": 0.24,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00076954",
@@ -3209,7 +3500,8 @@
 "mv": 3.0,
 "points": 6,
 "expPoints": 0.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 86
 },
 {
 "id": "pl-k00091406",
@@ -3220,7 +3512,8 @@
 "mv": 1.6,
 "points": 6,
 "expPoints": 0.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00147901",
@@ -3231,7 +3524,8 @@
 "mv": 1.0,
 "points": 6,
 "expPoints": 0.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00156899",
@@ -3242,7 +3536,8 @@
 "mv": 1.0,
 "points": 6,
 "expPoints": 0.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00176357",
@@ -3253,7 +3548,8 @@
 "mv": 1.4,
 "points": 6,
 "expPoints": 0.18,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00114751",
@@ -3264,7 +3560,8 @@
 "mv": 1.0,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 11
 },
 {
 "id": "pl-k00131053",
@@ -3275,7 +3572,8 @@
 "mv": 1.6,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00141756",
@@ -3286,7 +3584,8 @@
 "mv": 1.7,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 47
 },
 {
 "id": "pl-k00151371",
@@ -3297,7 +3596,8 @@
 "mv": 1.2,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 22
 },
 {
 "id": "pl-k00161192",
@@ -3308,7 +3608,8 @@
 "mv": 0.5,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00165263",
@@ -3319,7 +3620,8 @@
 "mv": 0.8,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 10
 },
 {
 "id": "pl-k00170963",
@@ -3330,7 +3632,8 @@
 "mv": 0.5,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00179097",
@@ -3341,7 +3644,8 @@
 "mv": 1.0,
 "points": 4,
 "expPoints": 0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00050237",
@@ -3352,7 +3656,8 @@
 "mv": 0.5,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00131067",
@@ -3363,7 +3668,8 @@
 "mv": 1.2,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00166190",
@@ -3374,7 +3680,8 @@
 "mv": 0.5,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00168490",
@@ -3385,7 +3692,8 @@
 "mv": 0.6,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00169838",
@@ -3396,7 +3704,8 @@
 "mv": 0.5,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00171306",
@@ -3407,7 +3716,8 @@
 "mv": 0.8,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 1
 },
 {
 "id": "pl-k00173305",
@@ -3418,7 +3728,8 @@
 "mv": 1.0,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00177491",
@@ -3429,7 +3740,8 @@
 "mv": 0.5,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00179096",
@@ -3440,7 +3752,8 @@
 "mv": 0.8,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 7
 },
 {
 "id": "pl-k00187691",
@@ -3451,7 +3764,8 @@
 "mv": 1.8,
 "points": 2,
 "expPoints": 0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 55
 },
 {
 "id": "pl-k00037056",
@@ -3462,7 +3776,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00039284",
@@ -3473,7 +3788,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00040891",
@@ -3484,7 +3800,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00044560",
@@ -3531,7 +3848,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00058003",
@@ -3542,7 +3860,8 @@
 "mv": 2.0,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 64
 },
 {
 "id": "pl-k00058740",
@@ -3553,7 +3872,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00063586",
@@ -3612,7 +3932,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00068475",
@@ -3683,7 +4004,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00072675",
@@ -3694,7 +4016,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00072684",
@@ -3705,7 +4028,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00075198",
@@ -3764,7 +4088,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00079188",
@@ -3799,7 +4124,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00081638",
@@ -3822,7 +4148,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00084575",
@@ -4037,7 +4364,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00096434",
@@ -4108,7 +4436,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00098720",
@@ -4239,7 +4568,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00103012",
@@ -4406,7 +4736,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00111922",
@@ -4633,7 +4964,8 @@
 "mv": 1.0,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00123123",
@@ -4692,7 +5024,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00125043",
@@ -4799,7 +5132,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00131717",
@@ -4822,7 +5156,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00132107",
@@ -5001,7 +5336,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 29
 },
 {
 "id": "pl-k00139271",
@@ -5072,7 +5408,8 @@
 "mv": 1.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 41
 },
 {
 "id": "pl-k00141535",
@@ -5383,7 +5720,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00154172",
@@ -5406,7 +5744,8 @@
 "mv": 1.0,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00154597",
@@ -5549,7 +5888,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00159341",
@@ -5560,7 +5900,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00159344",
@@ -5607,7 +5948,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00160972",
@@ -5630,7 +5972,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00161356",
@@ -5653,7 +5996,8 @@
 "mv": 1.6,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 42
 },
 {
 "id": "pl-k00162632",
@@ -5700,7 +6044,8 @@
 "mv": 1.0,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 19
 },
 {
 "id": "pl-k00165253",
@@ -5735,7 +6080,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 7
 },
 {
 "id": "pl-k00165957",
@@ -5782,7 +6128,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00167636",
@@ -5817,7 +6164,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00167677",
@@ -5828,7 +6176,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00167851",
@@ -5923,7 +6272,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 10
 },
 {
 "id": "pl-k00169900",
@@ -5946,7 +6296,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 14
 },
 {
 "id": "pl-k00169921",
@@ -6185,7 +6536,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00178690",
@@ -6244,7 +6596,8 @@
 "mv": 0.8,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 7
 },
 {
 "id": "pl-k00183941",
@@ -6291,7 +6644,8 @@
 "mv": 0.5,
 "points": 0,
 "expPoints": 0.0,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 0
 },
 {
 "id": "pl-k00190115",
@@ -6350,7 +6704,8 @@
 "mv": 1.2,
 "points": -2,
 "expPoints": -0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 28
 },
 {
 "id": "pl-k00098050",
@@ -6361,7 +6716,8 @@
 "mv": 1.5,
 "points": -2,
 "expPoints": -0.06,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 37
 },
 {
 "id": "pl-k00104505",
@@ -6384,6 +6740,7 @@
 "mv": 1.2,
 "points": -4,
 "expPoints": -0.12,
-"hasHistory": true
+"hasHistory": true,
+"estPoints": 21
 }
 ]

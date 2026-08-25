@@ -68,6 +68,7 @@ const TYPES: NewsType[] = [
   "suspension",
   "return",
   "preseason_form",
+  "starter",
   "other",
 ];
 
@@ -118,6 +119,10 @@ Kategorien (jetzt, WM-/Vorbereitungsphase, in dieser Priorität):
 2. Trainerwechsel (coach), Rückkehrer aus Leihe/Verletzung/WM (return).
 3. Verletzungen & Sperren (injury/suspension) — mit Dauer, falls bekannt.
 4. Vorbereitung (preseason_form): Testspiel-Auftritte, wer fällt auf — sobald verfügbar.
+5. STAMMPLATZ (starter): Meldungen, die belegen, dass ein Spieler SPIELEN wird —
+   "gesetzt", "unangefochten", konkrete Einsatzzahlen, "vertritt den Verletzten".
+   Dieser Typ ist besonders wertvoll: Einsatzzeit ist die eigentliche Punktequelle,
+   und bei billigen Spielern ist sie aus Marktwert und Vorsaison nicht ableitbar.
 
 Regeln:
 - Nur echte, belegte Meldungen. Erfinde nichts. Keine reinen Gerüchte ohne Substanz.

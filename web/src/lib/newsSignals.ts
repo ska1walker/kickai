@@ -4,7 +4,14 @@
 // Spieler höher gewichten). Alles nach Aktualität × Dauerhaftigkeit gewichtet.
 "use client";
 import { supabase, supabaseEnabled } from "@/lib/supabase/client";
-import { newsWeight, TYPE_LABEL, type NewsItem, type NewsType } from "@/lib/news";
+import {
+  newsWeight,
+  recencyWeight,
+  STARTER_FLOOR,
+  TYPE_LABEL,
+  type NewsItem,
+  type NewsType,
+} from "@/lib/news";
 
 // Basis-Delta je Typ (vor Recency-Gewicht) auf Spielerebene.
 const PLAYER_DELTA: Partial<Record<NewsType, number>> = {
@@ -19,6 +26,10 @@ export interface PlayerSignal {
   norm: string; // normalisierter Spielername aus der News
   delta: number; // recency-gewichtet
   note: string;
+  /** Erwartete Saisonpunkte, wenn die Meldung einen Stammplatz belegt.
+   *  Wirkt als Untergrenze, nicht als Zuschlag. */
+  floor?: number;
+  floorNote?: string;
 }
 export interface NewsSignals {
   players: PlayerSignal[];
@@ -44,13 +55,26 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
     const w = newsWeight(it, now);
     // Spieler-Signal. Platzhalter wie "-" normalisieren zu "" und würden per
     // includes("") JEDEN Spieler matchen — deshalb Mindestlänge verlangen.
+    // Achtung: Vereins-News tragen oft keinen Spielernamen — die Spieler-
+    // Blöcke werden deshalb nur übersprungen, die Schleife läuft weiter.
     const pn = it.player ? norm(it.player) : "";
-    if (pn.length >= 3 && PLAYER_DELTA[it.type] != null) {
-      players.push({
-        norm: pn,
-        delta: PLAYER_DELTA[it.type]! * w,
-        note: `${TYPE_LABEL[it.type]}${it.summary ? `: ${it.summary}` : ""}`,
-      });
+    if (pn.length >= 3) {
+      // Stammplatz-Meldungen setzen eine Punkte-UNTERGRENZE. Nur so werden
+      // billige Talente und Aufsteiger-Stammspieler sichtbar: ihre Vorsaison-
+      // punkte sind nahe null und ihr Marktwert zu klein für eine Schätzung.
+      if (it.type === "starter" || it.type === "preseason_form") {
+        const floor = (STARTER_FLOOR[it.impact ?? 2] ?? 0) * recencyWeight(it, now);
+        if (floor > 0) {
+          players.push({ norm: pn, delta: 0, note: "", floor, floorNote: it.summary });
+        }
+      }
+      if (PLAYER_DELTA[it.type] != null) {
+        players.push({
+          norm: pn,
+          delta: PLAYER_DELTA[it.type]! * w,
+          note: `${TYPE_LABEL[it.type]}${it.summary ? `: ${it.summary}` : ""}`,
+        });
+      }
     }
     // Vereins-Signal aus Transfers (Netto-Stärke)
     if (it.club && (it.type === "transfer_in" || it.type === "transfer_out")) {
@@ -73,18 +97,25 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
 export function playerNews(
   name: string,
   signals: NewsSignals,
-): { delta: number; notes: string[] } {
+): { delta: number; notes: string[]; floor: number; floorNote?: string } {
   const n = norm(name);
   let delta = 0;
+  let floor = 0;
+  let floorNote: string | undefined;
   const notes: string[] = [];
-  if (n.length < 3) return { delta: 0, notes };
+  if (n.length < 3) return { delta: 0, notes, floor: 0 };
   for (const s of signals.players) {
     if (s.norm === n || s.norm.includes(n) || n.includes(s.norm)) {
       delta += s.delta;
-      notes.push(s.note);
+      if (s.note) notes.push(s.note);
+      // stärkste Stammplatz-Meldung gewinnt, sie addieren sich nicht
+      if (s.floor && s.floor > floor) {
+        floor = s.floor;
+        floorNote = s.floorNote;
+      }
     }
   }
-  return { delta: Math.max(-0.8, Math.min(0.4, delta)), notes };
+  return { delta: Math.max(-0.8, Math.min(0.4, delta)), notes, floor, floorNote };
 }
 
 export const EMPTY_SIGNALS: NewsSignals = { players: [], byClub: {}, count: 0 };
