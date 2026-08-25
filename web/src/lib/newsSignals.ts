@@ -73,9 +73,17 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
         }
       }
       // Verletzung/Sperre MIT genannter Dauer: nicht abzinsen, sondern die
-      // fehlenden Spieltage festhalten.
+      // fehlenden Spieltage festhalten — abzüglich der Zeit, die seit der
+      // Meldung schon vergangen ist. Sonst gilt "fehlt 3 Wochen" aus dem
+      // August noch im Oktober; Kramaric stand deshalb als Ausfall im Kader,
+      // obwohl seine drei Wochen längst um waren.
       if (it.type === "injury" || it.type === "suspension") {
-        const md = parseOutMatchdays(it.summary) ?? (it.type === "suspension" ? 1 : null);
+        const stated = parseOutMatchdays(it.summary) ?? (it.type === "suspension" ? 1 : null);
+        const elapsed = Math.max(
+          0,
+          (now - new Date(it.created_at).getTime()) / (7 * 86_400_000),
+        );
+        const md = stated === null ? null : Math.round(Math.max(0, stated - elapsed));
         if (md) {
           players.push({
             norm: pn,
