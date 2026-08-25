@@ -116,6 +116,17 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
   return { players, byClub, count: rows.length };
 }
 
+/** Namensabgleich. Teilstring-Treffer nur, wenn der KÜRZERE Name lang genug
+ *  ist — sonst matchte der Frankfurter „Is" auf „Kristof" und ein Kaderspieler
+ *  erbte fremde Meldungen. */
+const MIN_SUBSTRING = 5;
+function matches(a: string, b: string): boolean {
+  if (a === b) return true;
+  const shorter = a.length <= b.length ? a : b;
+  if (shorter.length < MIN_SUBSTRING) return false;
+  return a.includes(b) || b.includes(a);
+}
+
 /** Aggregiertes Signal + Notizen für einen Poolspieler (Namens-Matching). */
 export function playerNews(
   name: string,
@@ -137,7 +148,7 @@ export function playerNews(
   const notes: string[] = [];
   if (n.length < 3) return { delta: 0, notes, floor: 0, outMatchdays: 0 };
   for (const s of signals.players) {
-    if (s.norm === n || s.norm.includes(n) || n.includes(s.norm)) {
+    if (matches(n, s.norm)) {
       delta += s.delta;
       if (s.note) notes.push(s.note);
       // stärkste Stammplatz-Meldung gewinnt, sie addieren sich nicht
