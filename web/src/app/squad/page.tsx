@@ -13,6 +13,7 @@ import { ScoreTrace } from "@/components/ScoreTrace";
 import { computeSecurity } from "@/lib/engine/security";
 import { loadNewsSignals, EMPTY_SIGNALS, type NewsSignals } from "@/lib/newsSignals";
 import { loadStoredTiers } from "@/lib/research";
+import { InjuryWarning, findOutPlayers } from "@/components/InjuryWarning";
 
 const POS_LABEL: Record<Position, string> = {
   TW: "Torwart",
@@ -67,6 +68,10 @@ export default function SquadPage() {
   }
 
   const check = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);
+  const outPlayers = useMemo(
+    () => (squad ? findOutPlayers(squad, news) : []),
+    [squad, news],
+  );
   const ids = useMemo(() => new Set((squad ?? []).map((p) => p.id)), [squad]);
 
   function persist(next: SquadPlayer[]) {
@@ -151,6 +156,8 @@ export default function SquadPage() {
           Auf Standard zurücksetzen
         </button>
       </div>
+
+      <InjuryWarning out={outPlayers} />
 
       {/* Budget & Struktur */}
       <div className="card p-4">

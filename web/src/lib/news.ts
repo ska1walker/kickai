@@ -81,6 +81,25 @@ export const IMPACT_LABEL: Record<number, string> = {
 };
 const IMPACT_FACTOR: Record<number, number> = { 4: 1.0, 3: 0.75, 2: 0.45, 1: 0.15 };
 
+/** Liest die Ausfalldauer aus einer Verletzungs-/Sperrmeldung und rechnet sie
+ *  in verpasste Spieltage um (1 Spieltag ≈ 1 Woche). Das ist der Unterschied
+ *  zwischen "ist etwas schwächer" und "kann nicht spielen": Ein prozentualer
+ *  Abschlag liess einen Spieler, der zwei Monate fehlt, in der Startelf stehen.
+ *  Gibt null zurück, wenn keine Dauer genannt ist. */
+const NUM_WORDS: Record<string, number> = {
+  ein: 1, eine: 1, einen: 1, zwei: 2, drei: 3, vier: 4, fünf: 5, sechs: 6,
+  sieben: 7, acht: 8, neun: 9, zehn: 10, elf: 11, zwölf: 12,
+};
+export function parseOutMatchdays(summary: string): number | null {
+  const m = summary
+    .toLowerCase()
+    .match(/(\d+|ein|eine|einen|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf)\s*(?:bis\s*\S+\s*)?(woche|monat)/);
+  if (!m) return null;
+  const n = /^\d+$/.test(m[1]) ? Number(m[1]) : (NUM_WORDS[m[1]] ?? 1);
+  const md = m[2] === "woche" ? n : n * 4.3;
+  return Math.min(34, Math.round(md));
+}
+
 export function impactFactor(item: { impact?: number }): number {
   return IMPACT_FACTOR[item.impact ?? 2] ?? 0.45;
 }

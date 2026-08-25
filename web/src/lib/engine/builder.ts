@@ -110,6 +110,15 @@ const ppm = (p: PoolPlayer, nm?: NewsMap) => pts(p, nm) / Math.max(p.mv, 0.5);
 // zierten Werts, im Mittel 0.79. Dieser Abschlag steckt bereits in estPoints.
 // Der Evidenz-Faktor darf deshalb nur noch SPREIZEN, nicht nochmals dämpfen —
 // sonst wären Neuzugänge doppelt bestraft (frühere Kombi 0.45 statt 0.79).
+// Ein gemeldeter Ausfall ist kein Abschlag, sondern fehlende Spieltage:
+// Wer 9 von 34 Spieltagen fehlt, ist ueber die Saison 25/34 seines Wertes
+// wert. Frueher wirkte eine Verletzung nur als -26% — ein Spieler, der zwei
+// Monate ausfaellt, blieb damit in der Startelf stehen.
+function availability(nm: NewsMap, id: string): number {
+  const md = nm.get(id)?.outMatchdays ?? 0;
+  return md <= 0 ? 1 : Math.max(0, (34 - md) / 34);
+}
+
 const UNCONFIRMED = 0.85; // ohne Vorbereitungs-/News-Beleg
 const CONFIRMED = 1.15; // mit Testspiel-/Kadermeldung
 function evidenceFactor(p: PoolPlayer, nm: NewsMap): number {
@@ -118,7 +127,17 @@ function evidenceFactor(p: PoolPlayer, nm: NewsMap): number {
 }
 
 // Vorberechnete News-Deltas + Notizen je Spieler-ID (Namens-Matching einmalig).
-type NewsMap = Map<string, { delta: number; notes: string[]; floor: number; floorNote?: string }>;
+type NewsMap = Map<
+  string,
+  {
+    delta: number;
+    notes: string[];
+    floor: number;
+    floorNote?: string;
+    outMatchdays: number;
+    outNote?: string;
+  }
+>;
 
 function adj(
   p: PoolPlayer,
@@ -135,6 +154,7 @@ function adj(
   const secF = securityFactor(sec.get(p.id!)); // #2 Einsatzsicherheit
   return (
     pts(p, nm) *
+    availability(nm, p.id!) *
     evidenceFactor(p, nm) *
     POS_WEIGHT[p.position] *
     (1 + bonus) *

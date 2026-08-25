@@ -6,6 +6,7 @@
 import { supabase, supabaseEnabled } from "@/lib/supabase/client";
 import {
   newsWeight,
+  parseOutMatchdays,
   recencyWeight,
   STARTER_FLOOR,
   TYPE_LABEL,
@@ -30,6 +31,9 @@ export interface PlayerSignal {
    *  Wirkt als Untergrenze, nicht als Zuschlag. */
   floor?: number;
   floorNote?: string;
+  /** Verpasste Spieltage laut Verletzungs-/Sperrmeldung. */
+  outMatchdays?: number;
+  outNote?: string;
 }
 export interface NewsSignals {
   players: PlayerSignal[];
@@ -68,7 +72,26 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
           players.push({ norm: pn, delta: 0, note: "", floor, floorNote: it.summary });
         }
       }
-      if (PLAYER_DELTA[it.type] != null) {
+      // Verletzung/Sperre MIT genannter Dauer: nicht abzinsen, sondern die
+      // fehlenden Spieltage festhalten.
+      if (it.type === "injury" || it.type === "suspension") {
+        const md = parseOutMatchdays(it.summary) ?? (it.type === "suspension" ? 1 : null);
+        if (md) {
+          players.push({
+            norm: pn,
+            delta: 0,
+            note: "",
+            outMatchdays: md,
+            outNote: it.summary,
+          });
+        }
+      }
+      // Ist die Dauer bekannt, uebernimmt availability() die Bewertung —
+      // der pauschale Abschlag entfiele sonst doppelt.
+      const hasDuration =
+        (it.type === "injury" || it.type === "suspension") &&
+        (parseOutMatchdays(it.summary) !== null || it.type === "suspension");
+      if (PLAYER_DELTA[it.type] != null && !hasDuration) {
         players.push({
           norm: pn,
           delta: PLAYER_DELTA[it.type]! * w,
@@ -97,13 +120,22 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
 export function playerNews(
   name: string,
   signals: NewsSignals,
-): { delta: number; notes: string[]; floor: number; floorNote?: string } {
+): {
+  delta: number;
+  notes: string[];
+  floor: number;
+  floorNote?: string;
+  outMatchdays: number;
+  outNote?: string;
+} {
   const n = norm(name);
   let delta = 0;
   let floor = 0;
+  let outMatchdays = 0;
   let floorNote: string | undefined;
+  let outNote: string | undefined;
   const notes: string[] = [];
-  if (n.length < 3) return { delta: 0, notes, floor: 0 };
+  if (n.length < 3) return { delta: 0, notes, floor: 0, outMatchdays: 0 };
   for (const s of signals.players) {
     if (s.norm === n || s.norm.includes(n) || n.includes(s.norm)) {
       delta += s.delta;
@@ -113,9 +145,21 @@ export function playerNews(
         floor = s.floor;
         floorNote = s.floorNote;
       }
+      // laengster gemeldeter Ausfall zaehlt
+      if (s.outMatchdays && s.outMatchdays > outMatchdays) {
+        outMatchdays = s.outMatchdays;
+        outNote = s.outNote;
+      }
     }
   }
-  return { delta: Math.max(-0.8, Math.min(0.4, delta)), notes, floor, floorNote };
+  return {
+    delta: Math.max(-0.8, Math.min(0.4, delta)),
+    notes,
+    floor,
+    floorNote,
+    outMatchdays,
+    outNote,
+  };
 }
 
 export const EMPTY_SIGNALS: NewsSignals = { players: [], byClub: {}, count: 0 };

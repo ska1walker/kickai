@@ -17,6 +17,7 @@ import { checkSquad } from "@/lib/engine/constraints";
 import { suggestUpgrades, toPoolSquad, bestXi, type Upgrade } from "@/lib/engine/upgrade";
 import { UpgradeList } from "@/components/UpgradeList";
 import { computeSecurity } from "@/lib/engine/security";
+import { InjuryWarning, findOutPlayers } from "@/components/InjuryWarning";
 import {
   loadStoredTiers,
   loadStoredSetPieces,
@@ -227,6 +228,7 @@ export default function AufbauPage() {
     [squad, poolVersion],
   );
   const squadCheck = useMemo(() => (squad ? checkSquad(squad) : null), [squad]);
+  const outPlayers = useMemo(() => (squad ? findOutPlayers(squad, news) : []), [squad, news]);
   const squadXi = useMemo(() => bestXi(poolSquad), [poolSquad]);
   const upgrades = useMemo(
     () => (poolSquad.length ? suggestUpgrades(poolSquad, LIVE_POOL) : []),
@@ -310,6 +312,7 @@ export default function AufbauPage() {
 
       {mode === "improve" && (
         <>
+          <InjuryWarning out={outPlayers} />
           <div className="card p-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
