@@ -103,7 +103,6 @@ pl-k00084575;Janik;Bachmann;Bachmann;Janik Bachmann;FC Schalke 04;MIDFIELDER;800
 pl-k00084861;Markus;Schubert;Schubert;Markus Schubert;SC Paderborn 07;GOALKEEPER;800000;0;0.0
 pl-k00084940;Philipp;Lienhart;Lienhart;Philipp Lienhart;SC Freiburg;DEFENDER;2500000;86;3.29
 pl-k00084943;Konrad;Laimer;Laimer;Konrad Laimer;Bayern München;DEFENDER;4000000;210;2.86
-pl-k00085013;Joao Maria;Lobo Alves Palhinha Goncalves;Joao Palhinha;Joao Palhinha;Bayern München;MIDFIELDER;2000000;0;0.0
 pl-k00085071;Alexander;Schlager;A. Schlager;Alexander Schlager;Werder Bremen;GOALKEEPER;1500000;0;0.0
 pl-k00085382;Jeff;Chabot;Chabot;Jeff Chabot;VfB Stuttgart;DEFENDER;3600000;183;2.79
 pl-k00085582;Dawid;Kownacki;Kownacki;Dawid Kownacki;Werder Bremen;FORWARD;1500000;0;0.0
@@ -139,6 +138,7 @@ pl-k00090996;Exequiel;Palacios;Palacios;Exequiel Palacios;Bayer 04 Leverkusen;MI
 pl-k00091126;Franck;Honorat;Honorat;Franck Honorat;Bor. Mönchengladbach;MIDFIELDER;2400000;89;3.87
 pl-k00091372;Josip;Juranovic;Juranovic;Josip Juranovic;1. FC Union Berlin;DEFENDER;1500000;41;3.2
 pl-k00091406;Maximilian;Wöber;Wöber;Maximilian Wöber;FC Schalke 04;DEFENDER;1600000;6;3.0
+pl-k00091524;Christopher;Nkunku;Nkunku;Christopher Nkunku;RB Leipzig;FORWARD;4700000;0;0.0
 pl-k00091527;Steffen;Tigges;S. Tigges;Steffen Tigges;SC Paderborn 07;FORWARD;1400000;0;0.0
 pl-k00092317;Timur;Gayret;Gayret;Timur Gayret;SC Paderborn 07;MIDFIELDER;1200000;0;0.0
 pl-k00092331;Bernardo;Fernandes da Silva Junior;Bernardo;Bernardo;TSG Hoffenheim;DEFENDER;1800000;106;3.54
@@ -226,6 +226,7 @@ pl-k00107692;Jamal;Musiala;Musiala;Jamal Musiala;Bayern München;MIDFIELDER;4500
 pl-k00107769;Miguel;Gutierrez Ortega;Miguel;Miguel;Bayer 04 Leverkusen;DEFENDER;2300000;0;0.0
 pl-k00107842;Wouter;Burger;Burger;Wouter Burger;TSG Hoffenheim;MIDFIELDER;3400000;201;3.12
 pl-k00107843;Ramon;Hendriks;Hendriks;Ramon Hendriks;VfB Stuttgart;DEFENDER;2400000;139;3.24
+pl-k00109512;Marvin;Pieringer;Pieringer;Marvin Pieringer;SC Paderborn 07;FORWARD;1700000;53;4.17
 pl-k00109664;Immanuel;Pherai;Pherai;Immanuel Pherai;Hamburger SV;MIDFIELDER;1000000;9;0.0
 pl-k00109674;Malik;Tillman;Tillman;Malik Tillman;Bayer 04 Leverkusen;MIDFIELDER;2600000;86;3.87
 pl-k00110187;Nicolai;Remberg;Remberg;Nicolai Remberg;Hamburger SV;MIDFIELDER;2000000;116;3.64
@@ -425,7 +426,7 @@ pl-k00149508;Ilyas;Ansah;Ansah;Ilyas Ansah;1. FC Union Berlin;FORWARD;2200000;12
 pl-k00149538;Joel;Agyekum;Agyekum;Joel Agyekum;Hamburger SV;DEFENDER;500000;0;0.0
 pl-k00149673;Hennes;Behrens;Behrens;Hennes Behrens;FC Augsburg;DEFENDER;1800000;77;3.4
 pl-k00149976;Albert;Millgramm;A. Millgramm;Albert Millgramm;SC Paderborn 07;FORWARD;500000;0;0.0
-pl-k00150252;Jeremiaha;Maluze;Maluze;Jeremiaha Maluze;Eintracht Frankfurt;MIDFIELDER;999000000;0;0.0
+pl-k00150252;Jeremiaha;Maluze;Maluze;Jeremiaha Maluze;Eintracht Frankfurt;DEFENDER;600000;0;0.0
 pl-k00150671;Andrej;Ilic;Ilic;Andrej Ilic;1. FC Union Berlin;FORWARD;2000000;120;3.78
 pl-k00150682;Badredine;Bouanani;Bouanani;Badredine Bouanani;VfB Stuttgart;MIDFIELDER;1600000;28;4.0
 pl-k00151054;Hugo;Larsson;Larsson;Hugo Larsson;Eintracht Frankfurt;MIDFIELDER;2000000;54;4.02
@@ -520,11 +521,11 @@ pl-k00169921;Luca;Höcker;Höcker;Luca Höcker;Werder Bremen;DEFENDER;500000;0;0
 pl-k00169925;Paul;Erevbenagie;Erevbenagie;Paul Erevbenagie;Werder Bremen;FORWARD;600000;0;0.0
 pl-k00170514;Darwin;Soylu;Soylu;Darwin Soylu;Werder Bremen;MIDFIELDER;500000;0;0.0
 pl-k00170561;Mikolaj;Marutzki;Marutzki;Mikolaj Marutzki;1. FC Köln;GOALKEEPER;500000;0;0.0
-pl-k00170610;Felipe;Chavez;Chavez;Felipe Chavez;Bayern München;MIDFIELDER;800000;16;4.0
 pl-k00170727;Tom;Wisbereit;Wisbereit;Tom Wisbereit;FC Augsburg;GOALKEEPER;500000;0;0.0
 pl-k00170733;Tim;Blaszczak;Blaszczak;Tim Blaszczak;1. FC Union Berlin;MIDFIELDER;500000;0;0.0
 pl-k00170751;Rael;Nakuzola;Nakuzola;Rael Nakuzola;1. FSV Mainz 05;DEFENDER;700000;0;0.0
 pl-k00170963;Shafiq;Nandja;Nandja;Shafiq Nandja;Hamburger SV;DEFENDER;500000;4;0.0
+pl-k00171304;Jason;Bissi-Mouelle;Bissi-Mouelle;Jason Bissi-Mouelle;Hamburger SV;DEFENDER;600000;0;0.0
 pl-k00171306;Louis;Lemke;Lemke;Louis Lemke;Hamburger SV;DEFENDER;800000;2;0.0
 pl-k00171716;Ertugrul;Yigit;Yigit;Ertugrul Yigit;VfB Stuttgart;MIDFIELDER;500000;0;0.0
 pl-k00171930;Cyriaque;Irié;Irié;Cyriaque Irié;SC Freiburg;FORWARD;1500000;28;3.5

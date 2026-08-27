@@ -2364,6 +2364,18 @@
 "estPoints": 64
 },
 {
+"id": "pl-k00109512",
+"name": "Pieringer",
+"club": "paderborn",
+"clubName": "SC Paderborn 07",
+"position": "ST",
+"mv": 1.7,
+"points": 53,
+"expPoints": 1.56,
+"hasHistory": true,
+"estPoints": 40
+},
+{
 "id": "pl-k00123744",
 "name": "E. Fernandez",
 "club": "leverkusen",
@@ -3141,7 +3153,7 @@
 "points": 20,
 "expPoints": 0.59,
 "hasHistory": true,
-"estPoints": 33
+"estPoints": 32
 },
 {
 "id": "pl-k00132208",
@@ -3262,18 +3274,6 @@
 "expPoints": 0.47,
 "hasHistory": true,
 "estPoints": 29
-},
-{
-"id": "pl-k00170610",
-"name": "Chavez",
-"club": "bayern",
-"clubName": "Bayern München",
-"position": "MF",
-"mv": 0.8,
-"points": 16,
-"expPoints": 0.47,
-"hasHistory": true,
-"estPoints": 10
 },
 {
 "id": "pl-k00039161",
@@ -4176,18 +4176,6 @@
 "estPoints": 29
 },
 {
-"id": "pl-k00085013",
-"name": "Joao Palhinha",
-"club": "bayern",
-"clubName": "Bayern München",
-"position": "MF",
-"mv": 2.0,
-"points": 0,
-"expPoints": 0.0,
-"hasHistory": false,
-"estPoints": 64
-},
-{
 "id": "pl-k00085071",
 "name": "A. Schlager",
 "club": "bremen",
@@ -4270,6 +4258,18 @@
 "expPoints": 0.0,
 "hasHistory": false,
 "estPoints": 73
+},
+{
+"id": "pl-k00091524",
+"name": "Nkunku",
+"club": "leipzig",
+"clubName": "RB Leipzig",
+"position": "ST",
+"mv": 4.7,
+"points": 0,
+"expPoints": 0.0,
+"hasHistory": false,
+"estPoints": 148
 },
 {
 "id": "pl-k00091527",
@@ -4917,7 +4917,7 @@
 "points": 0,
 "expPoints": 0.0,
 "hasHistory": false,
-"estPoints": 33
+"estPoints": 32
 },
 {
 "id": "pl-k00119868",
@@ -5397,7 +5397,7 @@
 "points": 0,
 "expPoints": 0.0,
 "hasHistory": false,
-"estPoints": 33
+"estPoints": 32
 },
 {
 "id": "pl-k00141453",
@@ -5652,6 +5652,18 @@
 "estPoints": 0
 },
 {
+"id": "pl-k00150252",
+"name": "Maluze",
+"club": "frankfurt",
+"clubName": "Eintracht Frankfurt",
+"position": "ABW",
+"mv": 0.6,
+"points": 0,
+"expPoints": 0.0,
+"hasHistory": false,
+"estPoints": 0
+},
+{
 "id": "pl-k00151361",
 "name": "Malanga",
 "club": "stuttgart",
@@ -5685,7 +5697,7 @@
 "points": 0,
 "expPoints": 0.0,
 "hasHistory": false,
-"estPoints": 33
+"estPoints": 32
 },
 {
 "id": "pl-k00153331",
@@ -6378,6 +6390,18 @@
 "clubName": "1. FSV Mainz 05",
 "position": "ABW",
 "mv": 0.7,
+"points": 0,
+"expPoints": 0.0,
+"hasHistory": false,
+"estPoints": 0
+},
+{
+"id": "pl-k00171304",
+"name": "Bissi-Mouelle",
+"club": "hsv",
+"clubName": "Hamburger SV",
+"position": "ABW",
+"mv": 0.6,
 "points": 0,
 "expPoints": 0.0,
 "hasHistory": false,
