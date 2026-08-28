@@ -25,6 +25,7 @@ const PLAYER_DELTA: Partial<Record<NewsType, number>> = {
 
 export interface PlayerSignal {
   norm: string; // normalisierter Spielername aus der News
+  raw: string; // Originalschreibweise (für den Nachnamen-Abgleich)
   delta: number; // recency-gewichtet
   note: string;
   /** Erwartete Saisonpunkte, wenn die Meldung einen Stammplatz belegt.
@@ -69,7 +70,7 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
       if (it.type === "starter" || it.type === "preseason_form") {
         const floor = (STARTER_FLOOR[it.impact ?? 2] ?? 0) * recencyWeight(it, now);
         if (floor > 0) {
-          players.push({ norm: pn, delta: 0, note: "", floor, floorNote: it.summary });
+          players.push({ norm: pn, raw: it.player!, delta: 0, note: "", floor, floorNote: it.summary });
         }
       }
       // Verletzung/Sperre MIT genannter Dauer: nicht abzinsen, sondern die
@@ -87,6 +88,7 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
         if (md) {
           players.push({
             norm: pn,
+            raw: it.player!,
             delta: 0,
             note: "",
             outMatchdays: md,
@@ -102,6 +104,7 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
       if (PLAYER_DELTA[it.type] != null && !hasDuration) {
         players.push({
           norm: pn,
+          raw: it.player!,
           delta: PLAYER_DELTA[it.type]! * w,
           note: `${TYPE_LABEL[it.type]}${it.summary ? `: ${it.summary}` : ""}`,
         });
@@ -124,15 +127,35 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
   return { players, byClub, count: rows.length };
 }
 
-/** Namensabgleich. Teilstring-Treffer nur, wenn der KÜRZERE Name lang genug
- *  ist — sonst matchte der Frankfurter „Is" auf „Kristof" und ein Kaderspieler
- *  erbte fremde Meldungen. */
+/** Namensabgleich zwischen Pool und News. Zwei Fallstricke:
+ *  1. Der Pool kürzt Vornamen ab ("A. Millgramm"), die News schreibt sie aus
+ *     ("Albert Millgramm") — normalisiert ergibt das "amillgramm" vs
+ *     "albertmillgramm", also KEINEN Teilstring-Treffer. Deshalb wird
+ *     zusätzlich der Nachname allein verglichen.
+ *  2. Zu kurze Namen dürfen nicht per Teilstring greifen, sonst matchte der
+ *     Frankfurter „Is" auf „Kristof".
+ *  Wichtig: hier kommen bereits normalisierte Strings an, der Nachname wird
+ *  deshalb vor dem Normalisieren extrahiert (siehe lastName). */
 const MIN_SUBSTRING = 5;
 function matches(a: string, b: string): boolean {
   if (a === b) return true;
   const shorter = a.length <= b.length ? a : b;
   if (shorter.length < MIN_SUBSTRING) return false;
   return a.includes(b) || b.includes(a);
+}
+
+/** Nachname eines Anzeigenamens, klein und ohne Sonderzeichen. */
+export function lastName(s: string): string {
+  const parts = s.trim().split(/\s+/).filter((t) => !/^[A-Za-zÄÖÜäöü]\.$/.test(t));
+  return norm(parts[parts.length - 1] ?? s);
+}
+
+/** Treffer, wenn die vollen Namen ODER die Nachnamen zusammenpassen. */
+function namesMatch(poolName: string, newsName: string): boolean {
+  if (matches(norm(poolName), norm(newsName))) return true;
+  const a = lastName(poolName);
+  const b = lastName(newsName);
+  return a.length >= MIN_SUBSTRING && a === b;
 }
 
 /** Aggregiertes Signal + Notizen für einen Poolspieler (Namens-Matching). */
@@ -156,7 +179,7 @@ export function playerNews(
   const notes: string[] = [];
   if (n.length < 3) return { delta: 0, notes, floor: 0, outMatchdays: 0 };
   for (const s of signals.players) {
-    if (matches(n, s.norm)) {
+    if (namesMatch(name, s.raw)) {
       delta += s.delta;
       if (s.note) notes.push(s.note);
       // stärkste Stammplatz-Meldung gewinnt, sie addieren sich nicht
