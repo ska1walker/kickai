@@ -158,8 +158,10 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
 
 1. ~~Spieltags-Optimierer produktiv machen~~ **ERLEDIGT** (`matchday_cli.py`):
    Kader-JSON + OpenLigaDB-Spielplan + News-Status → empfohlene Elf +
-   Anstoß-Deadline-Timeline. Läuft live. OFFEN: echten Kai-Kader statt
-   Beispiel eintragen (sobald 26/27-Kader steht), Status-Pflege bequemer machen.
+   Anstoß-Deadline-Timeline. Läuft live. Der echte 26/27-Kader steht seit
+   28.08.2026 in Supabase (22 Spieler, 42,00 Mio), Spieltag 1 ist mit
+   Status gepflegt und aufgestellt — siehe `data/spieltage/2026-md01.md`.
+   OFFEN: Status-Pflege bequemer machen (bisher pro Spieler ein Klick).
 
 2. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
    - football-data.org (Free-Key) — echte Aufstellungen/Einwechslungen nach
