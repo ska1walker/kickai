@@ -60,6 +60,10 @@ Sentinel: MV=999 Mio = „kein Marktwert gelistet" (v.a. 24/25-Datei) → filter
    (40 Saisons) brachte die wöchentliche Disziplin "nur spielende Spieler
    aufstellen" +18% — unter ALLEN getesteten Weltzuständen positiv, anders
    als der Kader-Trick (situationsabhängig).
+   Wird seit 26/27 an echten Spieltagen nachgemessen (`data/messprotokoll.md`).
+   Spieltag 1 fiel mit +2 schwach aus — aber konfundiert, weil die News-Arbeit
+   dort schon im Kaderbau steckte (Saisonstart). NICHT als Widerlegung lesen,
+   bis die Reihe lang genug ist.
 
 ## Cross-Season-Validierung (`scripts/cross_season.py`, 4 Saisons)
 
@@ -123,6 +127,31 @@ Out-of-Sample-Test (Train 22/23→23/24 & 23/24→24/25, blind auf 24/25→25/26
 (Effizienz-Scanner + Spieltags-Optimierer + News), nicht auf ein
 Preseason-Orakel. Ein globaler Punkte-Forecast (R²~0.42) taugt als grober
 Kader-Sortierer, ersetzt aber nicht die wöchentliche News-Disziplin.
+
+## Auswertungsregel (gilt fuer jeden Spieltag)
+
+**Entscheidungen werden an der Begruendung gemessen, nicht am Ausgang. Ein
+einzelner Spieltag ist NIE Evidenz fuer eine Modellaenderung.**
+
+Grund: Die Varianz eines Spieltags ist groesser als der gesamte analytische
+Vorsprung. Eine Note spannt 20 Punkte auf (1,0 = +10 bis 6,0 = −10), der
+Vorsprung durch die ganze Datenarbeit lag an Spieltag 1 bei 14 Punkten. Ein
+einziger Ausrutscher eines bestaetigten Stammspielers loescht ihn aus
+(Tapsoba, Note 6,0, −6 statt der ueblichen +8).
+
+Konkret heisst das:
+- Eine richtig begruendete Entscheidung, die schiefging, bleibt richtig.
+  An Spieltag 1 war der ABGELEHNTE Tausch Tapsoba→Schlotterbeck −6 wert und
+  trotzdem korrekt begruendet. Wer solche Faelle als Fehler verbucht, trainiert
+  sich das Gegenteil an.
+- Nach einem schlechten Spieltag NICHT am Modell drehen. Der Anlass fuehlt
+  sich immer gut an und ist fast immer Rauschen.
+- Modellaenderungen brauchen eine Serie, nicht ein Ereignis — mit einer
+  Ausnahme: harte Regelfunde (z. B. Assist = +2 statt +1) gelten sofort,
+  weil sie keine Statistik sind, sondern eine Tatsache.
+
+Die laufende Messreihe steht in `data/messprotokoll.md`; dort sammeln sich
+die Zahlen, aus denen spaeter echte Befunde werden duerfen.
 
 ## Was gebaut ist (engine/)
 
