@@ -135,6 +135,7 @@ Kader-Sortierer, ersetzt aber nicht die wöchentliche News-Disziplin.
 | `squad.py` | Lädt Kader-JSON, leitet erwartete Punkte aus CSV ab | ✓ läuft |
 | `status_editor.py` | Interaktive Status-Pflege + Speichern/Laden je Spieltag | ✓ läuft |
 | `matchday_cli.py` | **Produktives CLI**: Spielplan+Kader+Status → empfohlene Elf + Timeline | ✓ läuft (live) |
+| `watch_scores.py` | **Punkte-Waechter**: pollt die Export-CSV, meldet die Freigabe | ✓ läuft (live) |
 | `anchor_model.py` | ML-Anker-Modell (R²=0.48, In-Sample) — Referenz, NICHT produktiv | ✓ (Grenze dokumentiert) |
 | `cross_season.py` | 4-Saison-Validierung + ehrlicher N→N+1-Out-of-Sample-Test | ✓ läuft (scripts/) |
 | `season.py`, `strategies.py`, `run_backtest.py`, `sensitivity.py` | Simulations-Backtest, der die Strategie über 40 Saisons prüfte | ✓ (im scripts/) |
@@ -163,13 +164,28 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    Status gepflegt und aufgestellt — siehe `data/spieltage/2026-md01.md`.
    OFFEN: Status-Pflege bequemer machen (bisher pro Spieler ein Klick).
 
-2. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
+2. **Punkte nach dem Spieltag**: `engine/watch_scores.py` pollt die offene
+   Export-CSV und meldet per Push, sobald kicker die Punktespalte befüllt
+   (Scheduled Task `kicker-punkte-waechter`, montags 07:04–12:49 alle 15 min).
+   Exit 0 = neu da, 20 = schon gemeldet, 10 = leer, 1 = Abruffehler; nur die 0
+   benachrichtigt. `--history` zeigt die beobachteten Freigabezeiten — nach ein
+   paar Spieltagen lässt sich der Takt darauf verengen. ACHTUNG: kicker setzt
+   die Punktespalte zum Saisonstart auf 0 zurück (die Vorsaison-Vorbefüllung
+   verschwindet), deshalb ist "Punkte != 0" das Signal.
+   NICHT gebaut und bewusst nicht: Umgehung der Sperrfrist über interne
+   Endpunkte. Fremdnoten (Bild, Sport1, WhoScored) sind andere Zahlen und
+   ersetzen die kicker-Note nicht — das Managerspiel rechnet nur mit ihr.
+   OFFEN: Rekonstruktion der Punkte aus OpenLigaDB direkt nach Abpfiff
+   (Start/Tore/Karten/Zu-null sind deterministisch, nur Note und Spieler des
+   Spiels fehlen). Englische Wochen brauchen einen zweiten Cron-Slot.
+
+3. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
    - football-data.org (Free-Key) — echte Aufstellungen/Einwechslungen nach
      Anpfiff (für Rückschau/Kalibrierung von exp_points).
    - Voraussichtliche Elf vor Anpfiff: ligainsider-News (Kai-Tipp) manuell in
      die Status-JSON. Keine kicker+-Paywall scrapen.
 
-3. **Next.js 15 + Supabase + Vercel App** — **SCAFFOLD STEHT** (`web/`):
+4. **Next.js 15 + Supabase + Vercel App** — **SCAFFOLD STEHT** (`web/`):
    - Engine nach TypeScript portiert (`web/src/lib/engine/*`); Optimierer
      liefert identisches Ergebnis wie Python (4-4-2, 78,4 Pkt im Demo-Test).
    - Seiten: `/` Übersicht, `/matchday` (Kernwerkzeug: Status-Buttons + Live-
@@ -185,7 +201,7 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    OFFEN: Vercel-Deploy + Supabase Frankfurt provisionieren, CSV-Import-UI für
    neue Saison, Auth für Mehrbenutzer (statt anon-Policy).
 
-4. ~~Für den Kaderbau 26/27~~ **ERLEDIGT (8. Aug 2026):** `se-k00012026`
+5. ~~Für den Kaderbau 26/27~~ **ERLEDIGT (8. Aug 2026):** `se-k00012026`
    gezogen (549 Spieler, 0 unaufgelöste Vereine), Bridge gelaufen
    (`--preseason --reference 2025`: 361 mit Historie inkl. 7 Rückkehrer über
    die kicker-Vorbefüllung, 188 ohne → Scout/News), Aufsteiger in
@@ -196,7 +212,7 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    die Supabase-MCP hat KEINEN Zugriff auf das kickai-Projekt), dann echten
    26/27-Kader über /aufbau + /squad bauen.
 
-5. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
+6. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
    Test gemacht. Ergebnis: statisches ML hebt den globalen Forecast leicht
    (R²→0.42), löst aber den billigen-Anker-Fund nicht (10/35). Kein weiterer
    ML-Aufwand vor echten Minuten/Stammplatz-Daten sinnvoll.

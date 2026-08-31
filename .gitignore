@@ -15,6 +15,9 @@ web/*.tsbuildinfo
 .env.local
 web/.env*.local
 
+# Laufzeit-Zustand des Punkte-Waechters (pollt im Minutentakt)
+data/scores-watch.json
+
 # Harness / OS
 .claude/
 .DS_Store
