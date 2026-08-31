@@ -191,18 +191,19 @@ def main() -> int:
     state["last_scored"] = len(hits)
     save_state(all_state, state)
 
-    if not first:
+    if first:
+        print(f"TREFFER — {stamp:%d.%m. %H:%M}: Punkte sind da.")
+    else:
         print(f"BEKANNT — {stamp:%d.%m. %H:%M}: Punkte da, bereits gemeldet.")
-        return 20
-
-    print(f"TREFFER — {stamp:%d.%m. %H:%M}: Punkte sind da.")
     print(f"  {len(hits)} von {len(rows)} Spielern haben Punkte.")
+    # Der Bericht haengt an --squad, nicht daran, ob die Meldung neu ist:
+    # unterdrueckt werden soll die Benachrichtigung, nicht die Auswertung.
     if args.squad:
         squad = load_squad()
         if squad:
             print()
             report_squad(rows, squad)
-    return 0
+    return 0 if first else 20
 
 
 if __name__ == "__main__":

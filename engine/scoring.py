@@ -41,7 +41,10 @@ GOAL_POINTS = {
 
 START_POINTS = 4        # Startaufstellung
 SUB_POINTS = 2          # Einwechslung
-ASSIST_POINTS = 1
+# Verifiziert an Spieltag 1 der Saison 26/27: 16 Spieler ueber alle Vereine
+# und Positionen hinweg lagen exakt +2 ueber "Start + Note", der +1-Bereich
+# war praktisch leer. Frueher stand hier 1 — das war falsch.
+ASSIST_POINTS = 2
 CLEAN_SHEET_GK_POINTS = 2   # TW spielt komplett zu null
 MOTM_POINTS = 3             # Spieler des Spiels
 YELLOW_RED = -3

@@ -14,7 +14,8 @@ Optimierungsproblem, kein Fußball-Quiz.
 - 22-Mann-Kader: 3 TW, 7 ABW, 7 MF, 5 ST. Budget 42,5 Mio €.
 - Marktwerte fix über die Saison. Nur die aufgestellte Startelf (11) zählt.
 - Punkte: Start +4, Einwechslung +2, kicker-Note (1.0=+10 … 6.0=−10),
-  Tore (TW 6 / ABW 5 / MF 4 / ST 3), Assist +1, Zu-null-TW +2,
+  Tore (TW 6 / ABW 5 / MF 4 / ST 3), **Assist +2** (an Spieltag 1 26/27
+  empirisch verifiziert; die frueher notierten +1 waren falsch), Zu-null-TW +2,
   Spieler des Spiels +3, Gelb-Rot −3, Rot −6.
 - Aufstellung bis zum jeweiligen Anpfiff änderbar (Mikromanagement-Fenster).
 - Nur 4 Transfers/Saison (1 nach Deadline Day, bis 4 in Winterpause).
