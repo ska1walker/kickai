@@ -2,6 +2,7 @@
 // Transparente Regel-Engine: maximiert den erwarteten Punktwert der Startelf
 // unter Berücksichtigung des Einsatz-Status. Stellt nie 'out' auf.
 import {
+  Coverage,
   Fixture,
   LineupPlayer,
   OptimizerResult,
@@ -11,6 +12,7 @@ import {
   STATUS_WEIGHT,
 } from "./types";
 import { fixtureForClub } from "./openligadb";
+import { ClubStrength, contextBonus } from "./context";
 import { CLUB_LABEL } from "./clubs";
 
 const FORMATIONS: Record<string, Record<Position, number>> = {
@@ -28,6 +30,8 @@ const OUTFIELD: Position[] = ["ABW", "MF", "ST"];
 export interface PlayerState extends SquadPlayer {
   status: Status;
   fixture: Fixture | null;
+  /** Heimrecht + Gegnerstaerke in kicker-Punkten (siehe context.ts). */
+  context?: number;
 }
 
 /** Verknüpft Kader mit Spielplan. Kein Spiel → Status 'out'. */
@@ -35,17 +39,43 @@ export function joinFixtures(
   squad: SquadPlayer[],
   fixtures: Fixture[],
   statusMap: Record<string, Status>,
+  strength: ClubStrength = {},
 ): PlayerState[] {
   return squad.map((p) => {
     const fixture = fixtureForClub(fixtures, p.club);
     let status: Status = statusMap[p.name] ?? "doubt";
     if (!fixture) status = "out";
-    return { ...p, fixture, status };
+    return { ...p, fixture, status, context: contextBonus(p.club, fixture, strength) };
   });
 }
 
 function eff(p: PlayerState): number {
-  return p.expPoints * STATUS_WEIGHT[p.status];
+  // Der Kontextbonus wirkt nur, wenn der Spieler auch spielt — deshalb
+  // innerhalb der Statusgewichtung, nicht daneben.
+  return (p.expPoints + (p.context ?? 0)) * STATUS_WEIGHT[p.status];
+}
+
+function kickoffMs(p: PlayerState): number {
+  const k = p.fixture?.kickoff;
+  const t = k ? Date.parse(k) : NaN;
+  // Ohne Anstosszeit ans Ende sortieren: als Ersatz taugt er, in der Elf
+  // ist er bei Gleichstand die schlechtere Wahl.
+  return Number.isNaN(t) ? Number.POSITIVE_INFINITY : t;
+}
+
+/** Sortierung fuer die Elf: erwarteter Wert, bei Gleichstand der FRUEHERE
+ *  Anstoss.
+ *
+ *  Grund: Die Aufstellung ist bis zum jeweiligen Anpfiff aenderbar. Stellt
+ *  man von zwei gleichwertigen Spielern den frueheren auf, bleibt der
+ *  spaetere als Ersatz verfuegbar, falls der fruehere kurzfristig doch
+ *  nicht spielt. Andersherum ist der Ersatz schon durch, wenn man ihn
+ *  braucht. Die Option kostet nichts, also nimmt man sie mit. */
+const EPS = 1e-9;
+function byValueThenKickoff(a: PlayerState, b: PlayerState): number {
+  const d = eff(b) - eff(a);
+  if (Math.abs(d) > EPS) return d;
+  return kickoffMs(a) - kickoffMs(b);
 }
 
 function opponentLabel(p: PlayerState): string {
@@ -57,9 +87,7 @@ function opponentLabel(p: PlayerState): string {
 
 export function optimize(players: PlayerState[]): OptimizerResult | { error: string } {
   const avail = players.filter((p) => p.status !== "out");
-  const keepers = avail
-    .filter((p) => p.position === "TW")
-    .sort((a, b) => eff(b) - eff(a));
+  const keepers = avail.filter((p) => p.position === "TW").sort(byValueThenKickoff);
   if (keepers.length === 0) return { error: "Kein einsatzfähiger Torwart im Kader." };
   const gk = keepers[0];
 
@@ -68,9 +96,7 @@ export function optimize(players: PlayerState[]): OptimizerResult | { error: str
     const lineup: PlayerState[] = [gk];
     let feasible = true;
     for (const pos of OUTFIELD) {
-      const pool = avail
-        .filter((p) => p.position === pos)
-        .sort((a, b) => eff(b) - eff(a));
+      const pool = avail.filter((p) => p.position === pos).sort(byValueThenKickoff);
       if (pool.length < need[pos]) {
         feasible = false;
         break;
@@ -94,7 +120,34 @@ export function optimize(players: PlayerState[]): OptimizerResult | { error: str
     kickoff: p.fixture?.kickoff ?? null,
   }));
 
+  // Wer koennte jeden Startelfspieler noch ersetzen? Nur Bankspieler
+  // derselben Position, die SPAETER anstossen — bei einem frueheren Anstoss
+  // ist das Spiel des Ersatzes schon gelaufen, wenn die Nachricht kommt.
+  const inLineup = new Set(best.lineup.map((p) => p.name));
+  const coverage: Coverage[] = best.lineup.map((p) => ({
+    name: p.name,
+    position: p.position,
+    kickoff: p.fixture?.kickoff ?? null,
+    backups: avail
+      .filter(
+        (c) =>
+          !inLineup.has(c.name) &&
+          c.position === p.position &&
+          kickoffMs(c) > kickoffMs(p),
+      )
+      .sort((a, b) => kickoffMs(a) - kickoffMs(b))
+      .map((c) => c.name),
+  }));
+
   const warnings: string[] = [];
+  const blank = coverage.filter((c) => c.backups.length === 0);
+  if (blank.length > 0) {
+    warnings.push(
+      `Ohne Ersatz, falls kurzfristig raus: ${blank
+        .map((c) => c.name)
+        .join(", ")} — kein Spieler derselben Position stoesst spaeter an.`,
+    );
+  }
   const doubts = best.lineup.filter((p) => p.status === "doubt");
   if (doubts.length > 0) {
     warnings.push(
@@ -121,6 +174,7 @@ export function optimize(players: PlayerState[]): OptimizerResult | { error: str
     expectedPoints: Math.round(best.score * 10) / 10,
     lineup,
     warnings,
+    coverage,
   };
 }
 

@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { DEFAULT_SEASON } from "@/lib/data/squad";
 import { loadSquad } from "@/lib/squadStore";
 import { CLUB_LABEL } from "@/lib/engine/clubs";
+import { clubStrength } from "@/lib/engine/context";
+import { POOL } from "@/lib/data/pool";
 import {
   joinFixtures,
   optimize,
@@ -97,9 +99,16 @@ export default function MatchdayPage() {
     return m;
   }, [squad, statusById]);
 
+  // Vereinsstaerke = Kadermarktwert aus dem Spielerpool. Fliesst als
+  // Gegnerstaerke in den Kontextbonus ein (siehe engine/context.ts).
+  const strength = useMemo(() => clubStrength(POOL), []);
+
   const joined: PlayerState[] = useMemo(
-    () => (fixtures && squad.length ? joinFixtures(squad, fixtures, statusByName) : []),
-    [squad, fixtures, statusByName],
+    () =>
+      fixtures && squad.length
+        ? joinFixtures(squad, fixtures, statusByName, strength)
+        : [],
+    [squad, fixtures, statusByName, strength],
   );
 
   const result = useMemo(() => (joined.length ? optimize(joined) : null), [joined]);
@@ -397,6 +406,36 @@ export default function MatchdayPage() {
                       <span className="flex-1 truncate">{p.name}</span>
                     </li>
                   ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Wer koennte noch einspringen? Nur Spieler mit spaeterem Anstoss. */}
+          {result && "coverage" in result && (
+            <div className="card p-4">
+              <h2 className="label-caps">Ersatz bei kurzfristigem Ausfall</h2>
+              <p className="mt-1 text-xs text-ink-muted">
+                Die Aufstellung ist bis zum jeweiligen Anpfiff änderbar. Als Ersatz
+                zählt deshalb nur, wer später anstößt.
+              </p>
+              <ul className="mt-3 space-y-1 text-sm">
+                {result.coverage.map((c) => (
+                  <li key={c.name} className="flex gap-2">
+                    <span className="w-10 shrink-0 tabular-nums text-xs text-ink-muted">
+                      {fmtKickoff(c.kickoff)}
+                    </span>
+                    <span className="w-28 shrink-0 truncate">{c.name}</span>
+                    <span
+                      className={
+                        c.backups.length
+                          ? "flex-1 truncate text-ink-muted"
+                          : "flex-1 truncate text-amber-700"
+                      }
+                    >
+                      {c.backups.length ? c.backups.join(", ") : "kein Ersatz mehr"}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
           )}

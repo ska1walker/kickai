@@ -32,11 +32,22 @@ export interface LineupPlayer {
   kickoff: string | null;
 }
 
+/** Wer koennte einen Startelfspieler noch ersetzen, wenn er kurzfristig
+ *  ausfaellt? Nur Spieler, die SPAETER anstossen, kommen dafuer in Frage —
+ *  ein Ersatz, dessen Spiel schon laeuft, bringt nichts mehr. */
+export interface Coverage {
+  name: string;
+  position: Position;
+  kickoff: string | null;
+  backups: string[];   // Namen, nach Anstoss sortiert
+}
+
 export interface OptimizerResult {
   formation: string;
   expectedPoints: number;
   lineup: LineupPlayer[];
   warnings: string[];
+  coverage: Coverage[];
 }
 
 export const STATUS_WEIGHT: Record<Status, number> = {
