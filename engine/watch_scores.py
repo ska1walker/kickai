@@ -19,7 +19,7 @@ Aufruf:
     python3 engine/watch_scores.py --history       # Protokoll der Freigabezeiten
 
 Exit-Codes, damit ein Scheduler ohne eigene Logik entscheiden kann:
-    0  = Punkte sind NEU da  -> benachrichtigen
+    0  = Punkte sind NEU da (Liga-Summe hat sich geaendert) -> benachrichtigen
     20 = Punkte da, aber schon gemeldet -> still bleiben
     10 = noch leer -> still bleiben
     1  = Netz-/Abruffehler -> still bleiben (kein Befund)
@@ -68,6 +68,24 @@ def scored(rows: list[dict]) -> list[dict]:
         except (ValueError, KeyError):
             continue
     return out
+
+
+def total(rows: list[dict]) -> int:
+    """Punktesumme der ganzen Liga.
+
+    DAS ist das Freigabesignal, nicht "Spalte nicht mehr leer". Die Spalte
+    ist nur vor dem 1. Spieltag leer; danach steht dort der kumulierte
+    Saisonstand. Ein neuer Spieltag zeigt sich deshalb daran, dass die
+    Summe SICH AENDERT — die alte Logik haette ab Spieltag 2 nie wieder
+    ausgeloest.
+    """
+    s = 0
+    for r in rows:
+        try:
+            s += int(r["Punkte"])
+        except (ValueError, KeyError):
+            continue
+    return s
 
 
 def load_state(season: int) -> tuple[dict, dict]:
@@ -158,7 +176,9 @@ def main() -> int:
             return 0
         print(f"Saison {args.season} — bisher beobachtete Freigaben der Punktespalte:")
         for a in state["arrivals"]:
-            print(f"  {a['at']}  {a['scored']} Spieler mit Punkten")
+            d = a.get("delta")
+            zus = f", +{d} Punkte" if d else ""
+            print(f"  {a['at']}  {a['scored']} Spieler mit Punkten{zus}")
         return 0
 
     stamp = now()
@@ -170,24 +190,38 @@ def main() -> int:
         return 1
 
     hits = scored(rows)
+    summe = total(rows)
     state["polls"].append(
-        {"at": stamp.isoformat(timespec="seconds"), "rows": len(rows), "scored": len(hits)}
+        {
+            "at": stamp.isoformat(timespec="seconds"),
+            "rows": len(rows),
+            "scored": len(hits),
+            "total": summe,
+        }
     )
 
     if not hits:
+        state["last_total"] = 0
         state["last_scored"] = 0
         save_state(all_state, state)
         print(f"WARTEN — {stamp:%d.%m. %H:%M}: Punktespalte noch leer ({len(rows)} Spieler).")
         return 10
 
-    # Erste Freigabe nach einer leeren Phase = neuer Spieltag. Nur dann
-    # protokollieren und melden — sonst schlaegt jeder weitere Poll des
-    # Tages erneut Alarm.
-    first = state.get("last_scored", 0) == 0
+    # Neuer Spieltag = die Liga-Punktesumme hat sich seit dem letzten Poll
+    # geaendert. "last_total" fehlt beim allerersten Lauf einer Saison; dann
+    # ist jede Summe > 0 eine Freigabe.
+    vorher = state.get("last_total")
+    first = vorher is None or summe != vorher
     if first:
         state["arrivals"].append(
-            {"at": stamp.isoformat(timespec="seconds"), "scored": len(hits)}
+            {
+                "at": stamp.isoformat(timespec="seconds"),
+                "scored": len(hits),
+                "total": summe,
+                "delta": None if vorher is None else summe - vorher,
+            }
         )
+    state["last_total"] = summe
     state["last_scored"] = len(hits)
     save_state(all_state, state)
 
