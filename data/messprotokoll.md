@@ -24,6 +24,7 @@ Wochenpflege, *+ Woche → Optimum* ist Varianz und Glueck.
 | Sp. | Basis | + Kader | + Woche | Optimum | Kader | Woche | Varianz |
 |---:|---:|---:|---:|---:|---:|---:|---:|
 | 1 | 44 | 56 | **58** | 70 | **+12** | **+2** | 12 |
+| 2 | 59 | 59 | **61** | 65 | — | **+2** | 4 |
 
 ## Notizen je Spieltag
 
@@ -46,3 +47,37 @@ nicht spielte (0 statt der Bank-Alternative Lemke mit 4).
 
 Trefferquote der Aufstellungsprognosen: **10 von 11.**
 Bei den billigen Stammplatz-Meldungen (`STARTER_FLOOR`): **3 von 5.**
+
+### Spieltag 2 (04.–06.09.2026)
+
+61 Punkte, erwartet waren 55,0.
+
+**Kein Transfer benutzt** — Basis und "+ Kader" fallen deshalb zusammen. Das
+ist die erste SAUBERE Messung der Wochendisziplin: der Kader war unveraendert,
+gemessen wird nur noch die Aufstellung. Ergebnis **+2 Punkte**, exakt wie an
+Spieltag 1.
+
+Die Disziplin bestand aus zwei Eingriffen:
+- **El Mala raus** (kicker-Symbol: Ausfall). Er kam nicht zum Einsatz und holte
+  0; Koeln verlor 1:4 in Stuttgart. Ohne den Eingriff waere ein Elf-Platz leer
+  geblieben.
+- **ter Horst rein statt Lemke** ueber die neue Gleichstandsregel (frueherer
+  Anstoss haelt den spaeteren als Ersatz frei). Beide holten exakt 2 Punkte —
+  die Regel war fuer das Ergebnis neutral, wie angekuendigt. Sie zahlt auf
+  Optionalitaet ein, nicht auf Erwartungswert.
+
+**Die Auswertungsregel hat sich sofort ausgezahlt.** Tapsoba, nach seiner 6,0
+an Spieltag 1 der naheliegendste Verkaufskandidat, holte 6 Punkte. Aleix Garcia
+sprang von 0 auf 10. Wer nach einem Spieltag getauscht haette, haette beide
+Erholungen verpasst und einen von vier Transfers verbrannt.
+
+Bester Mann erneut **Rieder mit 14** (nach 12) — 2,40 Mio, der Tausch gegen
+Claude-Maurice traegt weiter. **Lemperle 15** im ersten Spiel nach der Sperre.
+
+Varianz nur noch 4 Punkte zum Optimum (Vorwoche 12): Rondic haette als zweiter
+Stuermer 2 Punkte mehr gebracht als der vierte Mittelfeldplatz, ter Horst und
+Tapsoba waren nicht zu verbessern.
+
+**Kadereingriff von aussen:** Damjanovic (Leverkusen) und Kastanaras (Augsburg)
+sind aus der kicker-Liste verschwunden — beide 0,50-Mio-Bankspieler ohne eine
+Einsatzminute. Der Kader steht dadurch bei 20 Spielern mit nur 3 Stuermern.
