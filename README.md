@@ -50,7 +50,7 @@ engine/                 Produktive Module
   openligadb.py         OpenLigaDB-Client (Spielplan, Anstoß, Tore)
   squad.py              Kader-JSON laden + erwartete Punkte aus CSV
   status_editor.py      Interaktive Status-Pflege + Speichern je Spieltag
-  matchday_cli.py       PRODUKTIV: Spielplan+Kader+Status → Elf + Timeline
+  matchday_cli.py       abgeloest von der Web-App (/matchday); nutzt den Beispielkader
   anchor_model.py       ML-Anker-Modell (Referenz; Grenzen in CLAUDE.md)
 
 scripts/                Backtest & Analyse

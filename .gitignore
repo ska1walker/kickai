@@ -18,6 +18,9 @@ web/.env*.local
 # Laufzeit-Zustand des Punkte-Waechters (pollt im Minutentakt)
 data/scores-watch.json
 
+# graphify-Ausgabe (lokal erzeugt, nicht versioniert)
+graphify-out/
+
 # Harness / OS
 .claude/
 .DS_Store

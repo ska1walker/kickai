@@ -169,20 +169,44 @@ die Zahlen, aus denen spaeter echte Befunde werden duerfen.
 
 | Datei | Zweck | Status |
 |---|---|---|
-| `scoring.py` | Exakte kicker-Punktelogik (Note→Pkt, Tore, Karten…) | ✓ verifiziert |
+| `scoring.py` | Exakte kicker-Punktelogik (Note→Pkt, Tore, Karten…) | nur vom Backtest genutzt |
 | `data_loader.py` | Lädt kicker-CSV, Effizienz-Scanner, Preseason-Heuristik | ✓ läuft |
-| `matchday_optimizer.py` | Spieltags-Optimierer (Formation+Startelf nach Status) | ✓ läuft |
+| `matchday_optimizer.py` | Spieltags-Optimierer (Formation+Startelf nach Status) | **abgelöst** von `web/src/lib/engine/optimizer.ts` |
 | `clubs.py` | Vereins-Namensauflösung kicker ↔ OpenLigaDB (kanon. Codes) | ✓ läuft |
 | `openligadb.py` | OpenLigaDB-Client: Spielplan, Anstoßzeiten, Tore | ✓ läuft (live) |
-| `squad.py` | Lädt Kader-JSON, leitet erwartete Punkte aus CSV ab | ✓ läuft |
-| `status_editor.py` | Interaktive Status-Pflege + Speichern/Laden je Spieltag | ✓ läuft |
-| `matchday_cli.py` | **Produktives CLI**: Spielplan+Kader+Status → empfohlene Elf + Timeline | ✓ läuft (live) |
+| `squad.py` | Lädt Kader-JSON, leitet erwartete Punkte aus CSV ab | **abgelöst** (Kader liegt in Supabase) |
+| `status_editor.py` | Interaktive Status-Pflege + Speichern/Laden je Spieltag | **abgelöst** von `/matchday` |
+| `matchday_cli.py` | CLI: Spielplan+Kader+Status → empfohlene Elf + Timeline | **abgelöst** von `/matchday` (s. u.) |
 | `watch_scores.py` | **Punkte-Waechter**: pollt die Export-CSV, meldet die Freigabe | ✓ läuft (live) |
 | `anchor_model.py` | ML-Anker-Modell (R²=0.48, In-Sample) — Referenz, NICHT produktiv | ✓ (Grenze dokumentiert) |
 | `cross_season.py` | 4-Saison-Validierung + ehrlicher N→N+1-Out-of-Sample-Test | ✓ läuft (scripts/) |
 | `season.py`, `strategies.py`, `run_backtest.py`, `sensitivity.py` | Simulations-Backtest, der die Strategie über 40 Saisons prüfte | ✓ (im scripts/) |
 
-**Produktiver Aufruf** (Spieltag empfehlen, live von OpenLigaDB):
+### Der Python-CLI-Pfad ist NICHT mehr der produktive Weg
+
+Aufgedeckt am 07.09.2026 durch die graphify-Komponentenanalyse: Die Python-
+Engine und die Web-App sind zwei vollstaendig getrennte Graph-Komponenten ohne
+eine einzige verbindende Kante. Konkret heisst das:
+
+- `matchday_cli.py`, `matchday_optimizer.py`, `status_editor.py` und `squad.py`
+  wurden zuletzt am **01.07.2026** angefasst — vor dem Saisonstart. Sie lesen
+  `data/squad.example.json`, und darin steht noch der 25/26-Beispielkader
+  (Backhaus, Batz, Vuskovic), NICHT Kais echter Kader. Der liegt in Supabase.
+- Der wirkliche Wochenablauf laeuft komplett ueber die Web-App (`/matchday`)
+  plus Supabase. Die CLI wuerde eine veraltete Aufstellung ausgeben.
+- `scoring.py` wird ausschliesslich von `scripts/season.py`, `strategies.py`
+  und `sensitivity.py` importiert, also nur vom Simulations-Backtest. Die
+  Korrektur `ASSIST_POINTS = 2` ist sachlich richtig, wirkt aber NUR dort —
+  produktiv rechnet niemand Punkte aus Leistungsdaten. Die TS-Seite hat gar
+  keine Punktelogik, sie arbeitet mit erwarteten Saisonpunkten.
+
+Weiterhin produktiv sind nur `watch_scores.py` (Punkte-Waechter, 04.09.) und
+`build_pool.py` (Saisondaten-Bridge, 25.08.).
+
+Nicht loeschen: Der Backtest belegt Befund 5 und die CLI ist die Referenz-
+implementierung des Optimierers. Aber nichts davon im Wochenbetrieb erwarten.
+
+**Historischer CLI-Aufruf** (funktioniert, nutzt aber den Beispielkader):
 ```
 # interaktive Status-Pflege (bequem, empfohlen):
 .venv/bin/python engine/matchday_cli.py --squad data/squad.example.json \
