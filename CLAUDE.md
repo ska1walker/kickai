@@ -18,7 +18,19 @@ Optimierungsproblem, kein Fußball-Quiz.
   empirisch verifiziert; die frueher notierten +1 waren falsch), Zu-null-TW +2,
   Spieler des Spiels +3, Gelb-Rot −3, Rot −6.
 - Aufstellung bis zum jeweiligen Anpfiff änderbar (Mikromanagement-Fenster).
-- Nur 4 Transfers/Saison (1 nach Deadline Day, bis 4 in Winterpause).
+- **Transferfenster (verifiziert 07.09.2026 auf kicker.de):** Zum Saisonstart
+  offen bis Fr **28.08.2026 20:30**, dann zu. Danach gibt es normalerweise ein
+  kleines Deadline-Day-Fenster mit **1** Transfer — **in der Saison 26/27 fuer
+  die Bundesliga aber NICHT** (die WM 2026 hat den Saisonstart so weit nach
+  hinten geschoben, dass kicker das Fenster nur fuer 2./3. Liga oeffnet).
+  Naechste Wechselmoeglichkeit ist damit die **Winterpause mit bis zu 4
+  Transfers**. Zwischen 28.08. und der Winterpause ist der Kader EINGEFROREN.
+- **Verlaesst ein Spieler die Liga, gibt es KEINEN Ersatz und kein Geld
+  zurueck.** Er wird markiert und punktet nicht mehr; reagieren kann man erst
+  im Winterfenster. kicker haelt das bewusst so, damit niemand gezielt
+  Wechselkandidaten kauft, um Extra-Transfers zu bekommen.
+  → Konsequenz fuer den Kaderbau: Abwanderungsrisiko ist ein echter Kostenfaktor,
+  und Kadertiefe laesst sich unterjaehrig NICHT reparieren.
 
 ## Die gesicherten Befunde (aus echter 2025/26-Saison, 563 Spieler)
 

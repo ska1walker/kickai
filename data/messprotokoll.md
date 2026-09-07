@@ -81,3 +81,8 @@ Tapsoba waren nicht zu verbessern.
 **Kadereingriff von aussen:** Damjanovic (Leverkusen) und Kastanaras (Augsburg)
 sind aus der kicker-Liste verschwunden — beide 0,50-Mio-Bankspieler ohne eine
 Einsatzminute. Der Kader steht dadurch bei 20 Spielern mit nur 3 Stuermern.
+Nachbesetzen ist NICHT moeglich: kicker gibt fuer Liga-Abgaenger weder Ersatz
+noch Geld zurueck, und das naechste Transferfenster ist erst die Winterpause
+(26/27 faellt das Deadline-Day-Fenster fuer die Bundesliga aus). Der Kader ist
+bis dahin eingefroren — ab jetzt ist die woechentliche Aufstellung der EINZIGE
+verbleibende Hebel.
