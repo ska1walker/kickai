@@ -78,6 +78,29 @@ Varianz nur noch 4 Punkte zum Optimum (Vorwoche 12): Rondic haette als zweiter
 Stuermer 2 Punkte mehr gebracht als der vierte Mittelfeldplatz, ter Horst und
 Tapsoba waren nicht zu verbessern.
 
+**Quellen-Kalibrierung: 9 von 10** als gesetzt aufgestellten Spielern standen
+wirklich in der Startelf (Spieltag 1: 10 von 11). Die eine Fehlprognose:
+
+**da Costa.** Stefan Posch hat ihn bei Mainz aus der Startelf verdraengt; er kam
+erst in der 81. Minute fuer Caci, daher genau +2 fuer die Einwechslung und keine
+Note. Das war keine Tagesform-Rotation — Mainz fehlten Zentner, Widmer UND Kohr,
+und er stand trotzdem draussen. Das spricht fuer eine neue Rangordnung.
+
+Der Fehler war vermeidbar: Dieselbe ligainsider-Recherche, die da Costa in der
+Elf listete, enthielt den Satz, dass Mainz Posch zurueckgeholt hat und ihn als
+gesetzt sieht. **Beide Namen standen in einer Viererkette, in der nur einer Platz
+hat.** Daraus die Regel fuer den Donnerstagslauf: stehen zwei Kandidaten fuer
+dieselbe Position in einer prognostizierten Kette, ist mindestens einer falsch.
+
+Gekostet hat die Fehlprognose diesmal **nichts**: da Costa +2, Lemke +2 (ebenfalls
+nur eingewechselt), Schmetgens +2 (Startelf, Note 4,0). Alle drei Verteidiger
+lieferten identisch. Auch die neue Gleichstandsregel bestaetigt sich nebenbei —
+ter Horst stand in der Startelf, Lemke wurde nur eingewechselt.
+
+Konsequenz fuer Spieltag 3: da Costa steht auf `doubt`, bis ihn eine Aufstellung
+wieder in der Elf zeigt. Transferieren ist nicht moeglich, der Kader ist bis zur
+Winterpause eingefroren.
+
 **Kadereingriff von aussen:** Damjanovic (Leverkusen) und Kastanaras (Augsburg)
 sind aus der kicker-Liste verschwunden — beide 0,50-Mio-Bankspieler ohne eine
 Einsatzminute. Der Kader steht dadurch bei 20 Spielern mit nur 3 Stuermern.
