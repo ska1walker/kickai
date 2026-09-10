@@ -1,12 +1,25 @@
-# Zweiter täglicher News-Sammellauf (abends) — ergänzt den Vercel-Cron (06:00).
-# Morgens + abends sammeln = doppelte Abdeckung des Nachrichtentags; der
-# dedup_key in news_log verhindert Dubletten. Läuft über GitHub Actions, weil
-# der Vercel-Hobby-Plan nur tägliche Crons erlaubt (beide Slots sind belegt).
+# WÖCHENTLICHER News-Sammellauf. Seit 10.09.2026 der EINZIGE — der
+# Vercel-Cron (06:00 täglich) wurde entfernt.
+#
+# Warum wöchentlich statt 2x täglich: Gemessen an 983 gesammelten Meldungen
+# betrafen nur 23 einen Kaderspieler, und davon 16 die Kaderbau-Woche im
+# August. Seit der Kader am 28.08. eingefroren ist, kamen 7 relevante
+# Meldungen in zwei Wochen — bei ~28 Läufen. Keine einzige Entscheidung
+# dieser Wochen stützte sich auf das Archiv; die tragenden Fakten kamen
+# alle aus der Live-Recherche der Donnerstags-/Freitagsläufe.
+#
+# Das Archiv bleibt trotzdem, weil es in der WINTERPAUSE wieder gebraucht
+# wird: vier Transfers, und dafür wochenlange Belege über Einsatzzeiten
+# billiger Spieler. Ein Archiv lässt sich nicht rückwirkend anlegen.
+# → Ab Anfang Dezember wieder hochdrehen (siehe CLAUDE.md).
+#
+# Dienstag gewählt: die Nachbetrachtungen zum Spieltag sind draußen, und es
+# liegt vor dem Donnerstags-Kontrolllauf.
 name: collect-news-evening
 
 on:
   schedule:
-    - cron: "0 17 * * *" # täglich 17:00 UTC (≈ 18/19 Uhr DE)
+    - cron: "0 17 * * 2" # dienstags 17:00 UTC (≈ 18/19 Uhr DE)
   workflow_dispatch: {}
 
 jobs:

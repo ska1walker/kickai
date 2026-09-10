@@ -245,13 +245,40 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    (Start/Tore/Karten/Zu-null sind deterministisch, nur Note und Spieler des
    Spiels fehlen). Englische Wochen brauchen einen zweiten Cron-Slot.
 
-3. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
+3. **News-Sammler laeuft seit 10.09.2026 nur noch WOECHENTLICH** (GitHub-Action
+   dienstags 17:00 UTC; der taegliche Vercel-Cron wurde entfernt, dort laeuft
+   nur noch der Supabase-Keepalive).
+
+   Grund, gemessen: Von 983 gesammelten Meldungen betrafen **23 einen
+   Kaderspieler** (2,3 %), davon **16 die Kaderbau-Woche im August**. Seit der
+   Kader am 28.08. eingefroren ist, kamen **7 relevante Meldungen in zwei
+   Wochen** — bei ~28 Laeufen und ~49 $. Und **keine einzige Entscheidung
+   dieser Wochen stuetzte sich auf das Archiv**: da Costas Verdraengung durch
+   Posch, Kramarics Rueckkehr in die Elf und El Malas Erkaeltung kamen alle
+   aus der Live-Recherche der Donnerstags-/Freitagslaeufe.
+
+   Das Archiv wird trotzdem behalten, weil es genau eine Phase gut bedient:
+   den Kaderbau. Genau die kommt in der **Winterpause** wieder (4 Transfers,
+   und dafuer wochenlange Belege ueber Einsatzzeiten billiger Spieler). Ein
+   Archiv laesst sich nicht rueckwirkend anlegen.
+
+   **→ ANFANG DEZEMBER wieder auf taeglich hochdrehen**, damit bis zum
+   Winterfenster genug Material da ist. Cron in
+   `.github/workflows/collect-news-evening.yml` von `0 17 * * 2` auf
+   `0 17 * * *` zuruecksetzen.
+
+   Arbeitsteilung, die sich bewaehrt hat: **Live-Recherche in den
+   Kontrolllaeufen fuer die Woche, Archiv auf dem Server fuer den Winter.**
+   Eine Claude-Code-Routine als Sammler waere billiger, aber sie laeuft nur
+   bei offener App — eine Luecke im Archiv waere still und nicht nachholbar.
+
+4. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
    - football-data.org (Free-Key) — echte Aufstellungen/Einwechslungen nach
      Anpfiff (für Rückschau/Kalibrierung von exp_points).
    - Voraussichtliche Elf vor Anpfiff: ligainsider-News (Kai-Tipp) manuell in
      die Status-JSON. Keine kicker+-Paywall scrapen.
 
-4. **Next.js 15 + Supabase + Vercel App** — **SCAFFOLD STEHT** (`web/`):
+5. **Next.js 15 + Supabase + Vercel App** — **SCAFFOLD STEHT** (`web/`):
    - Engine nach TypeScript portiert (`web/src/lib/engine/*`); Optimierer
      liefert identisches Ergebnis wie Python (4-4-2, 78,4 Pkt im Demo-Test).
    - Seiten: `/` Übersicht, `/matchday` (Kernwerkzeug: Status-Buttons + Live-
@@ -267,7 +294,7 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    OFFEN: Vercel-Deploy + Supabase Frankfurt provisionieren, CSV-Import-UI für
    neue Saison, Auth für Mehrbenutzer (statt anon-Policy).
 
-5. ~~Für den Kaderbau 26/27~~ **ERLEDIGT (8. Aug 2026):** `se-k00012026`
+6. ~~Für den Kaderbau 26/27~~ **ERLEDIGT (8. Aug 2026):** `se-k00012026`
    gezogen (549 Spieler, 0 unaufgelöste Vereine), Bridge gelaufen
    (`--preseason --reference 2025`: 361 mit Historie inkl. 7 Rückkehrer über
    die kicker-Vorbefüllung, 188 ohne → Scout/News), Aufsteiger in
@@ -278,7 +305,7 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    die Supabase-MCP hat KEINEN Zugriff auf das kickai-Projekt), dann echten
    26/27-Kader über /aufbau + /squad bauen.
 
-6. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
+7. ~~Vorsaison→Folgesaison-ML~~ **ERLEDIGT** (`cross_season.py`): 4 Saisons da,
    Test gemacht. Ergebnis: statisches ML hebt den globalen Forecast leicht
    (R²→0.42), löst aber den billigen-Anker-Fund nicht (10/35). Kein weiterer
    ML-Aufwand vor echten Minuten/Stammplatz-Daten sinnvoll.
