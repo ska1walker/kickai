@@ -12,7 +12,8 @@ import bundled2025 from "@/lib/data/players-2025.json";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
+// Sonnet 5 statt Opus 4.8 (2$/10$ statt 5$/25$ je MTok).
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
 
 const DEFAULT_DOMAINS = [
   "kicker.de",
@@ -32,7 +33,9 @@ const ENV_DOMAINS = (process.env.TIERS_ALLOWED_DOMAINS || "")
 const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
 function webSearchTool(maxUses: number, domains: string[]) {
-  const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
+  // "sonnet-5" muss hier stehen, sonst faellt der Modellwechsel still auf
+  // die alte Websuch-Version zurueck.
+  const modern = /^claude-(opus-[45]|sonnet-5|sonnet-4-6|fable-)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
@@ -135,6 +138,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
+        cache_control: { type: "ephemeral" as const },
         system: SYSTEM(DOMAINS),
         tools,
         messages,
@@ -144,6 +148,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
+        cache_control: { type: "ephemeral" as const },
         system: SYSTEM(DOMAINS),
         tools,
         messages,
@@ -155,6 +160,7 @@ export async function POST(req: NextRequest) {
       response = await client.messages.create({
         model: MODEL,
         max_tokens: 6000,
+        cache_control: { type: "ephemeral" as const },
         system: SYSTEM(DOMAINS),
         tools,
         messages,

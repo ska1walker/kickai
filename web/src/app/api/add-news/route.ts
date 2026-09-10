@@ -13,7 +13,8 @@ import { DURABLE_TYPES, type NewsType } from "@/lib/news";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
+// Sonnet 5 statt Opus 4.8 (2$/10$ statt 5$/25$ je MTok).
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
 
 const TYPES: NewsType[] = [
   "transfer_in",
@@ -106,6 +107,7 @@ export async function POST(req: NextRequest) {
     response = await client.messages.create({
       model: MODEL,
       max_tokens: 4000,
+        cache_control: { type: "ephemeral" as const },
       system: SYSTEM,
       tools: [REPORT_TOOL],
       tool_choice: { type: "tool", name: "report_news" },

@@ -9,14 +9,17 @@ import { loadAllowedDomains } from "@/lib/sources";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
+// Sonnet 5 statt Opus 4.8 (2$/10$ statt 5$/25$ je MTok).
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
 
 const DEFAULT_DOMAINS = ["kicker.de", "ligainsider.de", "fussballdaten.de", "bundesliga.com", "spox.com", "sport.de"];
 const ENV_DOMAINS = (process.env.SETPIECE_ALLOWED_DOMAINS || "").split(",").map((d) => d.trim()).filter(Boolean);
 const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
 function webSearchTool(domains: string[]) {
-  const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
+  // "sonnet-5" muss hier stehen, sonst faellt der Modellwechsel still auf
+  // die alte Websuch-Version zurueck.
+  const modern = /^claude-(opus-[45]|sonnet-5|sonnet-4-6|fable-)/.test(MODEL);
   return { type: modern ? "web_search_20260209" : "web_search_20250305", name: "web_search", max_uses: 12, allowed_domains: domains };
 }
 
@@ -73,15 +76,15 @@ export async function POST(req: NextRequest) {
   try {
     let response;
     try {
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, cache_control: { type: "ephemeral" as const }, system: SYSTEM(DOMAINS), tools, messages });
     } catch (e) {
       if (!pruneBlockedDomains(tools, e)) throw e;
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, cache_control: { type: "ephemeral" as const }, system: SYSTEM(DOMAINS), tools, messages });
     }
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {
       messages.push({ role: "assistant", content: response.content });
-      response = await client.messages.create({ model: MODEL, max_tokens: 6000, system: SYSTEM(DOMAINS), tools, messages });
+      response = await client.messages.create({ model: MODEL, max_tokens: 6000, cache_control: { type: "ephemeral" as const }, system: SYSTEM(DOMAINS), tools, messages });
     }
     const block = response.content.find((b) => b.type === "tool_use" && b.name === "report_takers");
     if (!block || block.type !== "tool_use") return NextResponse.json({ takers: [], model: MODEL });

@@ -13,7 +13,10 @@ import { loadAllowedDomains } from "@/lib/sources";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
+// Sonnet 5 statt Opus 4.8: 2$/10$ je MTok statt 5$/25$. Die Aufgabe ist
+// "strukturiere gefundene Meldungen", nicht schwieriges Schlussfolgern —
+// dafuer reicht Sonnet, und der Sammler laeuft taeglich.
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
 
 // Breite Quellenliste — robots.txt-geprobt (Juli 2026). Sollte die Such-API eine
 // Domain doch ablehnen, entfernt das Self-Healing (pruneBlockedDomains) sie
@@ -39,7 +42,10 @@ const ENV_DOMAINS = (process.env.NEWS_COLLECT_ALLOWED_DOMAINS || "")
 const FALLBACK_DOMAINS = ENV_DOMAINS.length ? ENV_DOMAINS : DEFAULT_DOMAINS;
 
 function webSearchTool(domains: string[]) {
-  const modern = /^claude-(opus-4|sonnet-4-6)/.test(MODEL);
+  // Die neue Websuche (dynamische Filterung) koennen Opus 4.6+, Sonnet 4.6
+  // und Sonnet 5. ACHTUNG: "sonnet-5" muss hier stehen, sonst faellt der
+  // Modellwechsel still auf die alte Tool-Version zurueck.
+  const modern = /^claude-(opus-[45]|sonnet-5|sonnet-4-6|fable-)/.test(MODEL);
   return {
     type: modern ? "web_search_20260209" : "web_search_20250305",
     name: "web_search",
@@ -187,13 +193,34 @@ export async function GET(req: NextRequest) {
         `HEUTIGER SCHWERPUNKT (zusätzlich zu den Top-Meldungen besonders gründlich): ${focus}.`,
     },
   ];
+  // Prompt-Caching: System-Prompt, Tool-Definitionen und die bereits
+  // gelaufenen pause_turn-Runden sind ein stabiler Prefix — ohne
+  // cache_control wird er bei JEDER Runde voll bezahlt. Das Top-Level-Feld
+  // setzt den Breakpoint automatisch ans Ende des cachebaren Teils, was bei
+  // einer waehrend des Laufs wachsenden Konversation genau passt.
   const baseParams = () => ({
     model: MODEL,
     max_tokens: 8000,
+    cache_control: { type: "ephemeral" as const },
     system: SYSTEM(DOMAINS),
     tools,
     messages,
   });
+
+  // Ohne Messung war nicht sichtbar, was ein Lauf kostet — bis das Guthaben
+  // leer war. Wird mitgezaehlt und in der Antwort zurueckgegeben.
+  const cost = { calls: 0, in: 0, out: 0, cacheWrite: 0, cacheRead: 0, searches: 0 };
+  const track = (r: Anthropic.Message) => {
+    const u = r.usage as Anthropic.Usage & {
+      server_tool_use?: { web_search_requests?: number };
+    };
+    cost.calls += 1;
+    cost.in += u.input_tokens ?? 0;
+    cost.out += u.output_tokens ?? 0;
+    cost.cacheWrite += u.cache_creation_input_tokens ?? 0;
+    cost.cacheRead += u.cache_read_input_tokens ?? 0;
+    cost.searches += u.server_tool_use?.web_search_requests ?? 0;
+  };
 
   try {
     let response;
@@ -204,16 +231,12 @@ export async function GET(req: NextRequest) {
       if (!pruneBlockedDomains(tools, e)) throw e;
       response = await client.messages.create(baseParams());
     }
+    track(response);
     let guard = 0;
     while (response.stop_reason === "pause_turn" && guard++ < 6) {
       messages.push({ role: "assistant", content: response.content });
-      response = await client.messages.create({
-        model: MODEL,
-        max_tokens: 8000,
-        system: SYSTEM(DOMAINS),
-        tools,
-        messages,
-      });
+      response = await client.messages.create(baseParams());
+      track(response);
     }
 
     const block = response.content.find(
@@ -284,7 +307,18 @@ export async function GET(req: NextRequest) {
     if (error) {
       return NextResponse.json({ error: `DB: ${error.message}` }, { status: 502 });
     }
-    return NextResponse.json({ inserted: count ?? rows.length, model: MODEL });
+    const usd =
+      (cost.in * 2 + cost.cacheWrite * 2.5 + cost.cacheRead * 0.2 + cost.out * 10) / 1e6 +
+      cost.searches * 0.01;
+    console.log(
+      `[collect-news] ${cost.calls} Calls · in ${cost.in} · cacheW ${cost.cacheWrite} ` +
+        `· cacheR ${cost.cacheRead} · out ${cost.out} · ${cost.searches} Suchen · ~$${usd.toFixed(3)}`,
+    );
+    return NextResponse.json({
+      inserted: count ?? rows.length,
+      model: MODEL,
+      cost: { ...cost, usd: Number(usd.toFixed(3)) },
+    });
   } catch (e) {
     const err = e as { status?: number; message?: string };
     return NextResponse.json(
