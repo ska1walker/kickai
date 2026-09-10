@@ -45,10 +45,16 @@ export async function saveStatus(
   map: StatusMap,
 ): Promise<void> {
   if (supabaseEnabled && supabase) {
+    // updated_at explizit setzen: der Spalten-Default greift nur beim INSERT,
+    // beim Upsert auf eine bestehende Zeile bliebe der alte Wert stehen — und
+    // die Freitags-Kontrolle liest genau dieses Feld, um zu erkennen, ob der
+    // Donnerstagslauf ueberhaupt geschrieben hat.
+    const now = new Date().toISOString();
     const rows = Object.entries(map).map(([player_id, status]) => ({
       season,
       matchday: md,
       player_id,
+      updated_at: now,
       status,
     }));
     if (rows.length) await supabase.from("matchday_status").upsert(rows);
