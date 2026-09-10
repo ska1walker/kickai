@@ -127,16 +127,34 @@ function buildSignals(rows: NewsItem[]): NewsSignals {
   return { players, byClub, count: rows.length };
 }
 
-/** Namensabgleich zwischen Pool und News. Zwei Fallstricke:
+/** Namensabgleich zwischen Pool und News.
+ *
+ *  Der sicherste Pfad ist die EXAKTE Gleichheit der Nachnamen — sie kennt
+ *  weder falsch-positive noch falsch-negative Treffer und braucht deshalb nur
+ *  eine niedrige Mindestlänge. Der Teilstring-Pfad ist der gefährliche; er ist
+ *  auf mehrteilige Poolnamen beschränkt.
+ *
+ *  Drei Fallstricke, alle an echten Fällen aufgetreten:
  *  1. Der Pool kürzt Vornamen ab ("A. Millgramm"), die News schreibt sie aus
  *     ("Albert Millgramm") — normalisiert ergibt das "amillgramm" vs
- *     "albertmillgramm", also KEINEN Teilstring-Treffer. Deshalb wird
- *     zusätzlich der Nachname allein verglichen.
+ *     "albertmillgramm", also keinen Teilstring-Treffer. Der Nachnamen-
+ *     Vergleich fängt das ab.
  *  2. Zu kurze Namen dürfen nicht per Teilstring greifen, sonst matchte der
  *     Frankfurter „Is" auf „Kristof".
+ *  3. Ein einteiliger Poolname darf NICHT als Teilstring irgendwo im
+ *     News-Namen zünden: „Nicolas" (Gladbachs Torwart) traf so auf „Nicolas
+ *     Kühn", einen ganz anderen Spieler, und hätte dessen Meldungen geerbt.
+ *     Umgekehrt blieben „Raum" (4 Zeichen) und „S. El Mala" (Nachname „mala",
+ *     ebenfalls 4) unter der alten Mindestlänge von 5 komplett unsichtbar —
+ *     zwei Stammspieler, deren News nie ankamen. El Malas Ausfall zum
+ *     2. Spieltag musste deshalb von Hand gefunden werden.
+ *
  *  Wichtig: hier kommen bereits normalisierte Strings an, der Nachname wird
  *  deshalb vor dem Normalisieren extrahiert (siehe lastName). */
 const MIN_SUBSTRING = 5;
+/** Für die EXAKTE Nachnamen-Gleichheit reicht weniger — sie kann nicht
+ *  versehentlich in einen längeren Namen hineinrutschen. */
+const MIN_LASTNAME = 3;
 function matches(a: string, b: string): boolean {
   if (a === b) return true;
   const shorter = a.length <= b.length ? a : b;
@@ -150,12 +168,24 @@ export function lastName(s: string): string {
   return norm(parts[parts.length - 1] ?? s);
 }
 
-/** Treffer, wenn die vollen Namen ODER die Nachnamen zusammenpassen. */
+/** Anzahl echter Namensteile (abgekürzte Vornamen wie "A." zählen nicht). */
+function nameParts(s: string): number {
+  return s.trim().split(/\s+/).filter((t) => !/^[A-Za-zÄÖÜäöü]\.$/.test(t)).length;
+}
+
+/** Treffer, wenn die vollen Namen gleich sind, die Nachnamen exakt
+ *  übereinstimmen — oder, nur bei mehrteiligen Poolnamen, ein Teilstring passt. */
 function namesMatch(poolName: string, newsName: string): boolean {
-  if (matches(norm(poolName), norm(newsName))) return true;
-  const a = lastName(poolName);
-  const b = lastName(newsName);
-  return a.length >= MIN_SUBSTRING && a === b;
+  const a = norm(poolName);
+  const b = norm(newsName);
+  if (a === b) return true;
+  const la = lastName(poolName);
+  const lb = lastName(newsName);
+  if (la.length >= MIN_LASTNAME && la === lb) return true;
+  // Einteiliger Poolname: NUR über den Nachnamen, sonst erbt "Nicolas" die
+  // Meldungen von "Nicolas Kühn".
+  if (nameParts(poolName) < 2) return false;
+  return matches(a, b);
 }
 
 /** Aggregiertes Signal + Notizen für einen Poolspieler (Namens-Matching). */
