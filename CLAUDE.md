@@ -232,7 +232,8 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
 
 2. **Punkte nach dem Spieltag**: `engine/watch_scores.py` pollt die offene
    Export-CSV und meldet per Push, sobald kicker die Punktespalte befüllt
-   (Scheduled Task `kicker-punkte-waechter`, montags 07:04–12:49 alle 15 min).
+   (Scheduled Task `kicker-punkte-waechter`, montags 10:04–12:49 alle 15 min;
+   seit 14.09.2026 — vorher ab 07:04, beobachtete Freigaben lagen bei 09:35 und 11:06).
    Exit 0 = neu da, 20 = schon gemeldet, 10 = leer, 1 = Abruffehler; nur die 0
    benachrichtigt. `--history` zeigt die beobachteten Freigabezeiten — nach ein
    paar Spieltagen lässt sich der Takt darauf verengen. ACHTUNG: kicker setzt
