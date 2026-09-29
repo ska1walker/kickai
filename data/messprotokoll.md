@@ -25,6 +25,7 @@ Wochenpflege, *+ Woche → Optimum* ist Varianz und Glueck.
 |---:|---:|---:|---:|---:|---:|---:|---:|
 | 1 | 44 | 56 | **58** | 70 | **+12** | **+2** | 12 |
 | 2 | 59 | 59 | **61** | 65 | — | **+2** | 4 |
+| 3+4 | — | — | **80** (zusammen, Ø 40) | — | — | — | — |
 
 ## Notizen je Spieltag
 
@@ -109,3 +110,51 @@ noch Geld zurueck, und das naechste Transferfenster ist erst die Winterpause
 (26/27 faellt das Deadline-Day-Fenster fuer die Bundesliga aus). Der Kader ist
 bis dahin eingefroren — ab jetzt ist die woechentliche Aufstellung der EINZIGE
 verbleibende Hebel.
+
+### Spieltag 3 und 4 (12.–20.09.2026) — nur zusammen auswertbar
+
+**Luecke, und zwar meine.** Beide Spieltage wurden nie ausgewertet, und sie
+lassen sich nicht mehr trennen: Der Punkte-Waechter speicherte nur die
+Liga-Summe je Freigabe, keine Spielerwerte. Rekonstruierbar ist deshalb nur
+die Differenz zum Stand nach Spieltag 2.
+
+Behoben am 29.09.2026: `watch_scores.py` schreibt bei jeder Freigabe einen
+vollstaendigen Abzug nach `data/punkte/<saison>-<zeit>.json` (Punkte und Note
+aller Spieler). Ab Spieltag 5 ist die Trennung damit wieder moeglich; ein
+Basis-Abzug vom Stand nach Spieltag 4 liegt vor.
+
+**Ergebnis: 80 Punkte in zwei Spieltagen, also Ø 40.**
+Nach 58 (ST1) und 61 (ST2) ist das ein deutlicher Einbruch. Die aufgestellte
+Elf war an beiden Spieltagen personell identisch.
+
+| | Pkt (ST3+4) | |
+|---|---|---|
+| Tapsoba | +18 | |
+| Rieder | +16 | traegt weiter |
+| **da Costa** | **+13** | **auf unserer Bank** |
+| Aleix Garcia | +12 | |
+| Raum | +10 | |
+| ter Horst | +8 | |
+| Coufal / El Mala | je +6 | |
+| Kramaric / Lemperle | je +4 | |
+| Nicolas | **0** | |
+| R. Khedira | **−4** | |
+
+Auf der Bank lagen zusammen **19 Punkte** (da Costa 13, Schmetgens 4, Lemke 2).
+
+**Nicolas, 0 Punkte in zwei Spielen.** Nicht verletzt — er spielte beide Male,
+aber Gladbach kassierte 0:5 gegen Freiburg und 3:4 gegen Mainz. Bei Note ~4,5
+je Spiel bleibt exakt der Startbonus uebrig. Dazu ein Trainerwechsel: unter
+Blessin wurde Nicolas zwischenzeitlich geschont. Er ist mit 3,00 Mio der
+zweitteuerste Spieler im Kader und liefert derzeit am wenigsten.
+→ Kandidat Nr. 1 fuer die Winterpause.
+
+**da Costa bleibt trotz der 13 Punkte zu Recht auf der Bank.** Fuer Spieltag 5
+steht er NICHT in Mainz' voraussichtlicher Elf; Posch spielt rechts, und
+da Costa hat oeffentlich zu seiner "neuen Joker-Rolle" Stellung genommen. Die
+Punkte kamen aus Einwechslungen und einem starken Schnitt (Note 2,83), nicht
+aus einem zurueckeroberten Stammplatz.
+
+**Khedira** verlor auswaerts in Muenchen (0:7 fuer Union an ST4). Er steht fuer
+Spieltag 5 weiter in der Startelf; kein Handlungsbedarf, aber sein Wert haengt
+stark am Gegner.

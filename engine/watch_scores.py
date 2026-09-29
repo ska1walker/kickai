@@ -20,6 +20,7 @@ Aufruf:
 
 Exit-Codes, damit ein Scheduler ohne eigene Logik entscheiden kann:
     0  = Punkte sind NEU da (Liga-Summe hat sich geaendert) -> benachrichtigen
+         (schreibt dabei einen Spieler-Abzug nach data/punkte/)
     20 = Punkte da, aber schon gemeldet -> still bleiben
     10 = noch leer -> still bleiben
     1  = Netz-/Abruffehler -> still bleiben (kein Befund)
@@ -39,6 +40,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE = ROOT / "data" / "scores-watch.json"
+# Je Freigabe ein Abzug der Spielerpunkte. Ohne den laesst sich spaeter nicht
+# mehr rekonstruieren, welcher Spieler an WELCHEM Spieltag was geholt hat —
+# die Liga-Summe allein reicht nicht. Genau daran sind Spieltag 3 und 4 der
+# Saison 26/27 gescheitert: nur noch als Summe ueber beide auswertbar.
+SNAPDIR = ROOT / "data" / "punkte"
 # ACHTUNG: der Host braucht das www., sonst NXDOMAIN. Die Zahl ist das
 # Saison-STARTjahr: se-k00012026 = Saison 2026/27.
 CSV_URL = "https://www.kicker-libero.de/api/sportsdata/v1/players-details/se-k0001{season}.csv"
@@ -86,6 +92,24 @@ def total(rows: list[dict]) -> int:
         except (ValueError, KeyError):
             continue
     return s
+
+
+def save_snapshot(season: int, stamp: datetime, rows: list[dict]) -> Path:
+    """Friert Punkte und Note aller Spieler zum Freigabezeitpunkt ein."""
+    SNAPDIR.mkdir(parents=True, exist_ok=True)
+    out = SNAPDIR / f"{season}-{stamp:%Y%m%d-%H%M}.json"
+    data = {}
+    for r in rows:
+        try:
+            data[r["ID"]] = {
+                "name": r.get("Angezeigter Name", ""),
+                "pkt": int(r["Punkte"]),
+                "note": float(r["Notendurchschnitt"] or 0),
+            }
+        except (ValueError, KeyError):
+            continue
+    out.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n")
+    return out
 
 
 def load_state(season: int) -> tuple[dict, dict]:
@@ -213,6 +237,8 @@ def main() -> int:
     vorher = state.get("last_total")
     first = vorher is None or summe != vorher
     if first:
+        snap = save_snapshot(args.season, stamp, rows)
+        print(f"  Abzug gesichert: {snap.relative_to(ROOT)}")
         state["arrivals"].append(
             {
                 "at": stamp.isoformat(timespec="seconds"),
