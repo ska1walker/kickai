@@ -26,9 +26,17 @@ Arbeitsverzeichnis fuer alle Befehle: `web/`. Jeder `npx tsx`-Aufruf mit
       voraussichtliche Elf jedes Vereins mit Kaderspielern direkt von
       ligainsider.de und markiert, wer IN der Prognose steht. Das ist die
       Hauptquelle (ligainsider fuehrt das Treffer-Ranking der Prognosen an).
-   2. Gegencheck mit dem Comunio-Magazin: `curl -sA Mozilla/5.0` auf
-      magazin.comunio.de bzw. Websuche "<Heim> <Gast> voraussichtliche
-      Aufstellungen comunio" — dort stehen auch Ausfaelle und Alternativen.
+   2. `python3 ../scripts/comunio.py` — Gegencheck aus dem Comunio-Magazin
+      (Vorschau-Artikel der letzten 6 Tage): je Kaderspieler Startelf /
+      Alternative in Klammern / fehlt / angeschlagen / als Option genannt.
+      Dort stehen auch Ausfaelle und Angeschlagene, die ligainsider nicht zeigt.
+      **Abgleich der beiden Quellen:**
+      - beide Startelf → `start`
+      - beide nicht in der Elf → `bench` (bei "fehlt"/"angeschlagen" → `out`
+        bzw. `doubt`)
+      - Quellen widersprechen sich, "Alternative in Klammern" oder "Platz
+        umkaempft" → `doubt`
+      - Fehlt fuer einen Verein ein Comunio-Artikel, gilt ligainsider allein.
    3. Websuche nur noch als Ergaenzung (Verletzungen kurz vor dem Spiel).
       bundesliga.com sperrt automatisierte Abrufe, kicker.de ebenso (403).
    Nur Meldungen zu DIESEM Spieltag verwenden — Datum pruefen.
