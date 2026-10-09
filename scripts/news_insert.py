@@ -17,6 +17,7 @@ Umgebung an (Secret "Supabase kickai"); ausserhalb davon wird er aus
 NEXT_PUBLIC_SUPABASE_ANON_KEY gelesen, falls gesetzt.
 
     python3 scripts/news_insert.py --squad          # Kader ausgeben (Fokusliste)
+    python3 scripts/news_insert.py --kader-report   # Kader × Meldungen der letzten 8 Tage
     python3 scripts/news_insert.py --check          # Eintraege der letzten 8 Tage
     python3 scripts/news_insert.py items.json       # schreiben
     python3 scripts/news_insert.py items.json --dry-run
@@ -108,18 +109,64 @@ def to_row(item: dict, today: str) -> dict | None:
     }
 
 
+def _fold(s: str) -> str:
+    s = unicodedata.normalize("NFKD", s or "")
+    return "".join(c for c in s if not unicodedata.combining(c)).lower()
+
+
+def _surname(name: str) -> str:
+    """'S. El Mala' → 'el mala', 'Aleix Garcia' → 'garcia', 'Raum' → 'raum'."""
+    parts = [p for p in _fold(name).split() if not p.endswith(".")]
+    if len(parts) >= 2 and parts[-2] in {"el", "da", "de", "ter", "van", "von"}:
+        return " ".join(parts[-2:])
+    return parts[-1] if parts else ""
+
+
+def kader_report() -> None:
+    """Je Kaderspieler die Meldungen der letzten 8 Tage — deterministisch.
+
+    Die Routine soll ihre Zusammenfassung NICHT selbst gegen den Kader
+    abgleichen (am 09.10. hat sie Schmetgens als Nicht-Kaderspieler
+    bezeichnet), sondern diesen Block uebernehmen. Treffer: Nachname im
+    Spielerfeld, oder Nachname im Text bei gleichem Verein.
+    """
+    _, squad, _ = _request("GET", "/squad_players?select=name,club,position&order=position")
+    since = (dt.date.today() - dt.timedelta(days=8)).isoformat()
+    _, news, _ = _request(
+        "GET", f"/news_log?select=club,player,type,summary&news_date=gte.{since}"
+               "&order=impact.desc")
+    order = {"TW": 0, "ABW": 1, "MF": 2, "ST": 3}
+    print(f"KADER × MELDUNGEN (seit {since}, {len(squad)} Spieler)")
+    for p in sorted(squad, key=lambda r: (order.get(r["position"], 9), r["name"])):
+        sn = _surname(p["name"])
+        hits = [n for n in news
+                if sn and (sn in _fold(n.get("player") or "")
+                           or (n.get("club") == p["club"] and re.search(
+                               rf"\b{re.escape(sn)}\b", _fold(n["summary"]))))]
+        head = f"{p['position']:3} {p['name']} ({p['club']})"
+        if not hits:
+            print(f"{head}: keine Meldung")
+        for i, n in enumerate(hits):
+            print(f"{head if i == 0 else ' ' * len(head)}: [{n['type']}] {n['summary']}")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("file", nargs="?", help="JSON-Datei mit den Meldungen")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--squad", action="store_true", help="Kader ausgeben")
     ap.add_argument("--check", action="store_true", help="Eintraege der letzten 8 Tage")
+    ap.add_argument("--kader-report", action="store_true",
+                    help="Kader × Meldungen der letzten 8 Tage")
     a = ap.parse_args()
 
     if a.squad:
         _, rows, _ = _request("GET", "/squad_players?select=name,club,position&order=position")
         for r in rows:
             print(f"{r['position']:3} {r['name']} ({r['club']})")
+        return
+    if a.kader_report:
+        kader_report()
         return
     if a.check:
         since = (dt.date.today() - dt.timedelta(days=8)).isoformat()
