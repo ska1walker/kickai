@@ -17,9 +17,11 @@
 # liegt vor dem Donnerstags-Kontrolllauf.
 name: collect-news-evening
 
+# SEIT 09.10.2026 KEIN ZEITPLAN MEHR: Hauptweg ist die Claude-Code-Routine
+# "News-Sammler" (scripts/news_routine.md + scripts/news_insert.py), die ueber
+# das Claude-Abo statt ueber API-Guthaben laeuft. Diese Action bleibt als
+# manueller Ersatz (Actions → Run workflow), z. B. wenn die Routine ausfaellt.
 on:
-  schedule:
-    - cron: "0 17 * * 2" # dienstags 17:00 UTC (≈ 18/19 Uhr DE)
   workflow_dispatch: {}
 
 # Fehlerhinweis (seit 09.10.2026): Vom 08.09. bis 06.10. schlug JEDER Lauf

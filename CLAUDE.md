@@ -246,9 +246,16 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    (Start/Tore/Karten/Zu-null sind deterministisch, nur Note und Spieler des
    Spiels fehlen). Englische Wochen brauchen einen zweiten Cron-Slot.
 
-3. **News-Sammler soll seit 10.09.2026 nur noch WOECHENTLICH laufen** (stand bis 09.10. komplett, s. AUSFALL unten) (GitHub-Action
-   dienstags 17:00 UTC; der taegliche Vercel-Cron wurde entfernt, dort laeuft
-   nur noch der Supabase-Keepalive).
+3. **News-Sammler laeuft seit 09.10.2026 als CLAUDE-CODE-ROUTINE** (Cloud,
+   woechentlich dienstags ~19 Uhr; ueber das Claude-Abo, kein API-Guthaben).
+   Ablauf in `scripts/news_routine.md`, Schreiben per `scripts/news_insert.py`
+   (gleiche Regeln wie die Route: Vereins-Codes, dedup_key-Upsert, Impact-
+   Leitplanken). Die Routine laeuft in der Cloud-Umgebung, die Supabase ueber
+   das Proxy-Secret "Supabase kickai" erreicht — keine offene App noetig.
+   Fehlschlag → die Antwort beginnt mit "FEHLER:", Push/Mail kommt.
+   Die Vercel-Route `/api/collect-news` (jetzt Haiku 5.5, `NEWS_COLLECT_MODEL`)
+   und die GitHub-Action bleiben als MANUELLER Ersatz, ohne Zeitplan.
+   Davor: taeglicher Vercel-Cron, ab 10.09. woechentliche Action.
 
    Grund, gemessen: Von 983 gesammelten Meldungen betrafen **23 einen
    Kaderspieler** (2,3 %), davon **16 die Kaderbau-Woche im August**. Seit der
@@ -264,9 +271,9 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    Archiv laesst sich nicht rueckwirkend anlegen.
 
    **→ ANFANG DEZEMBER wieder auf taeglich hochdrehen**, damit bis zum
-   Winterfenster genug Material da ist. Cron in
-   `.github/workflows/collect-news-evening.yml` von `0 17 * * 2` auf
-   `0 17 * * *` zuruecksetzen.
+   Winterfenster genug Material da ist: den Cron der Routine "News-Sammler"
+   von dienstags auf taeglich stellen (und im Prompt "letzte 48 h" statt
+   "letzte 7 Tage").
 
    **AUSFALL 08.09.–06.10.2026 (entdeckt 09.10.): Der Sammler hat seit dem
    08.09. KEINE EINZIGE Meldung geschrieben.** Alle sechs Laeufe scheiterten
@@ -284,8 +291,8 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
 
    Arbeitsteilung, die sich bewaehrt hat: **Live-Recherche in den
    Kontrolllaeufen fuer die Woche, Archiv auf dem Server fuer den Winter.**
-   Eine Claude-Code-Routine als Sammler waere billiger, aber sie laeuft nur
-   bei offener App — eine Luecke im Archiv waere still und nicht nachholbar.
+   (Frueher hiess es hier, eine Routine laufe nur bei offener App. Das gilt
+   fuer lokale Aufgaben, nicht fuer Cloud-Routinen — daher der Wechsel.)
 
 4. **Status-Befüllung automatisieren** (halb-automatisch, News bleibt Kai-Job):
    - football-data.org (Free-Key) — echte Aufstellungen/Einwechslungen nach
