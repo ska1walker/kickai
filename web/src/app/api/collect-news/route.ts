@@ -13,10 +13,23 @@ import { loadAllowedDomains } from "@/lib/sources";
 export const runtime = "nodejs";
 export const maxDuration = 120;
 
-// Sonnet 5 statt Opus 4.8: 2$/10$ je MTok statt 5$/25$. Die Aufgabe ist
-// "strukturiere gefundene Meldungen", nicht schwieriges Schlussfolgern —
-// dafuer reicht Sonnet, und der Sammler laeuft taeglich.
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
+// Haiku 5.5 statt Sonnet 5 (Okt 2026): 0,10$/0,50$ je MTok statt 2$/10$ —
+// ein Zwanzigstel. Die Aufgabe ist "finde und strukturiere Meldungen", kein
+// schwieriges Schlussfolgern, und der Lauf fragt jedes Mal neu, ob ein
+// Ergebnis taugt (Rueckgabe "inserted", Issue bei Fehlschlag). Eigene
+// Variable statt ANTHROPIC_MODEL: die teilen sich alle anderen KI-Routen
+// (Statusvorschlag, Scout …), die sollen nicht mit heruntergestuft werden.
+const MODEL = process.env.NEWS_COLLECT_MODEL || "claude-haiku-5-5";
+
+// Preise je MTok (Input, Output) fuer die Kostenmeldung. Cache-Write 1,25x,
+// Cache-Read 0,1x vom Input. Unbekanntes Modell → Sonnet-Preis (konservativ).
+const PRICES: Record<string, [number, number]> = {
+  "claude-haiku-5-5": [0.1, 0.5],
+  "claude-sonnet-5-5": [2, 10],
+  "claude-sonnet-5": [2, 10],
+  "claude-opus-5-5": [4, 20],
+};
+const [PRICE_IN, PRICE_OUT] = PRICES[MODEL] ?? [2, 10];
 
 // Breite Quellenliste — robots.txt-geprobt (Juli 2026). Sollte die Such-API eine
 // Domain doch ablehnen, entfernt das Self-Healing (pruneBlockedDomains) sie
@@ -201,6 +214,9 @@ export async function GET(req: NextRequest) {
   const baseParams = () => ({
     model: MODEL,
     max_tokens: 8000,
+    // Niedrige Denktiefe: weniger und gebuendeltere Suchen, kuerzere Zwischen-
+    // texte. Fuer "sammeln und strukturieren" reicht das.
+    output_config: { effort: "low" as const },
     cache_control: { type: "ephemeral" as const },
     system: SYSTEM(DOMAINS),
     tools,
@@ -308,7 +324,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: `DB: ${error.message}` }, { status: 502 });
     }
     const usd =
-      (cost.in * 2 + cost.cacheWrite * 2.5 + cost.cacheRead * 0.2 + cost.out * 10) / 1e6 +
+      (cost.in * PRICE_IN + cost.cacheWrite * PRICE_IN * 1.25 + cost.cacheRead * PRICE_IN * 0.1 +
+        cost.out * PRICE_OUT) / 1e6 +
       cost.searches * 0.01;
     console.log(
       `[collect-news] ${cost.calls} Calls · in ${cost.in} · cacheW ${cost.cacheWrite} ` +
