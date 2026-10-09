@@ -22,10 +22,17 @@ Arbeitsverzeichnis fuer alle Befehle: `web/`. Jeder `npx tsx`-Aufruf mit
 3. `npx tsx scripts/lineup.ts --dry-run` — zeigt Spieltag, Gegner,
    Anstosszeiten und den bisher gespeicherten Status (oft vom Vorspieltag).
 4. **Aufstellungsnews recherchieren**, je Verein mit Kaderspielern:
-   ligainsider.de, magazin.comunio.de, bundesliga.com ("voraussichtliche
-   Aufstellungen <N>. Spieltag"), kicker.de. Nur Meldungen zu DIESEM
-   Spieltag verwenden — viele Treffer sind alt oder aus der Vorsaison,
-   Datum pruefen. Fuer jeden Kaderspieler einen Status festlegen:
+   1. `python3 ../scripts/ligainsider.py` (aus `web/` heraus) — liest die
+      voraussichtliche Elf jedes Vereins mit Kaderspielern direkt von
+      ligainsider.de und markiert, wer IN der Prognose steht. Das ist die
+      Hauptquelle (ligainsider fuehrt das Treffer-Ranking der Prognosen an).
+   2. Gegencheck mit dem Comunio-Magazin: `curl -sA Mozilla/5.0` auf
+      magazin.comunio.de bzw. Websuche "<Heim> <Gast> voraussichtliche
+      Aufstellungen comunio" — dort stehen auch Ausfaelle und Alternativen.
+   3. Websuche nur noch als Ergaenzung (Verletzungen kurz vor dem Spiel).
+      bundesliga.com sperrt automatisierte Abrufe, kicker.de ebenso (403).
+   Nur Meldungen zu DIESEM Spieltag verwenden — Datum pruefen.
+   Fuer jeden Kaderspieler einen Status festlegen:
    - `start`: in der voraussichtlichen Elf
    - `doubt`: fraglich, angeschlagen, Joker mit Chance auf Startelf,
      widerspruechliche Quellen
