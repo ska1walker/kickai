@@ -47,9 +47,17 @@ Einsatzzeit ist die eigentliche Punktequelle (Befund 2 in CLAUDE.md).
 
 ## Abschluss
 
-Antworte am Ende mit einer kurzen Zusammenfassung: Anzahl geschriebener
-Eintraege und die **Meldungen zu Kaderspielern** einzeln (je ein Satz). Wenn
-Schritt 5 oder 6 scheitert, beginne die Antwort mit **"FEHLER:"** und nenne
-die Ursache — das ist das Signal, dass das Archiv eine Luecke bekommt.
+7. `python3 scripts/news_insert.py --kader-report` — listet JEDEN Kaderspieler
+   mit seinen Meldungen der letzten 8 Tage (oder "keine Meldung"). Der Abgleich
+   ist im Skript fest verdrahtet; gleiche den Kader NICHT selbst ab.
+
+Antworte am Ende mit:
+1. Anzahl geschriebener Eintraege (Ausgabe von Schritt 5).
+2. Der **Kaderliste**: die Ausgabe von Schritt 7 unveraendert als Codeblock.
+3. Hoechstens drei Saetze zu Auffaelligkeiten ausserhalb des Kaders
+   (z. B. billige Spieler, die neu gesetzt sind — Winter-Kandidaten).
+
+Wenn Schritt 5 oder 6 scheitert, beginne die Antwort mit **"FEHLER:"** und
+nenne die Ursache — das ist das Signal, dass das Archiv eine Luecke bekommt.
 
 Nichts committen, nichts pushen, keine anderen Tabellen anfassen.
