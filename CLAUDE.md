@@ -230,6 +230,19 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    Status gepflegt und aufgestellt — siehe `data/spieltage/2026-md01.md`.
    OFFEN: Status-Pflege bequemer machen (bisher pro Spieler ein Klick).
 
+   **SEIT 09.10.2026: Routine "Aufstellung"** (Cloud, taeglich 07:45 Berlin,
+   arbeitet nur, wenn ein Spieltag in <= 36 h anfaengt). Ablauf in
+   `scripts/lineup_routine.md`: Aufstellungsnews recherchieren → Status nach
+   Supabase → `web/scripts/lineup.ts` rechnet mit DEMSELBEN Optimierer wie
+   /matchday → Spieltagsnotiz `data/spieltage/<saison>-mdNN.md` direkt nach
+   main, Elf + Entscheidungspunkte als Push/Mail an Kai.
+   Neu dabei: **Erwartung = Vorsaison + laufende Saison** (Schrumpfschaetzer,
+   Vorsaison zaehlt wie 5 Spieltage, bei nur geschaetzter Vorsaison wie 2).
+   Grund: ohne Historie lagen z. B. ter Horst (0,79) und Lemke (0,06) weit
+   unter ihrer tatsaechlichen Einsatzrolle. k ist eine ANNAHME — im
+   Messprotokoll ueber mehrere Spieltage gegenpruefen. Das Skript schreibt den
+   Mischwert nach `squad_players.exp_points`, damit /matchday dieselbe Elf zeigt.
+
 2. **Punkte nach dem Spieltag**: `engine/watch_scores.py` pollt die offene
    Export-CSV und meldet per Push, sobald kicker die Punktespalte befüllt
    (Scheduled Task `kicker-punkte-waechter`, montags 10:04–12:49 alle 15 min;
