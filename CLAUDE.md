@@ -246,7 +246,7 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    (Start/Tore/Karten/Zu-null sind deterministisch, nur Note und Spieler des
    Spiels fehlen). Englische Wochen brauchen einen zweiten Cron-Slot.
 
-3. **News-Sammler laeuft seit 10.09.2026 nur noch WOECHENTLICH** (GitHub-Action
+3. **News-Sammler soll seit 10.09.2026 nur noch WOECHENTLICH laufen** (stand bis 09.10. komplett, s. AUSFALL unten) (GitHub-Action
    dienstags 17:00 UTC; der taegliche Vercel-Cron wurde entfernt, dort laeuft
    nur noch der Supabase-Keepalive).
 
@@ -267,6 +267,20 @@ Spieler ohne Spiel an dem Spieltag → automatisch `out`.
    Winterfenster genug Material da ist. Cron in
    `.github/workflows/collect-news-evening.yml` von `0 17 * * 2` auf
    `0 17 * * *` zuruecksetzen.
+
+   **AUSFALL 08.09.–06.10.2026 (entdeckt 09.10.): Der Sammler hat seit dem
+   08.09. KEINE EINZIGE Meldung geschrieben.** Alle sechs Laeufe scheiterten
+   mit `400 credit balance is too low` — das Anthropic-Guthaben des Keys in
+   Vercel (`ANTHROPIC_API_KEY`) war leer. Die Umstellung auf woechentlich fiel
+   zufaellig in dieselbe Woche; tatsaechlich lief kein einziger Wochenlauf.
+   `news_log` steht seitdem bei 983 Eintraegen, die Luecke ist nicht
+   nachholbar. Derselbe Key treibt auch den KI-Statusvorschlag, Scout,
+   Tier- und Standardschuetzen-Analyse — die sind bei leerem Guthaben ebenso tot.
+   Bemerkt hat es niemand, weil eine rote Action still ist. Seit 09.10. oeffnet
+   ein Fehlschlag deshalb ein GitHub-Issue (Label `news-sammler`, weitere
+   Fehlschlaege kommentieren es, der naechste Erfolg schliesst es).
+   → Guthaben aufladen, Auto-Reload an, Workflow einmal manuell starten.
+   → Beim Hochdrehen im Dezember zuerst pruefen, ob `news_log` waechst.
 
    Arbeitsteilung, die sich bewaehrt hat: **Live-Recherche in den
    Kontrolllaeufen fuer die Woche, Archiv auf dem Server fuer den Winter.**

@@ -22,14 +22,60 @@ on:
     - cron: "0 17 * * 2" # dienstags 17:00 UTC (≈ 18/19 Uhr DE)
   workflow_dispatch: {}
 
+# Fehlerhinweis (seit 09.10.2026): Vom 08.09. bis 06.10. schlug JEDER Lauf
+# fehl (Anthropic-Guthaben leer), und niemand merkte es — die Action war nur
+# rot. Jetzt oeffnet ein Fehlschlag ein GitHub-Issue (Label news-sammler);
+# weitere Fehlschlaege kommentieren dasselbe Issue, der naechste erfolgreiche
+# Lauf schliesst es. Issues erzeugen eine Benachrichtigung in der GitHub-App.
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - name: News-Sammler anstoßen
+        id: collect
         run: |
           resp=$(curl -s --max-time 120 \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             "https://kickai-one.vercel.app/api/collect-news")
           echo "Antwort: $resp"
+          # Antwort fuer den Fehlerhinweis sichern (gekuerzt).
+          { echo "resp<<EOF"; echo "${resp:0:1500}"; echo "EOF"; } >> "$GITHUB_OUTPUT"
           echo "$resp" | grep -q '"inserted"' || exit 1
+
+      - name: Fehlerhinweis als Issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RESP: ${{ steps.collect.outputs.resp }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create news-sammler --color FF006E \
+            --description "Ausfall des News-Sammlers" 2>/dev/null || true
+          hint=""
+          if echo "$RESP" | grep -q "credit balance is too low"; then
+            hint=$'\n\n**Ursache: Anthropic-Guthaben leer.** In der Anthropic-Console unter Plans & Billing aufladen (Auto-Reload empfohlen), dann den Workflow manuell neu starten.'
+          fi
+          body=$(printf 'Lauf vom %s fehlgeschlagen: %s\n\nAntwort der Route:\n```\n%s\n```%s' \
+            "$(date -u '+%d.%m.%Y %H:%M UTC')" "$RUN_URL" "${RESP:-keine Antwort (Timeout?)}" "$hint")
+          num=$(gh issue list --label news-sammler --state open --json number --jq '.[0].number // empty')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "$body"
+          else
+            gh issue create --title "News-Sammler schreibt nicht mehr" \
+              --label news-sammler --body "$body"
+          fi
+
+      - name: Offenen Fehlerhinweis schliessen
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          for num in $(gh issue list --label news-sammler --state open --json number --jq '.[].number'); do
+            gh issue close "$num" --comment "Lauf vom $(date -u '+%d.%m.%Y') wieder erfolgreich."
+          done
