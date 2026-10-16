@@ -38,6 +38,10 @@ import { DEFAULT_SEASON } from "../src/lib/data/squad";
 const SEASON = DEFAULT_SEASON;
 const SB = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://llagnybrzybbkeidqtzc.supabase.co")
   .replace(/\/$/, "") + "/rest/v1";
+// Oeffentlicher anon-Key (Client-Bundle, supabase-keepalive.yml). Fallback,
+// seit am 16.10.2026 das Proxy-Secret der Cloud-Umgebung nicht mehr griff.
+const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsYWdueWJyenliYmtlaWRxdHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4Njk2OTEsImV4cCI6MjA5ODQ0NTY5MX0.S7fBWF5TVEoqU0WgB2htOyl5EgnT4UX9H8oKG_D9iN8";
 const CSV = `https://www.kicker-libero.de/api/sportsdata/v1/players-details/se-k0001${SEASON}.csv`;
 const STATUSES: Status[] = ["start", "doubt", "bench", "out"];
 
@@ -67,11 +71,8 @@ function blend(prior: number, k: number, seasonPts: number | undefined, games: n
 
 function sbHeaders(extra: Record<string, string> = {}): Record<string, string> {
   const h: Record<string, string> = { "Content-Type": "application/json", ...extra };
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (key) {
-    h.apikey = key;
-    h.Authorization = `Bearer ${key}`;
-  }
+  h.apikey = ANON_KEY;
+  h.Authorization = `Bearer ${ANON_KEY}`;
   return h;
 }
 
