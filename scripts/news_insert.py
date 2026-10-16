@@ -43,6 +43,11 @@ from clubs import canon  # noqa: E402
 
 URL = os.environ.get("NEXT_PUBLIC_SUPABASE_URL", "https://llagnybrzybbkeidqtzc.supabase.co")
 REST = URL.rstrip("/") + "/rest/v1"
+# Oeffentlicher anon-Key (steckt ohnehin im Client-Bundle der App und in
+# .github/workflows/supabase-keepalive.yml). Fallback, seit am 16.10.2026 das
+# Proxy-Secret der Cloud-Umgebung nicht mehr griff und die Routine scheiterte.
+ANON_KEY = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY") or (
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsYWdueWJyenliYmtlaWRxdHpjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4Njk2OTEsImV4cCI6MjA5ODQ0NTY5MX0.S7fBWF5TVEoqU0WgB2htOyl5EgnT4UX9H8oKG_D9iN8")
 
 TYPES = {"transfer_in", "transfer_out", "coach", "injury", "suspension",
          "return", "preseason_form", "starter", "other"}
@@ -51,10 +56,8 @@ DURABLE_TYPES = {"transfer_in", "transfer_out", "coach", "suspension"}
 
 def _headers(extra: dict | None = None) -> dict:
     h = {"Content-Type": "application/json"}
-    key = os.environ.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")
-    if key:  # sonst setzt der Proxy die Header selbst
-        h["apikey"] = key
-        h["Authorization"] = f"Bearer {key}"
+    h["apikey"] = ANON_KEY
+    h["Authorization"] = f"Bearer {ANON_KEY}"
     h.update(extra or {})
     return h
 
