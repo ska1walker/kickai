@@ -26,7 +26,8 @@ Wochenpflege, *+ Woche → Optimum* ist Varianz und Glueck.
 | 1 | 44 | 56 | **58** | 70 | **+12** | **+2** | 12 |
 | 2 | 59 | 59 | **61** | 65 | — | **+2** | 4 |
 | 3+4 | — | — | **80** (zusammen, Ø 40) | — | — | — | — |
-| 5, 6 | — | — | (noch nicht eingetragen) | — | — | — | — |
+| 5 | — | — | **58** | 60 | — | — | 2 |
+| 6 | — | — | **42** (offen: 42 oder 46) | 58 | — | — | 16 / 12 |
 | 7 | 36 | 36 | **59** | 63 | — | **+23** | 4 |
 
 ## Notizen je Spieltag
@@ -160,6 +161,67 @@ aus einem zurueckeroberten Stammplatz.
 **Khedira** verlor auswaerts in Muenchen (0:7 fuer Union an ST4). Er steht fuer
 Spieltag 5 weiter in der Startelf; kein Handlungsbedarf, aber sein Wert haengt
 stark am Gegner.
+
+### Spieltag 5 (09.–11.10.2026) — nachgetragen 26.10.
+
+**58 Punkte**, erwartet 55,3 (lineup.ts). Optimum aus dem Kader: 60 (4-4-2
+oder 5-4-1). Aufstellung 4-5-1 mit Kramaric als elftem Mann, von Kai am
+09.10. per Screenshot bestaetigt; die Kartenpunkte des naechsten Screenshots
+(58) decken sich mit der Rekonstruktion.
+
+Rekonstruiert: Saisonstand nach ST5 (`2026-md06-routine.md`, Spalte "in 5")
+minus Abzug nach ST4 (`data/punkte/2026-20260929-1713.json`).
+
+| Spieler | Pkt | |
+|---|---:|---|
+| Nicolas | 4 | |
+| Coufal | 6 | |
+| Raum | 6 | |
+| Tapsoba | 4 | |
+| ter Horst | 4 | |
+| Aleix Garcia | 8 | |
+| S. El Mala | 10 | bester Mann |
+| R. Khedira | 6 | |
+| Rieder | 6 | |
+| **Kramaric** | **0** | elfter Mann, kam nicht zum Einsatz |
+| Lemperle | 4 | |
+| *Bank:* da Costa 2, Schmetgens 2, Lemke 2, Rondic 2 | | |
+
+Der einzige Wackelplatz kostete 2 Punkte: Kramaric 0, jeder der Joker auf der
+Bank haette als Einwechselspieler 2 geholt. Die Prognose fuer Kramaric
+(nicht in der Elf) war richtig — er war "doubt" aufgestellt, weil er bei
+Einsatz am meisten versprach. Bei 0 vs. 2 kein Anlass fuer eine Regel.
+
+### Spieltag 6 (16.–18.10.2026) — nachgetragen 26.10.
+
+**Wahrscheinlich 42 Punkte** — die endgueltige Aufstellung ist nicht belegt.
+Optimum aus dem Kader: 58. Rekonstruiert aus den Saisonstaenden "in 5"
+(`2026-md06-routine.md`) und "in 6" (`2026-md07.md`).
+
+| Spieler | Pkt | |
+|---|---:|---|
+| Nicolas | 8 | |
+| Coufal | 0 | |
+| **Raum** | **−6** | stand in beiden Prognosen in der Elf |
+| Tapsoba | 6 | |
+| ter Horst | 6 | |
+| da Costa | 6 | |
+| Aleix Garcia | 6 | |
+| Rieder | 10 | |
+| R. Khedira | 4 | |
+| S. El Mala | 0 | |
+| Kramaric | 2 | eingewechselt |
+| Lemperle | 6 | |
+| *Bank:* Lemke 4, Schmetgens 0, Rondic 0 | | |
+
+Die drei Varianten des Tages:
+- Kais Screenshot vom 16.10. (4-5-1, ter Horst + Kramaric): **42**
+- Routine-Elf (4-5-1, da Costa + Kramaric): **42**
+- Handempfehlung danach (5-4-1, da Costa + ter Horst, ohne Kramaric): **46**
+
+Kai bitte bestaetigen, welche Elf am Ende stand; bis dahin steht 42 in der
+Tabelle. Der Abstand zum Optimum (12–16) kommt fast ganz aus Raum (−6, bei
+Prognose "Startelf" nicht vorhersehbar) und Coufal/El Mala (je 0).
 
 ### Spieltag 7 (23.–25.10.2026)
 
