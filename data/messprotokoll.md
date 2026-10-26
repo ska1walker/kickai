@@ -26,6 +26,8 @@ Wochenpflege, *+ Woche → Optimum* ist Varianz und Glueck.
 | 1 | 44 | 56 | **58** | 70 | **+12** | **+2** | 12 |
 | 2 | 59 | 59 | **61** | 65 | — | **+2** | 4 |
 | 3+4 | — | — | **80** (zusammen, Ø 40) | — | — | — | — |
+| 5, 6 | — | — | (noch nicht eingetragen) | — | — | — | — |
+| 7 | 36 | 36 | **59** | 63 | — | **+23** | 4 |
 
 ## Notizen je Spieltag
 
@@ -158,3 +160,52 @@ aus einem zurueckeroberten Stammplatz.
 **Khedira** verlor auswaerts in Muenchen (0:7 fuer Union an ST4). Er steht fuer
 Spieltag 5 weiter in der Startelf; kein Handlungsbedarf, aber sein Wert haengt
 stark am Gegner.
+
+### Spieltag 7 (23.–25.10.2026)
+
+**59 Punkte** (Annahme: der Samstags-Tausch Raum → Kramaric wurde gemacht;
+ohne ihn waeren es 36). Optimum aus dem Kader: 63 (4-5-1). Erster Spieltag,
+an dem die Routine "Aufstellung" die Elf berechnet hat (5-4-1, 54,3 erwartet).
+
+Zahlen aus der kicker-CSV (Stand 26.10. 10:18 UTC) minus Saisonstand nach
+Spieltag 6 aus `data/spieltage/2026-md07.md`.
+
+| Spieler | Pkt | |
+|---|---:|---|
+| Nicolas | 2 | |
+| Coufal | 6 | |
+| Tapsoba | 2 | |
+| da Costa | 0 | stand in der Startelf, schwache Note |
+| ter Horst | 6 | |
+| Rieder | 10 | bester Startelf-Spieler, 68 Saisonpunkte |
+| Aleix Garcia | 0 | |
+| S. El Mala | 6 | |
+| R. Khedira | 4 | |
+| **Kramaric** | **23** | fuer Raum reingenommen, kam von der Bank |
+| Lemperle | 0 | Bank, nicht eingesetzt |
+| *Raum* | *0* | *nicht in der Leipziger Startelf → rausgenommen* |
+
+**Die Wochendisziplin hat diesmal den Spieltag entschieden: +23.** Die
+Routine-Elf vom Freitagmorgen haette 36 geholt. Den Unterschied machte ein
+einziger Eingriff am Samstag um 14:35: Raum fehlte in der offiziellen
+Leipziger Elf, fuer die Abwehr gab es keinen spaeteren Ersatz, also kam
+Kramaric (So 15:30) ins Mittelfeld. Kramaric wurde dann zwar nur
+eingewechselt, holte aber 23. Der Ertrag ist Glueck in der Hoehe — aber die
+Entscheidung war auch mit 2 Punkten richtig, weil Raum mit 0 sicher war.
+Gemaess Auswertungsregel ist das EIN Datenpunkt, kein Beleg; er zeigt aber
+genau den Mechanismus aus Befund 5 (nur spielende Spieler aufstellen).
+
+**Quellen-Kalibrierung (Prognose Fr/Sa vs. Startelf):**
+- Raum: ligainsider und Comunio sahen ihn am Freitag in der Elf — falsch.
+  Erst die offizielle Aufstellung (Sa ~14:30) zeigte es.
+- Kramaric: kicker und ligainsider sahen ihn in der Startelf, Comunio nicht —
+  Comunio lag richtig (Bank). Gepunktet hat er trotzdem.
+- Lemperle: kicker sah ihn auf der Bank, die anderen in der Elf — der kicker
+  lag richtig.
+- Die uebrigen neun Starter stimmten.
+Fazit fuer die Routine: die Freitagsprognose allein reicht nicht, der
+Samstags-/Sonntags-Check der offiziellen Aufstellung ist der eigentliche Hebel.
+
+**Fuer den Kader (Winterpause):** Lemperle ist der einzige einsatzfaehige
+Stuermer. Faellt er aus der Elf, gibt es keinen Ersatz — Millgramm, Rondic,
+Damjanovic, Kastanaras liefern null. Das ist der klarste Transferbedarf.
